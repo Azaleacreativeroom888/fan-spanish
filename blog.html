@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — MangaEs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E85D04; --orange-dark: #9D0208; --orange-light: #F48C06;
+    --orange-pale: #FAA307; --cream: #FFFBF0; --black: #0A0A0A; --dark: #1A1209;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100; background: var(--black);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
+
+  .page-header {
+    background: var(--black); padding: 6rem 4rem 3rem;
+    position: relative; overflow: hidden; border-bottom: 3px solid var(--orange);
+  }
+  .page-header::before {
+    content: 'BLOG'; position: absolute; right: 2rem; bottom: -1rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(232,93,4,0.06);
+    line-height: 1; pointer-events: none;
+  }
+  .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
+  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
+  .page-title span { color: var(--orange); }
+  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 500px; margin-top: 1rem; }
+
+  .blog-layout {
+    display: grid; grid-template-columns: 1fr 320px; gap: 0;
+    max-width: 1400px; margin: 0 auto;
+  }
+
+  /* Main content */
+  .blog-main { padding: 3rem 4rem 3rem 4rem; border-right: 2px solid rgba(232,93,4,0.15); }
+
+  /* Featured post */
+  .post-featured {
+    background: var(--black); border: 3px solid var(--orange); margin-bottom: 3rem;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .post-featured:hover { border-color: var(--orange-pale); }
+  .post-featured-thumb {
+    height: 320px; background: linear-gradient(135deg, #150800, #3d1a00);
+    position: relative; display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .post-featured-thumb::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 25px,
+      rgba(232,93,4,0.08) 25px, rgba(232,93,4,0.08) 26px
+    );
+  }
+  .post-featured-thumb-text {
+    font-family: 'Bebas Neue', sans-serif; font-size: 8rem;
+    color: rgba(232,93,4,0.2); position: relative; z-index: 1;
+  }
+  .post-featured-badge {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    background: var(--orange); color: var(--black);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+    padding: 0.3rem 0.8rem; text-transform: uppercase; z-index: 2;
+  }
+  .post-featured-body { padding: 2rem; }
+  .post-meta { display: flex; gap: 1.5rem; margin-bottom: 1rem; align-items: center; }
+  .post-date { font-size: 0.7rem; color: #666; }
+  .post-tag {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--orange); border: 1px solid var(--orange); padding: 0.15rem 0.5rem;
+  }
+  .post-title-lg {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--cream);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .post-excerpt {
+    font-family: 'Libre Baskerville', serif; font-size: 0.85rem;
+    color: #888; line-height: 1.8; margin-bottom: 1.5rem;
+  }
+  .read-more {
+    font-size: 0.75rem; color: var(--orange); text-decoration: none;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid var(--orange);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .read-more:hover { color: var(--orange-pale); border-color: var(--orange-pale); }
+
+  /* Post list */
+  .posts-section-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem;
+    color: var(--black); margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--black); padding-bottom: 0.5rem;
+  }
+  .posts-section-title span { color: var(--orange); }
+
+  .post-card {
+    display: grid; grid-template-columns: 120px 1fr; gap: 1.5rem;
+    padding: 1.5rem 0; border-bottom: 1px solid rgba(232,93,4,0.12);
+    text-decoration: none; color: inherit; transition: all 0.2s;
+  }
+  .post-card:hover { padding-left: 0.5rem; }
+  .post-card-thumb {
+    height: 80px; background: var(--dark);
+    position: relative; display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    color: rgba(232,93,4,0.4); overflow: hidden; flex-shrink: 0;
+  }
+  .post-card-thumb::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(232,93,4,0.06) 8px, rgba(232,93,4,0.06) 9px);
+  }
+  .post-card-body { display: flex; flex-direction: column; justify-content: center; }
+  .post-card-tag { font-size: 0.62rem; letter-spacing: 0.15em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .post-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--black); line-height: 1; margin-bottom: 0.4rem; }
+  .post-card:hover .post-card-title { color: var(--orange); }
+  .post-card-meta { font-size: 0.68rem; color: #999; }
+
+  /* Sidebar */
+  .blog-sidebar { padding: 3rem 2rem; }
+  .sidebar-widget { margin-bottom: 2.5rem; }
+  .sidebar-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--black);
+    border-bottom: 2px solid var(--orange); padding-bottom: 0.5rem; margin-bottom: 1rem;
+  }
+
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag-pill {
+    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
+    padding: 0.3rem 0.75rem; font-size: 0.7rem; text-decoration: none;
+    letter-spacing: 0.05em; transition: all 0.2s;
+  }
+  .tag-pill:hover { background: var(--orange); border-color: var(--orange); color: var(--black); }
+
+  .recent-item {
+    display: flex; gap: 1rem; padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(232,93,4,0.1); text-decoration: none; color: inherit;
+  }
+  .recent-item:hover .recent-title { color: var(--orange); }
+  .recent-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    color: rgba(232,93,4,0.2); line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: center;
+  }
+  .recent-title { font-size: 0.78rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.2rem; transition: color 0.2s; }
+  .recent-date { font-size: 0.65rem; color: #999; }
+
+  .newsletter-box {
+    background: var(--black); border: 2px solid var(--orange); padding: 1.5rem;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .newsletter-box p { font-size: 0.75rem; color: #888; line-height: 1.7; margin-bottom: 1rem; }
+  .newsletter-input {
+    width: 100%; background: transparent; border: 1px solid #333;
+    color: var(--cream); padding: 0.6rem 0.8rem;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem; margin-bottom: 0.75rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-input:focus { border-color: var(--orange); }
+  .newsletter-input::placeholder { color: #444; }
+  .newsletter-btn {
+    width: 100%; background: var(--orange); color: var(--black); border: none;
+    padding: 0.7rem; font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .newsletter-btn:hover { background: var(--orange-pale); }
+
+  footer { background: var(--black); border-top: 3px solid var(--orange); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
+  .footer-links a:hover { color: var(--orange); }
+
+  @media (max-width: 900px) {
+    .blog-layout { grid-template-columns: 1fr; }
+    .blog-main { border-right: none; padding: 2rem 1.5rem; }
+    .blog-sidebar { padding: 2rem 1.5rem; border-top: 2px solid rgba(232,93,4,0.15); }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MangaEs</a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Galería</a></li>
+    <li><a href="traslation.html">Traducciones</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="contact.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="page-tag">■ Reseñas · Artículos · Cultura manga</p>
+  <h1 class="page-title">EL <span>BLOG</span></h1>
+  <p class="page-desc">Reflexiones sobre el manga, el cómic, el proceso de traducción y la cultura pop en español.</p>
+</div>
+
+<div class="blog-layout">
+  <main class="blog-main">
+
+    <!-- Featured -->
+    <div class="post-featured">
+      <div class="post-featured-thumb">
+        <div class="post-featured-thumb-text">漫</div>
+        <div class="post-featured-badge">Artículo destacado</div>
+      </div>
+      <div class="post-featured-body">
+        <div class="post-meta">
+          <span class="post-date">14 Mayo, 2025</span>
+          <span class="post-tag">Traducción</span>
+        </div>
+        <h2 class="post-title-lg">El arte invisible: cómo traducir onomatopeyas del japonés al español</h2>
+        <p class="post-excerpt">
+          Las onomatopeyas en el manga son más que sonidos: son textura visual, emoción dibujada.
+          "ドキドキ" no es solo un latido acelerado; es toda una atmósfera. En este artículo exploramos
+          las estrategias y decisiones que tomamos cada vez que enfrentamos esa página llena de katakana rojo.
+        </p>
+        <a href="#" class="read-more">Leer artículo completo →</a>
+      </div>
+    </div>
+
+    <!-- Post list -->
+    <h2 class="posts-section-title">ARTÍCULOS <span>RECIENTES</span></h2>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">画</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Reseña</p>
+        <h3 class="post-card-title">Tormenta de Hierro: por qué este shonen rompe los moldes del género</h3>
+        <p class="post-card-meta">08 Mayo, 2025 · 8 min de lectura</p>
+      </div>
+    </a>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">語</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Proceso</p>
+        <h3 class="post-card-title">De scan a página: el flujo completo de una traducción amateur</h3>
+        <p class="post-card-meta">29 Abr, 2025 · 12 min de lectura</p>
+      </div>
+    </a>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">文</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Cultura</p>
+        <h3 class="post-card-title">5 mangas que deberían existir en español y aún no existen</h3>
+        <p class="post-card-meta">20 Abr, 2025 · 5 min de lectura</p>
+      </div>
+    </a>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">話</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Opinión</p>
+        <h3 class="post-card-title">¿Está muriendo el fansub? El futuro de las traducciones amateur</h3>
+        <p class="post-card-meta">12 Abr, 2025 · 10 min de lectura</p>
+      </div>
+    </a>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">字</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Tutorial</p>
+        <h3 class="post-card-title">Typesetting para manga: fuentes, tamaños y el arte de respetar el diseño original</h3>
+        <p class="post-card-meta">05 Abr, 2025 · 15 min de lectura</p>
+      </div>
+    </a>
+
+    <a href="#" class="post-card">
+      <div class="post-card-thumb">絵</div>
+      <div class="post-card-body">
+        <p class="post-card-tag">Reseña</p>
+        <h3 class="post-card-title">El Grimorio Roto: magia de tinta y melancolía</h3>
+        <p class="post-card-meta">28 Mar, 2025 · 7 min de lectura</p>
+      </div>
+    </a>
+
+  </main>
+
+  <aside class="blog-sidebar">
+    <!-- Categories -->
+    <div class="sidebar-widget">
+      <h3 class="sidebar-title">Categorías</h3>
+      <div class="tag-cloud">
+        <a href="#" class="tag-pill">Traducción</a>
+        <a href="#" class="tag-pill">Reseña</a>
+        <a href="#" class="tag-pill">Cultura</a>
+        <a href="#" class="tag-pill">Tutorial</a>
+        <a href="#" class="tag-pill">Opinión</a>
+        <a href="#" class="tag-pill">Proceso</a>
+        <a href="#" class="tag-pill">Shonen</a>
+        <a href="#" class="tag-pill">Seinen</a>
+        <a href="#" class="tag-pill">Shoujo</a>
+        <a href="#" class="tag-pill">Fantasía</a>
+        <a href="#" class="tag-pill">Acción</a>
+      </div>
+    </div>
+
+    <!-- Recent -->
+    <div class="sidebar-widget">
+      <h3 class="sidebar-title">Más leídos</h3>
+      <a href="#" class="recent-item">
+        <div class="recent-num">01</div>
+        <div>
+          <p class="recent-title">Cómo empezamos: la historia de MangaEs</p>
+          <p class="recent-date">Enero 2022</p>
+        </div>
+      </a>
+      <a href="#" class="recent-item">
+        <div class="recent-num">02</div>
+        <div>
+          <p class="recent-title">Top 10 mangas de acción en español</p>
+          <p class="recent-date">Marzo 2024</p>
+        </div>
+      </a>
+      <a href="#" class="recent-item">
+        <div class="recent-num">03</div>
+        <div>
+          <p class="recent-title">La guía definitiva del typesetting</p>
+          <p class="recent-date">Junio 2023</p>
+        </div>
+      </a>
+      <a href="#" class="recent-item">
+        <div class="recent-num">04</div>
+        <div>
+          <p class="recent-title">Por qué el manga necesita más lectores hispanohablantes</p>
+          <p class="recent-date">Agosto 2023</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="sidebar-widget">
+      <h3 class="sidebar-title">Newsletter</h3>
+      <div class="newsletter-box">
+        <p>Recibe los nuevos artículos y capítulos directamente en tu bandeja de entrada. Sin spam, solo manga.</p>
+        <input type="email" class="newsletter-input" placeholder="tu@correo.com">
+        <button class="newsletter-btn">Suscribirme →</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">MangaEs</a>
+  <div class="footer-links">
+    <a href="gallery.html">Galería</a>
+    <a href="traslation.html">Traducciones</a>
+    <a href="contact.html">Contacto</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MangaEs — Cómics en Español</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E85D04;
+    --orange-dark: #9D0208;
+    --orange-light: #F48C06;
+    --orange-pale: #FAA307;
+    --cream: #FFFBF0;
+    --black: #0A0A0A;
+    --dark: #1A1209;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--black); display: flex; justify-content: space-between; align-items: center;
+    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); letter-spacing: 0.1em; text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange-pale); }
+
+  .hero {
+    min-height: 100vh; background: var(--black); position: relative;
+    display: grid; grid-template-columns: 1fr 1fr; padding-top: 56px; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px);
+  }
+  .hero-shapes { position: absolute; inset: 0; pointer-events: none; }
+  .hero-text { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 4rem 4rem; }
+  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1.5rem; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 8vw, 7rem); line-height: 0.9; color: var(--cream); margin-bottom: 1.5rem; }
+  h1 span { color: var(--orange); }
+  .hero-sub { font-size: 0.85rem; color: #aaa; line-height: 1.8; max-width: 380px; margin-bottom: 2.5rem; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--orange); color: var(--black); padding: 0.9rem 2rem;
+    font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--orange-pale); }
+  .btn-outline {
+    border: 2px solid var(--orange); color: var(--orange); padding: 0.9rem 2rem;
+    font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; background: transparent;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { background: var(--orange); color: var(--black); }
+
+  .hero-visual { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; padding: 4rem; }
+  .manga-panel-group { position: relative; width: 340px; height: 420px; }
+  .panel { position: absolute; border: 3px solid var(--orange); }
+  .panel-a { width: 200px; height: 270px; top: 0; left: 0; transform: rotate(-3deg); }
+  .panel-b { width: 170px; height: 190px; top: 20px; right: 0; transform: rotate(2deg); border-color: var(--orange-pale); }
+  .panel-c { width: 250px; height: 170px; bottom: 0; left: 40px; transform: rotate(1deg); border-color: var(--orange-dark); }
+  .panel-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(232,93,4,0.15), rgba(250,163,7,0.08));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--orange); letter-spacing: 0.05em;
+  }
+  .speech-bubble {
+    position: absolute; top: 28px; right: -28px;
+    background: var(--orange); color: var(--black);
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
+    padding: 0.4rem 0.9rem; transform: rotate(5deg); z-index: 3;
+  }
+  .speech-bubble::after {
+    content: ''; position: absolute; bottom: -10px; left: 20px;
+    border: 10px solid transparent; border-top-color: var(--orange); border-bottom: none;
+  }
+  .starburst {
+    position: absolute; bottom: 20px; left: -20px; width: 66px; height: 66px;
+    background: var(--orange-pale);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    z-index: 3; animation: spin 8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .starburst-text {
+    position: absolute; bottom: 20px; left: -20px; width: 66px; height: 66px;
+    display: flex; align-items: center; justify-content: center; z-index: 4;
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.6rem; color: var(--black); text-align: center; line-height: 1.1;
+  }
+
+  .stats-strip { background: var(--orange); display: flex; overflow: hidden; border-top: 3px solid var(--orange-dark); border-bottom: 3px solid var(--orange-dark); }
+  .stats-scroll { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .stat-item {
+    padding: 0.9rem 3rem; display: flex; align-items: center; gap: 1rem;
+    border-right: 2px solid var(--orange-dark);
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--black); letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .stat-num { font-size: 1.8rem; }
+
+  .section { padding: 5rem 4rem; }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 3rem; border-bottom: 3px solid var(--black); padding-bottom: 1rem;
+  }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--black); letter-spacing: 0.05em; }
+  .section-title span { color: var(--orange); }
+  .section-link { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--orange); text-decoration: none; text-transform: uppercase; border-bottom: 1px solid var(--orange); }
+
+  .manga-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; }
+  .manga-card {
+    background: var(--black); border: 2px solid var(--orange); position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+  .manga-card:hover { border-color: var(--orange-pale); transform: translateY(-4px) rotate(-0.5deg); }
+  .manga-card-thumb {
+    height: 260px;
+    background: linear-gradient(135deg, #1a0a00, #3d1a00);
+    position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .manga-card-thumb::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(232,93,4,0.1) 20px, rgba(232,93,4,0.1) 21px);
+  }
+  .manga-card-icon { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(232,93,4,0.3); position: relative; z-index: 1; }
+  .manga-card-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--orange); color: var(--black);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.25rem 0.6rem; text-transform: uppercase;
+  }
+  .manga-card-body { padding: 1.2rem; }
+  .manga-card-genre { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .manga-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--cream); line-height: 1; margin-bottom: 0.5rem; }
+  .manga-card-meta { font-size: 0.7rem; color: #666; display: flex; justify-content: space-between; }
+
+  .about-strip {
+    background: var(--dark); padding: 5rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    border-top: 3px solid var(--orange); border-bottom: 3px solid var(--orange);
+  }
+  .about-text h2 { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--cream); line-height: 0.95; margin-bottom: 1.5rem; }
+  .about-text h2 span { color: var(--orange); }
+  .about-text p { color: #aaa; line-height: 1.8; font-size: 0.85rem; margin-bottom: 1rem; }
+  .about-art { height: 280px; }
+  .about-art svg { width: 100%; height: 100%; }
+
+  footer { background: var(--black); border-top: 3px solid var(--orange); padding: 3rem 4rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--orange); display: block; margin-bottom: 1rem; }
+  .footer-desc { font-size: 0.75rem; color: #555; line-height: 1.8; }
+  .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.6rem; }
+  .footer-col a { font-size: 0.75rem; color: #555; text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--orange); }
+  .footer-bottom { background: var(--black); border-top: 1px solid #222; padding: 1.5rem 4rem; display: flex; justify-content: space-between; font-size: 0.7rem; color: #444; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .about-strip { grid-template-columns: 1fr; }
+    .about-art { display: none; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .section { padding: 3rem 1.5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MangaEs</a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Galería</a></li>
+    <li><a href="traslation.html">Traducciones</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="hero-shapes" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="800,0 1200,0 1200,400 900,200" fill="rgba(232,93,4,0.06)"/>
+    <polygon points="0,600 300,900 0,900" fill="rgba(250,163,7,0.08)"/>
+    <polygon points="600,100 900,300 700,500 400,350" fill="rgba(232,93,4,0.04)"/>
+    <line x1="0" y1="450" x2="400" y2="200" stroke="rgba(232,93,4,0.15)" stroke-width="1"/>
+    <line x1="600" y1="0" x2="1200" y2="600" stroke="rgba(250,163,7,0.1)" stroke-width="1"/>
+    <line x1="800" y1="900" x2="1200" y2="300" stroke="rgba(232,93,4,0.12)" stroke-width="1"/>
+  </svg>
+
+  <div class="hero-text">
+    <p class="hero-eyebrow">■ Cómics · Manga · Arte Secuencial</p>
+    <h1>MANGA<br>EN <span>ESPAÑOL</span></h1>
+    <p class="hero-sub">Traducciones, reseñas y creaciones originales de cómics en español. <em style="font-family:'Libre Baskerville',serif; color:var(--orange); font-style:italic">Arte que rompe los bordes del panel.</em></p>
+    <div class="hero-cta">
+      <a href="gallery.html" class="btn-primary">Ver Galería</a>
+      <a href="blog.html" class="btn-outline">Leer Blog</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="manga-panel-group">
+      <div class="panel panel-a"><div class="panel-inner">CAPÍTULO I</div></div>
+      <div class="panel panel-b"><div class="panel-inner">ACCIÓN</div></div>
+      <div class="panel panel-c"><div class="panel-inner">AVENTURA</div></div>
+      <div class="speech-bubble">¡ASOMBROSO!</div>
+      <div class="starburst"></div>
+      <div class="starburst-text">NUEVO<br>CAP.</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-scroll">
+    <div class="stat-item"><span class="stat-num">120+</span> Capítulos traducidos</div>
+    <div class="stat-item"><span class="stat-num">15</span> Series activas</div>
+    <div class="stat-item"><span class="stat-num">8K</span> Lectores mensuales</div>
+    <div class="stat-item"><span class="stat-num">4</span> Años de experiencia</div>
+    <div class="stat-item">■ Cómics en Español ■</div>
+    <div class="stat-item"><span class="stat-num">120+</span> Capítulos traducidos</div>
+    <div class="stat-item"><span class="stat-num">15</span> Series activas</div>
+    <div class="stat-item"><span class="stat-num">8K</span> Lectores mensuales</div>
+    <div class="stat-item"><span class="stat-num">4</span> Años de experiencia</div>
+    <div class="stat-item">■ Cómics en Español ■</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">ÚLTIMAS <span>SERIES</span></h2>
+    <a href="gallery.html" class="section-link">Ver todo →</a>
+  </div>
+  <div class="manga-grid">
+    <div class="manga-card">
+      <div class="manga-card-thumb">
+        <div class="manga-card-icon">漫</div>
+        <div class="manga-card-badge">Nuevo</div>
+      </div>
+      <div class="manga-card-body">
+        <p class="manga-card-genre">Acción · Aventura</p>
+        <h3 class="manga-card-title">Tormenta de Hierro</h3>
+        <div class="manga-card-meta"><span>Cap. 1–24</span><span>Ayer</span></div>
+      </div>
+    </div>
+    <div class="manga-card">
+      <div class="manga-card-thumb"><div class="manga-card-icon">物</div></div>
+      <div class="manga-card-body">
+        <p class="manga-card-genre">Drama · Romance</p>
+        <h3 class="manga-card-title">Lluvia de Verano</h3>
+        <div class="manga-card-meta"><span>Cap. 1–40</span><span>Esta semana</span></div>
+      </div>
+    </div>
+    <div class="manga-card">
+      <div class="manga-card-thumb">
+        <div class="manga-card-icon">語</div>
+        <div class="manga-card-badge">Popular</div>
+      </div>
+      <div class="manga-card-body">
+        <p class="manga-card-genre">Fantasía · Magia</p>
+        <h3 class="manga-card-title">El Grimorio Roto</h3>
+        <div class="manga-card-meta"><span>Cap. 1–67</span><span>Hace 3 días</span></div>
+      </div>
+    </div>
+    <div class="manga-card">
+      <div class="manga-card-thumb"><div class="manga-card-icon">話</div></div>
+      <div class="manga-card-body">
+        <p class="manga-card-genre">Slice of Life</p>
+        <h3 class="manga-card-title">Café del Martes</h3>
+        <div class="manga-card-meta"><span>Cap. 1–12</span><span>Esta semana</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="about-strip">
+  <div class="about-text">
+    <h2>EL ARTE<br>SIN <span>FRONTERAS</span></h2>
+    <p>Como Picasso deconstruyó la forma para revelar nuevas verdades, nosotros desmantelamos las barreras del idioma para acercar el manga y los cómics al mundo hispanohablante.</p>
+    <p><em style="font-family:'Libre Baskerville',serif; color:var(--orange-pale); font-style:italic">"Todo acto de creación es, en primer lugar, un acto de destrucción."</em></p>
+    <p style="margin-top:1.5rem"><a href="blog.html" class="btn-primary">Conoce el Proyecto</a></p>
+  </div>
+  <div class="about-art">
+    <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="200,20 320,80 300,200 180,240 80,180 60,60" fill="none" stroke="#E85D04" stroke-width="2"/>
+      <polygon points="200,20 260,100 200,150 140,100" fill="rgba(232,93,4,0.15)" stroke="#E85D04" stroke-width="1.5"/>
+      <polygon points="260,100 320,80 300,200 260,180" fill="rgba(250,163,7,0.1)" stroke="#FAA307" stroke-width="1.5"/>
+      <polygon points="140,100 200,150 180,240 80,180" fill="rgba(232,93,4,0.08)" stroke="#E85D04" stroke-width="1.5"/>
+      <circle cx="175" cy="110" r="15" fill="none" stroke="#E85D04" stroke-width="2"/>
+      <circle cx="225" cy="110" r="12" fill="rgba(232,93,4,0.3)" stroke="#FAA307" stroke-width="1.5"/>
+      <line x1="200" y1="140" x2="200" y2="170" stroke="#E85D04" stroke-width="2"/>
+      <path d="M175,175 Q200,190 225,175" fill="none" stroke="#FAA307" stroke-width="2"/>
+      <rect x="50" y="20" width="55" height="38" transform="rotate(-15 77 39)" fill="rgba(232,93,4,0.1)" stroke="#E85D04" stroke-width="1"/>
+      <rect x="295" y="210" width="75" height="48" transform="rotate(10 332 234)" fill="rgba(250,163,7,0.08)" stroke="#FAA307" stroke-width="1"/>
+      <text x="30" y="268" font-family="'Bebas Neue',sans-serif" font-size="13" fill="rgba(232,93,4,0.35)" letter-spacing="3">CUBISMO · MANGA · ARTE</text>
+    </svg>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <span class="footer-logo">MangaEs</span>
+    <p class="footer-desc">Cómics y manga traducidos con pasión al español.<br>Arte que rompe los bordes del panel.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Contenido</h4>
+    <ul>
+      <li><a href="gallery.html">Galería</a></li>
+      <li><a href="traslation.html">Traducciones</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Info</h4>
+    <ul>
+      <li><a href="contact.html">Contacto</a></li>
+      <li><a href="#">Sobre Nosotros</a></li>
+      <li><a href="#">Política</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Redes</h4>
+    <ul>
+      <li><a href="#">Twitter/X</a></li>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Discord</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2025 MangaEs — Todos los derechos reservados</span>
+  <span>Hecho con ■ en español</span>
+</div>
+</body>
+</html>

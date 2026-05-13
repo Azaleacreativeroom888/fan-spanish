@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traducciones — MangaEs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #E85D04; --orange-dark: #9D0208; --orange-light: #F48C06;
+    --orange-pale: #FAA307; --cream: #FFFBF0; --black: #0A0A0A; --dark: #1A1209;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100; background: var(--black);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
+
+  /* Page header */
+  .page-header {
+    background: var(--black); padding: 6rem 4rem 3rem;
+    position: relative; overflow: hidden;
+    border-bottom: 3px solid var(--orange);
+  }
+  .page-header-bg {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -60deg, transparent, transparent 30px,
+      rgba(232,93,4,0.05) 30px, rgba(232,93,4,0.05) 31px
+    );
+  }
+  .page-header-inner { position: relative; z-index: 1; }
+  .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
+  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
+  .page-title span { color: var(--orange); }
+  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 500px; margin-top: 1rem; }
+
+  /* Filters */
+  .filters {
+    background: var(--dark); padding: 1.5rem 4rem;
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+    border-bottom: 2px solid #2a1a08;
+  }
+  .filter-label { font-size: 0.7rem; letter-spacing: 0.15em; color: #666; text-transform: uppercase; margin-right: 0.5rem; }
+  .filter-btn {
+    background: transparent; border: 1px solid #333; color: #888;
+    padding: 0.4rem 1rem; font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .search-box {
+    margin-left: auto; background: transparent; border: 1px solid #333;
+    color: var(--cream); padding: 0.4rem 1rem; font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; outline: none; width: 220px;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--orange); }
+  .search-box::placeholder { color: #444; }
+
+  /* Translation log */
+  .log-container { padding: 3rem 4rem; }
+  .log-year-block { margin-bottom: 3rem; }
+  .year-label {
+    font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
+    color: rgba(232,93,4,0.12); line-height: 1;
+    border-bottom: 1px solid rgba(232,93,4,0.2);
+    margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .log-table { width: 100%; border-collapse: collapse; }
+  .log-table thead tr { border-bottom: 2px solid var(--orange); }
+  .log-table th {
+    font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange);
+    text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; font-weight: 700;
+  }
+  .log-table tbody tr {
+    border-bottom: 1px solid rgba(232,93,4,0.1);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .log-table tbody tr:hover { background: rgba(232,93,4,0.05); }
+  .log-table td { padding: 1rem; font-size: 0.8rem; vertical-align: middle; }
+
+  .td-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--orange); width: 60px; }
+  .td-date { color: #888; font-size: 0.7rem; width: 120px; white-space: nowrap; }
+  .td-series { font-weight: 700; color: var(--black); }
+  .td-chapter { color: #555; font-size: 0.75rem; }
+  .td-status { width: 100px; }
+  .td-pages { color: #888; font-size: 0.7rem; text-align: center; width: 70px; }
+
+  .status-badge {
+    display: inline-block; padding: 0.2rem 0.6rem;
+    font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+  }
+  .status-done { background: var(--orange); color: var(--black); }
+  .status-progress { background: var(--dark); color: var(--orange); border: 1px solid var(--orange); }
+  .status-review { background: rgba(250,163,7,0.15); color: var(--orange-pale); border: 1px solid var(--orange-pale); }
+
+  /* Stats row */
+  .log-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .stat-card {
+    background: var(--black); border: 2px solid var(--orange);
+    padding: 1.5rem; position: relative;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .stat-card-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--orange); line-height: 1; }
+  .stat-card-label { font-size: 0.65rem; letter-spacing: 0.15em; color: #666; text-transform: uppercase; margin-top: 0.3rem; }
+
+  /* Progress bars */
+  .series-progress { margin-bottom: 3rem; }
+  .progress-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--black); margin-bottom: 1.5rem; }
+  .progress-title span { color: var(--orange); }
+  .progress-item { margin-bottom: 1.5rem; }
+  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+  .progress-name { font-size: 0.85rem; font-weight: 700; }
+  .progress-pct { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--orange); }
+  .progress-bar-bg { height: 6px; background: rgba(232,93,4,0.15); position: relative; }
+  .progress-bar-fill { height: 100%; background: var(--orange); position: relative; }
+  .progress-bar-fill::after { content: ''; position: absolute; right: -3px; top: -3px; width: 12px; height: 12px; background: var(--orange); transform: rotate(45deg); }
+  .progress-meta { font-size: 0.7rem; color: #888; margin-top: 0.4rem; }
+
+  footer { background: var(--black); border-top: 3px solid var(--orange); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
+  .footer-links a:hover { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MangaEs</a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Galería</a></li>
+    <li><a href="traslation.html" class="active">Traducciones</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <p class="page-tag">■ Registro de actividad</p>
+    <h1 class="page-title">LOG DE <span>TRADUCCIONES</span></h1>
+    <p class="page-desc">Historial completo de capítulos traducidos, en progreso y en revisión. Actualizado semanalmente.</p>
+  </div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Filtrar:</span>
+  <button class="filter-btn active">Todos</button>
+  <button class="filter-btn">Completado</button>
+  <button class="filter-btn">En progreso</button>
+  <button class="filter-btn">Revisión</button>
+  <input type="text" class="search-box" placeholder="Buscar serie...">
+</div>
+
+<div class="log-container">
+
+  <!-- Stats -->
+  <div class="log-stats">
+    <div class="stat-card">
+      <div class="stat-card-num">127</div>
+      <div class="stat-card-label">Capítulos totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num">15</div>
+      <div class="stat-card-label">Series activas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num">3</div>
+      <div class="stat-card-label">En progreso</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-num">4</div>
+      <div class="stat-card-label">Años activos</div>
+    </div>
+  </div>
+
+  <!-- Progress bars -->
+  <div class="series-progress">
+    <h2 class="progress-title">PROGRESO <span>POR SERIE</span></h2>
+    <div class="progress-item">
+      <div class="progress-header">
+        <span class="progress-name">Tormenta de Hierro</span>
+        <span class="progress-pct">67%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:67%"></div></div>
+      <p class="progress-meta">24 de 36 capítulos · Acción · Aventura</p>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header">
+        <span class="progress-name">El Grimorio Roto</span>
+        <span class="progress-pct">89%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:89%"></div></div>
+      <p class="progress-meta">67 de 75 capítulos · Fantasía · Magia</p>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header">
+        <span class="progress-name">Lluvia de Verano</span>
+        <span class="progress-pct">100%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
+      <p class="progress-meta">40 de 40 capítulos · Drama · Romance — ¡Completo!</p>
+    </div>
+    <div class="progress-item">
+      <div class="progress-header">
+        <span class="progress-name">Café del Martes</span>
+        <span class="progress-pct">44%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:44%"></div></div>
+      <p class="progress-meta">12 de 27 capítulos · Slice of Life</p>
+    </div>
+  </div>
+
+  <!-- 2025 Log -->
+  <div class="log-year-block">
+    <div class="year-label">2025</div>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Serie</th>
+          <th>Capítulo</th>
+          <th>Páginas</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-num">127</td>
+          <td class="td-date">14 May 2025</td>
+          <td class="td-series">Tormenta de Hierro</td>
+          <td class="td-chapter">Cap. 24 — "El último bastión"</td>
+          <td class="td-pages">22</td>
+          <td class="td-status"><span class="status-badge status-progress">Progreso</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">126</td>
+          <td class="td-date">10 May 2025</td>
+          <td class="td-series">El Grimorio Roto</td>
+          <td class="td-chapter">Cap. 67 — "Cenizas del pacto"</td>
+          <td class="td-pages">18</td>
+          <td class="td-status"><span class="status-badge status-review">Revisión</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">125</td>
+          <td class="td-date">05 May 2025</td>
+          <td class="td-series">Café del Martes</td>
+          <td class="td-chapter">Cap. 12 — "El cliente habitual"</td>
+          <td class="td-pages">24</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">124</td>
+          <td class="td-date">28 Abr 2025</td>
+          <td class="td-series">Tormenta de Hierro</td>
+          <td class="td-chapter">Cap. 23 — "Sangre en la forja"</td>
+          <td class="td-pages">20</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">123</td>
+          <td class="td-date">21 Abr 2025</td>
+          <td class="td-series">El Grimorio Roto</td>
+          <td class="td-chapter">Cap. 66 — "La biblioteca prohibida"</td>
+          <td class="td-pages">26</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">122</td>
+          <td class="td-date">14 Abr 2025</td>
+          <td class="td-series">Lluvia de Verano</td>
+          <td class="td-chapter">Cap. 40 — "Adiós al andén" (FINAL)</td>
+          <td class="td-pages">32</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">121</td>
+          <td class="td-date">07 Abr 2025</td>
+          <td class="td-series">Café del Martes</td>
+          <td class="td-chapter">Cap. 11 — "Espuma de leche"</td>
+          <td class="td-pages">22</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">120</td>
+          <td class="td-date">01 Abr 2025</td>
+          <td class="td-series">Tormenta de Hierro</td>
+          <td class="td-chapter">Cap. 22 — "Alianza inesperada"</td>
+          <td class="td-pages">19</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2024 Log (collapsed summary) -->
+  <div class="log-year-block">
+    <div class="year-label">2024</div>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Serie</th>
+          <th>Capítulo</th>
+          <th>Páginas</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-num">87</td>
+          <td class="td-date">28 Dic 2024</td>
+          <td class="td-series">Lluvia de Verano</td>
+          <td class="td-chapter">Cap. 35 — "Nochebuena"</td>
+          <td class="td-pages">28</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">86</td>
+          <td class="td-date">15 Dic 2024</td>
+          <td class="td-series">El Grimorio Roto</td>
+          <td class="td-chapter">Cap. 55 — "El sello roto"</td>
+          <td class="td-pages">24</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td class="td-num">85</td>
+          <td class="td-date">01 Dic 2024</td>
+          <td class="td-series">Tormenta de Hierro</td>
+          <td class="td-chapter">Cap. 15 — "El campo de batalla"</td>
+          <td class="td-pages">22</td>
+          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
+        </tr>
+        <tr>
+          <td colspan="6" style="padding:1rem; text-align:center; font-size:0.75rem; color:rgba(232,93,4,0.5); letter-spacing:0.1em; text-transform:uppercase; border-top:1px dashed rgba(232,93,4,0.2)">— 84 capítulos más en 2024 —</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">MangaEs</a>
+  <div class="footer-links">
+    <a href="gallery.html">Galería</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contacto</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
