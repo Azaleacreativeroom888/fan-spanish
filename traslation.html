@@ -3,19 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Traducciones — MangaEs</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<title>Translation Log — MangaEs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --orange: #E85D04; --orange-dark: #9D0208; --orange-light: #F48C06;
-    --orange-pale: #FAA307; --cream: #FFFBF0; --black: #0A0A0A; --dark: #1A1209;
+    --orange: #E85D04;
+    --orange-dark: #9D0208;
+    --orange-light: #F48C06;
+    --orange-pale: #FAA307;
+    --cream: #FFFBF0;
+    --black: #0A0A0A;
+    --dark: #1A1209;
+    --dark2: #241508;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; }
 
+  /* NAV */
   nav {
-    position: fixed; top: 0; width: 100%; z-index: 100; background: var(--black);
-    display: flex; justify-content: space-between; align-items: center;
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--black); display: flex; justify-content: space-between; align-items: center;
     padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
   }
   .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
@@ -23,119 +30,168 @@
   .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
 
-  /* Page header */
+  /* PAGE HEADER */
   .page-header {
     background: var(--black); padding: 6rem 4rem 3rem;
-    position: relative; overflow: hidden;
-    border-bottom: 3px solid var(--orange);
+    position: relative; overflow: hidden; border-bottom: 3px solid var(--orange);
+  }
+  .page-header::before {
+    content: '翻訳';
+    position: absolute; right: 2rem; bottom: -1.5rem;
+    font-family: sans-serif; font-size: 12rem;
+    color: rgba(232,93,4,0.06); line-height: 1; pointer-events: none;
   }
   .page-header-bg {
     position: absolute; inset: 0;
     background: repeating-linear-gradient(
-      -60deg, transparent, transparent 30px,
-      rgba(232,93,4,0.05) 30px, rgba(232,93,4,0.05) 31px
+      -55deg, transparent, transparent 40px,
+      rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px
     );
   }
   .page-header-inner { position: relative; z-index: 1; }
   .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
   .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
   .page-title span { color: var(--orange); }
-  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 500px; margin-top: 1rem; }
+  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 520px; margin-top: 1rem; }
 
-  /* Filters */
-  .filters {
-    background: var(--dark); padding: 1.5rem 4rem;
-    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
-    border-bottom: 2px solid #2a1a08;
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--dark); padding: 1.2rem 4rem;
+    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    border-bottom: 2px solid rgba(232,93,4,0.2);
+    position: sticky; top: 56px; z-index: 50;
   }
-  .filter-label { font-size: 0.7rem; letter-spacing: 0.15em; color: #666; text-transform: uppercase; margin-right: 0.5rem; }
+  .filter-label { font-size: 0.65rem; letter-spacing: 0.2em; color: #666; text-transform: uppercase; margin-right: 0.25rem; }
   .filter-btn {
-    background: transparent; border: 1px solid #333; color: #888;
-    padding: 0.4rem 1rem; font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase;
+    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
+    padding: 0.35rem 1rem; font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase;
     cursor: pointer; transition: all 0.2s;
   }
-  .filter-btn:hover, .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
-  .search-box {
-    margin-left: auto; background: transparent; border: 1px solid #333;
-    color: var(--cream); padding: 0.4rem 1rem; font-family: 'Space Mono', monospace;
-    font-size: 0.75rem; outline: none; width: 220px;
-    transition: border-color 0.2s;
-  }
-  .search-box:focus { border-color: var(--orange); }
-  .search-box::placeholder { color: #444; }
+  .filter-btn:hover { background: rgba(232,93,4,0.15); color: var(--orange); border-color: var(--orange); }
+  .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
 
-  /* Translation log */
-  .log-container { padding: 3rem 4rem; }
-  .log-year-block { margin-bottom: 3rem; }
-  .year-label {
-    font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
-    color: rgba(232,93,4,0.12); line-height: 1;
-    border-bottom: 1px solid rgba(232,93,4,0.2);
-    margin-bottom: 1.5rem; padding-bottom: 0.5rem;
-    letter-spacing: 0.05em;
+  /* CONTAINER */
+  .container {
+    max-width: 820px;
+    margin: 3rem auto 5rem;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .log-table { width: 100%; border-collapse: collapse; }
-  .log-table thead tr { border-bottom: 2px solid var(--orange); }
-  .log-table th {
-    font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange);
-    text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; font-weight: 700;
+  /* ENTRY CARD */
+  .entry-card {
+    background: var(--black);
+    border: 2px solid rgba(232,93,4,0.3);
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    transition: border-color 0.2s, transform 0.2s;
+    animation: fadeUp 0.4s ease both;
+    overflow: hidden;
   }
-  .log-table tbody tr {
-    border-bottom: 1px solid rgba(232,93,4,0.1);
-    transition: background 0.15s;
-    cursor: pointer;
+  .entry-card:hover { border-color: var(--orange); transform: translateX(5px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  .log-table tbody tr:hover { background: rgba(232,93,4,0.05); }
-  .log-table td { padding: 1rem; font-size: 0.8rem; vertical-align: middle; }
+  .entry-card:nth-child(1) { animation-delay: 0.05s; }
+  .entry-card:nth-child(2) { animation-delay: 0.10s; }
+  .entry-card:nth-child(3) { animation-delay: 0.15s; }
+  .entry-card:nth-child(4) { animation-delay: 0.20s; }
 
-  .td-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--orange); width: 60px; }
-  .td-date { color: #888; font-size: 0.7rem; width: 120px; white-space: nowrap; }
-  .td-series { font-weight: 700; color: var(--black); }
-  .td-chapter { color: #555; font-size: 0.75rem; }
-  .td-status { width: 100px; }
-  .td-pages { color: #888; font-size: 0.7rem; text-align: center; width: 70px; }
-
-  .status-badge {
-    display: inline-block; padding: 0.2rem 0.6rem;
-    font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+  /* CARD TITLE BAR */
+  .entry-header {
+    background: rgba(232,93,4,0.1);
+    border-bottom: 2px solid rgba(232,93,4,0.25);
+    padding: 0.9rem 1.4rem;
+    display: flex; align-items: center; gap: 1rem;
   }
-  .status-done { background: var(--orange); color: var(--black); }
-  .status-progress { background: var(--dark); color: var(--orange); border: 1px solid var(--orange); }
-  .status-review { background: rgba(250,163,7,0.15); color: var(--orange-pale); border: 1px solid var(--orange-pale); }
-
-  /* Stats row */
-  .log-stats {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
-    margin-bottom: 3rem;
+  .entry-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--cream);
+    letter-spacing: 0.04em; line-height: 1.2; flex: 1;
   }
-  .stat-card {
-    background: var(--black); border: 2px solid var(--orange);
-    padding: 1.5rem; position: relative;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  .entry-tag {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.2rem 0.7rem;
+    border: 1px solid; white-space: nowrap;
   }
-  .stat-card-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--orange); line-height: 1; }
-  .stat-card-label { font-size: 0.65rem; letter-spacing: 0.15em; color: #666; text-transform: uppercase; margin-top: 0.3rem; }
+  .tag-mini    { color: var(--orange-pale); border-color: var(--orange-pale); }
+  .tag-trans   { color: var(--orange);      border-color: var(--orange); }
 
-  /* Progress bars */
-  .series-progress { margin-bottom: 3rem; }
-  .progress-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--black); margin-bottom: 1.5rem; }
-  .progress-title span { color: var(--orange); }
-  .progress-item { margin-bottom: 1.5rem; }
-  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
-  .progress-name { font-size: 0.85rem; font-weight: 700; }
-  .progress-pct { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--orange); }
-  .progress-bar-bg { height: 6px; background: rgba(232,93,4,0.15); position: relative; }
-  .progress-bar-fill { height: 100%; background: var(--orange); position: relative; }
-  .progress-bar-fill::after { content: ''; position: absolute; right: -3px; top: -3px; width: 12px; height: 12px; background: var(--orange); transform: rotate(45deg); }
-  .progress-meta { font-size: 0.7rem; color: #888; margin-top: 0.4rem; }
+  /* SECTIONS inside card */
+  .entry-body { padding: 0; }
 
-  footer { background: var(--black); border-top: 3px solid var(--orange); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+  .section {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px dashed rgba(232,93,4,0.15);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 0.5rem; font-weight: 700;
+  }
+
+  .section p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.85rem; line-height: 1.85; color: #ccc;
+  }
+  .section p + p { margin-top: 0.6rem; }
+  .section p strong { color: var(--orange-pale); font-weight: 700; }
+
+  /* Arrow between versions */
+  .arrow {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; color: rgba(232,93,4,0.4);
+    margin: 0.4rem 0; text-align: center; letter-spacing: 0.1em;
+  }
+
+  /* Memo section — slightly different background */
+  .section.memo {
+    background: rgba(232,93,4,0.05);
+    border-left: 3px solid var(--orange);
+    border-bottom: 1px dashed rgba(232,93,4,0.15);
+  }
+  .section.memo .section-label { color: var(--orange-pale); }
+  .section.memo p {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; color: #aaa; line-height: 1.9;
+  }
+  .section.memo p strong { color: var(--orange); }
+
+  /* Inline code / Japanese highlight */
+  .ja {
+    color: var(--orange);
+    font-style: normal;
+    font-family: sans-serif;
+    font-size: 1em;
+  }
+  .en {
+    color: var(--orange-pale);
+    font-style: italic;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); border-top: 3px solid var(--orange);
+    padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;
+  }
   .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
   .footer-links { display: flex; gap: 1.5rem; }
   .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
   .footer-links a:hover { color: var(--orange); }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 1rem; margin: 2rem auto 4rem; }
+    .filter-bar { padding: 1rem 1.5rem; }
+    .page-header { padding: 5rem 1.5rem 2rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
+    .nav-links { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -153,207 +209,110 @@
 <div class="page-header">
   <div class="page-header-bg"></div>
   <div class="page-header-inner">
-    <p class="page-tag">■ Registro de actividad</p>
-    <h1 class="page-title">LOG DE <span>TRADUCCIONES</span></h1>
-    <p class="page-desc">Historial completo de capítulos traducidos, en progreso y en revisión. Actualizado semanalmente.</p>
+    <p class="page-tag">■ Notas · Decisiones · Proceso</p>
+    <h1 class="page-title">LOG DE <span>TRADUCCIÓN</span></h1>
+    <p class="page-desc">Registro de traducciones en proceso: texto original, versión traducida y notas sobre las decisiones tomadas.</p>
   </div>
 </div>
 
-<div class="filters">
+<div class="filter-bar">
   <span class="filter-label">Filtrar:</span>
-  <button class="filter-btn active">Todos</button>
-  <button class="filter-btn">Completado</button>
-  <button class="filter-btn">En progreso</button>
-  <button class="filter-btn">Revisión</button>
-  <input type="text" class="search-box" placeholder="Buscar serie...">
+  <button class="filter-btn active" onclick="filterCards('all', this)">Todos</button>
+  <button class="filter-btn" onclick="filterCards('mini', this)">Mini Conocimiento</button>
+  <button class="filter-btn" onclick="filterCards('trans', this)">Traducción</button>
 </div>
 
-<div class="log-container">
+<div class="container">
 
-  <!-- Stats -->
-  <div class="log-stats">
-    <div class="stat-card">
-      <div class="stat-card-num">127</div>
-      <div class="stat-card-label">Capítulos totales</div>
+  <!-- Entry 1 -->
+  <div class="entry-card" data-tag="mini">
+    <div class="entry-header">
+      <h2>アルファベットはAlfaとBeta！？</h2>
+      <span class="entry-tag tag-mini">Mini Conocimiento</span>
     </div>
-    <div class="stat-card">
-      <div class="stat-card-num">15</div>
-      <div class="stat-card-label">Series activas</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-num">3</div>
-      <div class="stat-card-label">En progreso</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-card-num">4</div>
-      <div class="stat-card-label">Años activos</div>
+    <div class="entry-body">
+      <div class="section">
+        <div class="section-label">知識 · Dato</div>
+        <p>Las dos primeras letras del griego son <span class="ja">α（alpha）</span> y <span class="ja">β（beta）</span> — juntas forman la palabra <strong>alphabet</strong>（アルファベット）。</p>
+      </div>
     </div>
   </div>
 
-  <!-- Progress bars -->
-  <div class="series-progress">
-    <h2 class="progress-title">PROGRESO <span>POR SERIE</span></h2>
-    <div class="progress-item">
-      <div class="progress-header">
-        <span class="progress-name">Tormenta de Hierro</span>
-        <span class="progress-pct">67%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:67%"></div></div>
-      <p class="progress-meta">24 de 36 capítulos · Acción · Aventura</p>
+  <!-- Entry 2 -->
+  <div class="entry-card" data-tag="mini">
+    <div class="entry-header">
+      <h2>"actually" は「実は」だけじゃない</h2>
+      <span class="entry-tag tag-mini">Mini Conocimiento</span>
     </div>
-    <div class="progress-item">
-      <div class="progress-header">
-        <span class="progress-name">El Grimorio Roto</span>
-        <span class="progress-pct">89%</span>
+    <div class="entry-body">
+      <div class="section">
+        <div class="section-label">意味 · Significado</div>
+        <p>Matiz: corregir suavemente una expectativa o añadir una realidad inesperada.<br>
+        期待と違う事実を軽く修正するニュアンス。</p>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:89%"></div></div>
-      <p class="progress-meta">67 de 75 capítulos · Fantasía · Magia</p>
-    </div>
-    <div class="progress-item">
-      <div class="progress-header">
-        <span class="progress-name">Lluvia de Verano</span>
-        <span class="progress-pct">100%</span>
+      <div class="section">
+        <div class="section-label">例文 · Ejemplo</div>
+        <p><strong class="en">"I actually like it."</strong><br>
+        <span class="ja">（意外とそれ好き / En realidad me gusta）</span></p>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
-      <p class="progress-meta">40 de 40 capítulos · Drama · Romance — ¡Completo!</p>
-    </div>
-    <div class="progress-item">
-      <div class="progress-header">
-        <span class="progress-name">Café del Martes</span>
-        <span class="progress-pct">44%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:44%"></div></div>
-      <p class="progress-meta">12 de 27 capítulos · Slice of Life</p>
     </div>
   </div>
 
-  <!-- 2025 Log -->
-  <div class="log-year-block">
-    <div class="year-label">2025</div>
-    <table class="log-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Serie</th>
-          <th>Capítulo</th>
-          <th>Páginas</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="td-num">127</td>
-          <td class="td-date">14 May 2025</td>
-          <td class="td-series">Tormenta de Hierro</td>
-          <td class="td-chapter">Cap. 24 — "El último bastión"</td>
-          <td class="td-pages">22</td>
-          <td class="td-status"><span class="status-badge status-progress">Progreso</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">126</td>
-          <td class="td-date">10 May 2025</td>
-          <td class="td-series">El Grimorio Roto</td>
-          <td class="td-chapter">Cap. 67 — "Cenizas del pacto"</td>
-          <td class="td-pages">18</td>
-          <td class="td-status"><span class="status-badge status-review">Revisión</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">125</td>
-          <td class="td-date">05 May 2025</td>
-          <td class="td-series">Café del Martes</td>
-          <td class="td-chapter">Cap. 12 — "El cliente habitual"</td>
-          <td class="td-pages">24</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">124</td>
-          <td class="td-date">28 Abr 2025</td>
-          <td class="td-series">Tormenta de Hierro</td>
-          <td class="td-chapter">Cap. 23 — "Sangre en la forja"</td>
-          <td class="td-pages">20</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">123</td>
-          <td class="td-date">21 Abr 2025</td>
-          <td class="td-series">El Grimorio Roto</td>
-          <td class="td-chapter">Cap. 66 — "La biblioteca prohibida"</td>
-          <td class="td-pages">26</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">122</td>
-          <td class="td-date">14 Abr 2025</td>
-          <td class="td-series">Lluvia de Verano</td>
-          <td class="td-chapter">Cap. 40 — "Adiós al andén" (FINAL)</td>
-          <td class="td-pages">32</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">121</td>
-          <td class="td-date">07 Abr 2025</td>
-          <td class="td-series">Café del Martes</td>
-          <td class="td-chapter">Cap. 11 — "Espuma de leche"</td>
-          <td class="td-pages">22</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">120</td>
-          <td class="td-date">01 Abr 2025</td>
-          <td class="td-series">Tormenta de Hierro</td>
-          <td class="td-chapter">Cap. 22 — "Alianza inesperada"</td>
-          <td class="td-pages">19</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Entry 3 -->
+  <div class="entry-card" data-tag="trans">
+    <div class="entry-header">
+      <h2>「このセリフどう訳す問題」— David D. Levine</h2>
+      <span class="entry-tag tag-trans">Traducción</span>
+    </div>
+    <div class="entry-body">
+      <div class="section">
+        <div class="section-label">原文 · Texto Original</div>
+        <p class="en">"Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy."</p>
+        <p style="margin-top:0.5rem; font-size:0.75rem; color:#666; font-family:'Space Mono',monospace;">— ムラサキキリンのチャーリーは様子が変 / David D. Levine</p>
+      </div>
+      <div class="section">
+        <div class="section-label">翻訳 v1</div>
+        <p>独我論的妄想は、しばしば単に正当性への全般的な鈍感さの初期症状とみなされています。</p>
+        <span class="arrow">↓ 修正 · Revisión</span>
+        <p>独我論的妄想は、しばしば他者の人格の正当性やときにはその存在への全般的鈍感さの単なる初期症状とみなされています。</p>
+      </div>
+      <div class="section memo">
+        <div class="section-label">📝 判断メモ · Notas de decisión</div>
+        <p>
+          「solipsistic」は「唯我的」よりも <strong>「独我的」</strong> が正確。<br>
+          自我とその所産だけが実在するという立場 → "唯我的" では単に自己中心的な態度になってしまう。<br><br>
+          「initial manifestation」＝ <strong>初期症状</strong>。<br><br>
+          「general」の訳に迷い → <strong>「全般的な」</strong>（ある事柄の全体に及ぶさま）に落ち着いたが、まだ少し引っかかりがある。
+        </p>
+      </div>
+    </div>
   </div>
 
-  <!-- 2024 Log (collapsed summary) -->
-  <div class="log-year-block">
-    <div class="year-label">2024</div>
-    <table class="log-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Serie</th>
-          <th>Capítulo</th>
-          <th>Páginas</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="td-num">87</td>
-          <td class="td-date">28 Dic 2024</td>
-          <td class="td-series">Lluvia de Verano</td>
-          <td class="td-chapter">Cap. 35 — "Nochebuena"</td>
-          <td class="td-pages">28</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">86</td>
-          <td class="td-date">15 Dic 2024</td>
-          <td class="td-series">El Grimorio Roto</td>
-          <td class="td-chapter">Cap. 55 — "El sello roto"</td>
-          <td class="td-pages">24</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td class="td-num">85</td>
-          <td class="td-date">01 Dic 2024</td>
-          <td class="td-series">Tormenta de Hierro</td>
-          <td class="td-chapter">Cap. 15 — "El campo de batalla"</td>
-          <td class="td-pages">22</td>
-          <td class="td-status"><span class="status-badge status-done">Hecho</span></td>
-        </tr>
-        <tr>
-          <td colspan="6" style="padding:1rem; text-align:center; font-size:0.75rem; color:rgba(232,93,4,0.5); letter-spacing:0.1em; text-transform:uppercase; border-top:1px dashed rgba(232,93,4,0.2)">— 84 capítulos más en 2024 —</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Entry 4 -->
+  <div class="entry-card" data-tag="trans">
+    <div class="entry-header">
+      <h2>「このセリフどう訳す問題」— 対比構造</h2>
+      <span class="entry-tag tag-trans">Traducción</span>
+    </div>
+    <div class="entry-body">
+      <div class="section">
+        <div class="section-label">原文 · Texto Original</div>
+        <p class="en">"The protagonist kept drawing, even when no one believed in her story."</p>
+      </div>
+      <div class="section">
+        <div class="section-label">翻訳</div>
+        <p>誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。</p>
+      </div>
+      <div class="section memo">
+        <div class="section-label">📝 判断メモ · Notas de decisión</div>
+        <p>
+          「believed in」→ 受け身ぽく「信じてもらえない」にしてニュアンスを出す。<br><br>
+          <strong>「even when」＝「それでも」</strong> がこの文の軸。<br><br>
+          「〜のに、彼女は〜した」という対比構造を日本語でも活かすのがポイント。<br>
+          La estructura de contraste <em>"〜のに…それでも"</em> es clave para mantener la tensión dramática.
+        </p>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -368,12 +327,19 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+  function filterCards(tag, btn) {
+    if (btn) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+      btn.classList.add('active');
+    }
+    document.querySelectorAll('.entry-card').forEach(card => {
+      if (tag === 'all' || card.dataset.tag === tag) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
     });
-  });
+  }
 </script>
 </body>
 </html>
