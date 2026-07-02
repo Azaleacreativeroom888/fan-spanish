@@ -4,176 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galería — MangaEs</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --orange: #E85D04; --orange-dark: #9D0208; --orange-light: #F48C06;
-    --orange-pale: #FAA307; --cream: #FFFBF0; --black: #0A0A0A; --dark: #1A1209;
+    --or1:#FF6B00;--or2:#FF8C00;--or3:#FFB347;--or4:#FFD580;--orpale:#FFF3E0;
+    --blue:#2979FF;--blue2:#82B1FF;--green:#00C853;--green2:#69F0AE;
+    --yellow:#FFD600;--black:#1A0A00;--white:#FFFEF9;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--black); color: var(--cream); font-family: 'Space Mono', monospace; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--white);color:var(--black);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100; background: var(--black);
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
-  }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
+  .checker{height:20px;background:repeating-linear-gradient(90deg,var(--or1) 0,var(--or1) 20px,var(--or3) 20px,var(--or3) 40px);}
 
-  .page-header {
-    background: var(--dark); padding: 6rem 4rem 3rem;
-    position: relative; overflow: hidden; border-bottom: 3px solid var(--orange);
-  }
-  .page-header::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(232,93,4,0.04) 80px, rgba(232,93,4,0.04) 81px),
-      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(232,93,4,0.04) 80px, rgba(232,93,4,0.04) 81px);
-  }
-  .page-header-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; }
-  .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
-  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
-  .page-title span { color: var(--orange); }
-  .series-count { font-family: 'Bebas Neue', sans-serif; font-size: 6rem; color: rgba(232,93,4,0.3); line-height: 1; }
+  nav{background:var(--black);display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:60px;position:sticky;top:0;z-index:100;}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--or1);text-decoration:none;}
+  .nav-links{display:flex;gap:.25rem;list-style:none;}
+  .nav-links a{color:var(--white);text-decoration:none;font-size:.82rem;font-weight:900;text-transform:uppercase;padding:.5rem 1rem;border-radius:30px;transition:background .15s,color .15s;}
+  .nav-links a:hover,.nav-links a.active{background:var(--or1);color:var(--black);}
 
-  /* Filters */
-  .filters {
-    background: var(--black); padding: 1.5rem 4rem;
-    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
-    border-bottom: 1px solid rgba(232,93,4,0.15); position: sticky; top: 56px; z-index: 50;
-  }
-  .filter-btn {
-    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
-    padding: 0.4rem 1.2rem; font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.05em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .filter-btn:hover, .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
-  .view-toggle { margin-left: auto; display: flex; gap: 0.5rem; }
-  .view-btn {
-    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
-    padding: 0.4rem 0.8rem; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
-  }
-  .view-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  /* PAGE HEADER */
+  .page-header{background:var(--or1);padding:3.5rem 4rem 3rem;position:relative;overflow:hidden;border-bottom:5px solid var(--black);}
+  .page-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.1) 2px,transparent 2px);background-size:28px 28px;pointer-events:none;}
+  .ph-inner{position:relative;z-index:1;}
+  .ph-top{display:flex;justify-content:space-between;align-items:flex-end;}
+  .ph-badge{display:inline-block;background:var(--black);color:var(--or3);font-size:.7rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .9rem;border-radius:30px;margin-bottom:1rem;}
+  .ph-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);color:var(--black);line-height:.9;text-shadow:4px 4px 0 rgba(0,0,0,0.12);}
+  .ph-title em{color:var(--white);font-style:normal;}
+  .ph-count{font-family:'Bebas Neue',sans-serif;font-size:7rem;color:rgba(0,0,0,0.15);line-height:1;}
+  /* deco shapes in header */
+  .deco{position:absolute;pointer-events:none;border-radius:50%;}
+  .star-s{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+  .star4{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes float3{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 
-  /* Gallery grid */
-  .gallery { padding: 3rem 4rem; }
-  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+  /* FILTER */
+  .filter-bar{background:var(--black);padding:1rem 4rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;border-bottom:3px solid var(--or1);}
+  .f-label{font-size:.68rem;font-weight:900;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-right:.3rem;}
+  .f-btn{background:transparent;border:2px solid #444;color:#888;padding:.35rem 1rem;border-radius:30px;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+  .f-btn:hover{border-color:var(--or1);color:var(--or1);}
+  .f-btn.active{background:var(--or1);border-color:var(--or1);color:var(--black);}
+  .view-toggle{margin-left:auto;display:flex;gap:.4rem;}
+  .v-btn{background:transparent;border:2px solid #444;color:#888;padding:.35rem .7rem;border-radius:6px;cursor:pointer;font-size:.9rem;transition:all .15s;}
+  .v-btn.active{background:var(--or1);border-color:var(--or1);color:var(--black);}
 
-  .series-card {
-    background: var(--dark); border: 2px solid rgba(232,93,4,0.25); position: relative;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-    transition: border-color 0.3s, transform 0.3s;
-    cursor: pointer;
-  }
-  .series-card:hover { border-color: var(--orange); transform: translateY(-6px); }
-  .series-card:nth-child(3n+2) { transform: translateY(20px); }
-  .series-card:nth-child(3n+2):hover { transform: translateY(14px); }
+  /* GALLERY */
+  .gallery{padding:2.5rem 4rem 4rem;position:relative;overflow:hidden;}
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.8rem;position:relative;z-index:1;}
 
-  .series-thumb {
-    height: 340px; position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .series-thumb-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #1a0a00 0%, #3d1500 50%, #1a0500 100%);
-  }
-  .series-thumb-bg.b { background: linear-gradient(135deg, #0a0a1a, #1a0033); }
-  .series-thumb-bg.c { background: linear-gradient(135deg, #0a1a0a, #003300); }
-  .series-thumb-bg.d { background: linear-gradient(135deg, #1a1a00, #333300); }
-  .series-thumb-bg.e { background: linear-gradient(135deg, #1a000a, #330033); }
-  .series-thumb-bg.f { background: linear-gradient(135deg, #001a1a, #003333); }
+  /* FEATURED CARD (full width) */
+  .card-featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.6fr;background:var(--white);border:3px solid var(--black);border-radius:14px;box-shadow:7px 7px 0 var(--black);overflow:hidden;transition:transform .15s,box-shadow .15s;}
+  .card-featured:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 var(--black);}
+  .card-thumb{position:relative;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;overflow:hidden;border-right:3px solid var(--black);}
+  .card-thumb::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(0,0,0,0.04) 12px,rgba(0,0,0,0.04) 13px);}
+  .card-featured .card-thumb{min-height:260px;font-size:7rem;}
+  .th-blue{background:#E3F2FD;color:var(--blue);}
+  .th-green{background:#E8F5E9;color:var(--green);}
+  .th-yellow{background:#FFFDE7;color:#E6AC00;}
+  .th-orange{background:var(--orpale);color:var(--or1);}
+  .th-pink{background:#FCE4EC;color:#E91E63;}
+  .th-purple{background:#EDE7F6;color:#7B1FA2;}
+  .card-featured-body{padding:2rem 2rem;display:flex;flex-direction:column;justify-content:center;}
+  .feat-badge{display:inline-block;background:var(--or1);color:var(--black);font-size:.62rem;font-weight:900;letter-spacing:.15em;padding:.25rem .7rem;border-radius:30px;border:2px solid var(--black);margin-bottom:.8rem;text-transform:uppercase;}
+  .card-genre{font-size:.65rem;font-weight:900;letter-spacing:.15em;color:var(--or1);text-transform:uppercase;margin-bottom:.3rem;}
+  .card-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--black);line-height:1;margin-bottom:.7rem;}
+  .card-desc{font-size:.85rem;font-weight:700;color:#666;line-height:1.7;margin-bottom:1.2rem;}
+  .card-meta{font-size:.72rem;font-weight:900;color:#999;margin-bottom:1.2rem;}
+  .status-pill{display:inline-block;padding:.25rem .75rem;border-radius:30px;font-size:.62rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--black);margin-right:.5rem;}
+  .s-ongoing{background:var(--green2);color:var(--black);}
+  .s-complete{background:var(--blue2);color:var(--black);}
+  .s-hiatus{background:#eee;color:#888;}
+  .btn-read{display:inline-block;background:var(--black);color:var(--white);padding:.7rem 1.8rem;border-radius:50px;font-weight:900;font-size:.8rem;text-transform:uppercase;text-decoration:none;border:2.5px solid var(--black);transition:all .15s;}
+  .btn-read:hover{background:var(--or1);border-color:var(--or1);color:var(--black);}
 
-  .series-thumb-pattern {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(232,93,4,0.06) 20px, rgba(232,93,4,0.06) 21px);
-  }
-  .series-kanji {
-    font-family: 'Bebas Neue', sans-serif; font-size: 7rem;
-    color: rgba(232,93,4,0.2); position: relative; z-index: 1; line-height: 1;
-  }
-  .series-thumb-overlay {
-    position: absolute; inset: 0; z-index: 2;
-    background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, transparent 60%);
-  }
-  .series-status {
-    position: absolute; top: 1rem; right: 1rem; z-index: 3;
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.2rem 0.6rem;
-  }
-  .status-ongoing { background: var(--orange); color: var(--black); }
-  .status-complete { background: transparent; border: 1px solid var(--orange-pale); color: var(--orange-pale); }
-  .status-hiatus { background: rgba(255,255,255,0.1); color: #888; }
+  /* NORMAL CARD */
+  .manga-card{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);overflow:hidden;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;}
+  .manga-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--black);}
+  .manga-card .card-thumb{height:240px;font-size:5rem;border-right:none;border-bottom:3px solid var(--black);}
+  .card-badge{position:absolute;top:10px;right:10px;z-index:2;font-size:.6rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:30px;border:2px solid var(--black);}
+  .cb-or{background:var(--or1);color:var(--black);}
+  .cb-bl{background:var(--blue);color:var(--white);}
+  .cb-gr{background:var(--green);color:var(--black);}
+  .card-body{padding:1rem 1.1rem;flex:1;}
+  .card-body .card-title{font-size:1.5rem;margin-bottom:.4rem;}
+  .card-foot{font-size:.7rem;font-weight:900;color:#aaa;display:flex;justify-content:space-between;margin-top:.4rem;}
 
-  .series-info {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 1.2rem;
-  }
-  .series-genre { font-size: 0.62rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.3rem; }
-  .series-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--cream); line-height: 1; margin-bottom: 0.5rem; }
-  .series-meta { display: flex; justify-content: space-between; font-size: 0.65rem; color: #888; }
+  footer{background:var(--black);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:4px solid var(--or1);position:relative;overflow:hidden;}
+  .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--or1);text-decoration:none;}
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{font-size:.78rem;color:#666;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:.05em;transition:color .15s;}
+  .footer-links a:hover{color:var(--or1);}
 
-  .series-body { padding: 1rem 1.2rem; border-top: 1px solid rgba(232,93,4,0.15); }
-  .series-desc { font-size: 0.72rem; color: #888; line-height: 1.7; margin-bottom: 0.8rem; }
-  .series-actions { display: flex; gap: 0.75rem; }
-  .action-btn {
-    flex: 1; background: var(--orange); color: var(--black); border: none;
-    padding: 0.5rem; font-family: 'Space Mono', monospace;
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s; text-decoration: none;
-    text-align: center; display: block;
-  }
-  .action-btn:hover { background: var(--orange-pale); }
-  .action-btn-ghost {
-    flex: 1; background: transparent; color: var(--orange); border: 1px solid var(--orange);
-    padding: 0.5rem; font-family: 'Space Mono', monospace;
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.2s; text-decoration: none;
-    text-align: center; display: block;
-  }
-  .action-btn-ghost:hover { background: var(--orange); color: var(--black); }
-
-  /* Special featured series - full width */
-  .series-card-featured {
-    grid-column: 1 / -1;
-    display: grid; grid-template-columns: 1fr 1.5fr;
-    background: var(--dark); border: 3px solid var(--orange);
-    clip-path: none;
-    transition: border-color 0.3s;
-  }
-  .series-card-featured:hover { border-color: var(--orange-pale); transform: none; }
-  .series-card-featured .series-thumb { height: 100%; min-height: 260px; }
-  .series-card-featured .series-info { position: relative; padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
-  .series-card-featured .series-title { font-size: 3rem; margin-bottom: 1rem; }
-  .series-card-featured .series-desc { font-size: 0.82rem; margin-bottom: 1.5rem; }
-  .featured-badge {
-    display: inline-block; background: var(--orange); color: var(--black);
-    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em;
-    padding: 0.3rem 0.8rem; text-transform: uppercase; margin-bottom: 1rem;
-  }
-
-  footer { background: var(--dark); border-top: 3px solid var(--orange); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
-  .footer-links a:hover { color: var(--orange); }
-
-  @media (max-width: 768px) {
-    .gallery { padding: 2rem 1rem; }
-    .gallery-grid { grid-template-columns: 1fr; }
-    .series-card:nth-child(3n+2) { transform: none; }
-    .series-card-featured { grid-template-columns: 1fr; }
-    .filters { padding: 1rem 1.5rem; }
-    .page-header { padding: 5rem 1.5rem 2rem; }
-    .page-header-inner { flex-direction: column; align-items: flex-start; }
-    footer { padding: 2rem 1.5rem; }
+  @media(max-width:900px){
+    .card-featured{grid-template-columns:1fr;}
+    .card-featured .card-thumb{min-height:180px;}
+    .gallery{padding:2rem 1.5rem;}
+    .filter-bar{padding:1rem 1.5rem;}
+    .page-header{padding:2.5rem 1.5rem 2rem;}
+    footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+    .nav-links{display:none;}
+    .ph-count{display:none;}
   }
 </style>
 </head>
 <body>
 
+<div class="checker"></div>
 <nav>
   <a href="index.html" class="nav-logo">MangaEs</a>
   <ul class="nav-links">
@@ -185,164 +122,135 @@
 </nav>
 
 <div class="page-header">
-  <div class="page-header-inner">
-    <div>
-      <p class="page-tag">■ Todo el catálogo</p>
-      <h1 class="page-title">GALERÍA DE <span>SERIES</span></h1>
+  <!-- decorative shapes -->
+  <div class="deco" style="width:60px;height:60px;background:var(--blue);top:15%;right:18%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:44px;height:44px;background:var(--yellow);top:10%;right:12%;animation:float2 2.8s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:32px;height:32px;background:var(--green);bottom:20%;right:22%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+  <div class="star4" style="width:36px;height:36px;background:var(--blue2);top:50%;right:8%;animation:float1 4s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:22px;height:22px;background:var(--yellow);bottom:15%;right:35%;border:2px solid var(--black);animation:float2 2.4s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:28px;height:28px;background:var(--green2);top:30%;right:30%;animation:float3 3.2s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+
+  <div class="ph-inner">
+    <div class="ph-top">
+      <div>
+        <span class="ph-badge">★ Todo el catálogo</span>
+        <h1 class="ph-title">GALERÍA DE <em>SERIES</em></h1>
+      </div>
+      <div class="ph-count">15</div>
     </div>
-    <div class="series-count">15</div>
   </div>
 </div>
 
-<div class="filters">
-  <button class="filter-btn active">Todas</button>
-  <button class="filter-btn">Acción</button>
-  <button class="filter-btn">Romance</button>
-  <button class="filter-btn">Fantasía</button>
-  <button class="filter-btn">Slice of Life</button>
-  <button class="filter-btn">Completadas</button>
+<div class="filter-bar">
+  <span class="f-label">Filtrar:</span>
+  <button class="f-btn active" onclick="setFilter(this,'all')">Todas</button>
+  <button class="f-btn" onclick="setFilter(this,'accion')">Acción</button>
+  <button class="f-btn" onclick="setFilter(this,'romance')">Romance</button>
+  <button class="f-btn" onclick="setFilter(this,'fantasia')">Fantasía</button>
+  <button class="f-btn" onclick="setFilter(this,'sol')">Slice of Life</button>
+  <button class="f-btn" onclick="setFilter(this,'scifi')">Sci-Fi</button>
   <div class="view-toggle">
-    <button class="view-btn active">▦</button>
-    <button class="view-btn">☰</button>
+    <button class="v-btn active">▦</button>
+    <button class="v-btn">☰</button>
   </div>
 </div>
 
 <div class="gallery">
+  <!-- background deco -->
+  <div class="deco" style="width:80px;height:80px;background:var(--blue);opacity:.1;top:5%;right:2%;position:absolute;border-radius:50%;"></div>
+  <div class="star-s" style="width:55px;height:55px;background:var(--yellow);opacity:.15;bottom:8%;left:1%;position:absolute;"></div>
+  <div class="deco" style="width:45px;height:45px;background:var(--green);opacity:.12;top:40%;left:3%;position:absolute;border-radius:50%;"></div>
+  <div class="star4" style="width:38px;height:38px;background:var(--or1);opacity:.12;bottom:15%;right:4%;position:absolute;"></div>
+  <div class="deco" style="width:26px;height:26px;background:var(--blue2);opacity:.2;top:60%;right:1%;position:absolute;border-radius:50%;"></div>
+
   <div class="gallery-grid">
 
-    <!-- Featured: full-width card -->
-    <div class="series-card series-card-featured">
-      <div class="series-thumb">
-        <div class="series-thumb-bg"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">鉄</div>
-        <div class="series-thumb-overlay"></div>
+    <!-- FEATURED -->
+    <div class="card-featured" data-cat="accion">
+      <div class="card-thumb th-blue">
+        <span style="position:relative;z-index:1">鉄</span>
+        <span class="card-badge cb-or">★ Destacado</span>
       </div>
-      <div class="series-info">
-        <span class="featured-badge">★ Serie destacada</span>
-        <p class="series-genre">Acción · Aventura · Shonen</p>
-        <h2 class="series-title">Tormenta de Hierro</h2>
-        <p class="series-desc">Un joven herrero descubre que sus creaciones tienen vida propia. En un mundo donde el metal siente y las espadas recuerdan, deberá forjar no solo armas, sino su propio destino. 24 capítulos disponibles, actualización semanal.</p>
-        <div class="series-meta" style="margin-bottom:1.5rem"><span>24 / 36 capítulos</span><span>Actualizado ayer</span></div>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer ahora →</a>
-          <a href="#" class="action-btn-ghost">Ver detalles</a>
-        </div>
+      <div class="card-featured-body">
+        <span class="feat-badge">Serie destacada</span>
+        <p class="card-genre">Acción · Aventura · Shonen</p>
+        <h2 class="card-title">Tormenta de Hierro</h2>
+        <p class="card-desc">Un joven herrero descubre que sus creaciones tienen vida propia. En un mundo donde el metal siente y las espadas recuerdan, deberá forjar no solo armas, sino su propio destino.</p>
+        <p class="card-meta"><span class="status-pill s-ongoing">En curso</span> 24 / 36 capítulos · Actualizado ayer</p>
+        <a href="#" class="btn-read">Leer ahora →</a>
       </div>
     </div>
 
-    <!-- Card 2 -->
-    <div class="series-card">
-      <div class="series-thumb">
-        <div class="series-thumb-bg b"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">魔</div>
-        <div class="series-thumb-overlay"></div>
-        <span class="series-status status-ongoing">En curso</span>
-        <div class="series-info">
-          <p class="series-genre">Fantasía · Magia</p>
-          <h3 class="series-title">El Grimorio Roto</h3>
-          <div class="series-meta"><span>67 / 75 caps.</span><span>Hace 3 días</span></div>
-        </div>
+    <!-- CARD 2 -->
+    <div class="manga-card" data-cat="fantasia">
+      <div class="card-thumb th-purple">
+        <span style="position:relative;z-index:1">魔</span>
+        <span class="card-badge cb-bl">Popular</span>
       </div>
-      <div class="series-body">
-        <p class="series-desc">Un aprendiz de mago descubre un grimorio prohibido que lo arrastra a una conspiración de siglos. Magia oscura, traiciones y redención.</p>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer</a>
-          <a href="#" class="action-btn-ghost">Info</a>
-        </div>
+      <div class="card-body">
+        <p class="card-genre">Fantasía · Magia</p>
+        <h3 class="card-title">El Grimorio Roto</h3>
+        <p class="card-desc" style="font-size:.78rem;color:#888;line-height:1.6;margin-bottom:.5rem;font-weight:700;">Un aprendiz de mago y un grimorio prohibido que arrastra siglos de secretos.</p>
+        <div style="margin-bottom:.5rem"><span class="status-pill s-ongoing">En curso</span></div>
+        <div class="card-foot"><span>67 / 75 caps.</span><span>Hace 3 días</span></div>
       </div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="series-card">
-      <div class="series-thumb">
-        <div class="series-thumb-bg c"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">雨</div>
-        <div class="series-thumb-overlay"></div>
-        <span class="series-status status-complete">Completo</span>
-        <div class="series-info">
-          <p class="series-genre">Drama · Romance</p>
-          <h3 class="series-title">Lluvia de Verano</h3>
-          <div class="series-meta"><span>40 / 40 caps.</span><span>Terminado</span></div>
-        </div>
+    <!-- CARD 3 -->
+    <div class="manga-card" data-cat="romance">
+      <div class="card-thumb th-green">
+        <span style="position:relative;z-index:1">雨</span>
+        <span class="card-badge cb-gr">Completo</span>
       </div>
-      <div class="series-body">
-        <p class="series-desc">Una historia de amor y despedidas en una ciudad que cambia. Cada capítulo es una estación del año.</p>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer</a>
-          <a href="#" class="action-btn-ghost">Info</a>
-        </div>
+      <div class="card-body">
+        <p class="card-genre">Drama · Romance</p>
+        <h3 class="card-title">Lluvia de Verano</h3>
+        <p class="card-desc" style="font-size:.78rem;color:#888;line-height:1.6;margin-bottom:.5rem;font-weight:700;">Una historia de amor y despedidas en una ciudad que cambia estación a estación.</p>
+        <div style="margin-bottom:.5rem"><span class="status-pill s-complete">Completo</span></div>
+        <div class="card-foot"><span>40 / 40 caps.</span><span>Terminado</span></div>
       </div>
     </div>
 
-    <!-- Card 4 -->
-    <div class="series-card">
-      <div class="series-thumb">
-        <div class="series-thumb-bg d"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">珈</div>
-        <div class="series-thumb-overlay"></div>
-        <span class="series-status status-ongoing">En curso</span>
-        <div class="series-info">
-          <p class="series-genre">Slice of Life</p>
-          <h3 class="series-title">Café del Martes</h3>
-          <div class="series-meta"><span>12 / 27 caps.</span><span>Esta semana</span></div>
-        </div>
+    <!-- CARD 4 -->
+    <div class="manga-card" data-cat="sol">
+      <div class="card-thumb th-yellow">
+        <span style="position:relative;z-index:1">珈</span>
       </div>
-      <div class="series-body">
-        <p class="series-desc">Un café con secretos. Cada martes, un cliente diferente con una historia única que contar.</p>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer</a>
-          <a href="#" class="action-btn-ghost">Info</a>
-        </div>
+      <div class="card-body">
+        <p class="card-genre">Slice of Life</p>
+        <h3 class="card-title">Café del Martes</h3>
+        <p class="card-desc" style="font-size:.78rem;color:#888;line-height:1.6;margin-bottom:.5rem;font-weight:700;">Cada martes, un cliente diferente con una historia única en un café con secretos.</p>
+        <div style="margin-bottom:.5rem"><span class="status-pill s-ongoing">En curso</span></div>
+        <div class="card-foot"><span>12 / 27 caps.</span><span>Esta semana</span></div>
       </div>
     </div>
 
-    <!-- Card 5 -->
-    <div class="series-card">
-      <div class="series-thumb">
-        <div class="series-thumb-bg e"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">星</div>
-        <div class="series-thumb-overlay"></div>
-        <span class="series-status status-hiatus">En pausa</span>
-        <div class="series-info">
-          <p class="series-genre">Ciencia ficción</p>
-          <h3 class="series-title">Polvo de Estrellas</h3>
-          <div class="series-meta"><span>18 / ? caps.</span><span>Hace 2 meses</span></div>
-        </div>
+    <!-- CARD 5 -->
+    <div class="manga-card" data-cat="scifi">
+      <div class="card-thumb th-blue">
+        <span style="position:relative;z-index:1">星</span>
       </div>
-      <div class="series-body">
-        <p class="series-desc">En el año 2387, una arqueóloga espacial descubre ruinas de una civilización que no debería existir.</p>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer</a>
-          <a href="#" class="action-btn-ghost">Info</a>
-        </div>
+      <div class="card-body">
+        <p class="card-genre">Ciencia Ficción</p>
+        <h3 class="card-title">Polvo de Estrellas</h3>
+        <p class="card-desc" style="font-size:.78rem;color:#888;line-height:1.6;margin-bottom:.5rem;font-weight:700;">Año 2387: una arqueóloga espacial descubre ruinas de una civilización imposible.</p>
+        <div style="margin-bottom:.5rem"><span class="status-pill s-hiatus">En pausa</span></div>
+        <div class="card-foot"><span>18 / ? caps.</span><span>Hace 2 meses</span></div>
       </div>
     </div>
 
-    <!-- Card 6 -->
-    <div class="series-card">
-      <div class="series-thumb">
-        <div class="series-thumb-bg f"></div>
-        <div class="series-thumb-pattern"></div>
-        <div class="series-kanji">海</div>
-        <div class="series-thumb-overlay"></div>
-        <span class="series-status status-complete">Completo</span>
-        <div class="series-info">
-          <p class="series-genre">Aventura · Shounen</p>
-          <h3 class="series-title">Horizonte Profundo</h3>
-          <div class="series-meta"><span>52 / 52 caps.</span><span>2024</span></div>
-        </div>
+    <!-- CARD 6 -->
+    <div class="manga-card" data-cat="accion">
+      <div class="card-thumb th-orange">
+        <span style="position:relative;z-index:1">海</span>
+        <span class="card-badge cb-gr">Completo</span>
       </div>
-      <div class="series-body">
-        <p class="series-desc">Un marinero sin destino que busca el océano que nadie ha cartografiado. Aventura clásica con alma moderna.</p>
-        <div class="series-actions">
-          <a href="#" class="action-btn">Leer</a>
-          <a href="#" class="action-btn-ghost">Info</a>
-        </div>
+      <div class="card-body">
+        <p class="card-genre">Aventura · Shounen</p>
+        <h3 class="card-title">Horizonte Profundo</h3>
+        <p class="card-desc" style="font-size:.78rem;color:#888;line-height:1.6;margin-bottom:.5rem;font-weight:700;">Un marinero sin destino buscando el océano que nadie ha cartografiado jamás.</p>
+        <div style="margin-bottom:.5rem"><span class="status-pill s-complete">Completo</span></div>
+        <div class="card-foot"><span>52 / 52 caps.</span><span>2024</span></div>
       </div>
     </div>
 
@@ -350,6 +258,8 @@
 </div>
 
 <footer>
+  <div class="deco" style="width:40px;height:40px;background:var(--blue);opacity:.18;top:20%;right:10%;position:absolute;border-radius:50%;"></div>
+  <div class="star-s" style="width:30px;height:30px;background:var(--yellow);opacity:.2;bottom:15%;left:45%;position:absolute;"></div>
   <a href="index.html" class="footer-logo">MangaEs</a>
   <div class="footer-links">
     <a href="traslation.html">Traducciones</a>
@@ -359,18 +269,17 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-    });
+function setFilter(btn, cat) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('[data-cat]').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
   });
-  document.querySelectorAll('.view-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
+}
+document.querySelectorAll('.v-btn').forEach(b => b.addEventListener('click', function(){
+  document.querySelectorAll('.v-btn').forEach(x => x.classList.remove('active'));
+  this.classList.add('active');
+}));
 </script>
 </body>
 </html>
