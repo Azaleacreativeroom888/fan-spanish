@@ -4,179 +4,339 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MangaEs — Cómics en Español</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,700;0,900;1,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --orange: #E85D04;
-    --orange-dark: #9D0208;
-    --orange-light: #F48C06;
-    --orange-pale: #FAA307;
-    --cream: #FFFBF0;
-    --black: #0A0A0A;
-    --dark: #1A1209;
+    --or1: #FF6B00;
+    --or2: #FF8C00;
+    --or3: #FFB347;
+    --or4: #FFD580;
+    --orpale: #FFF3E0;
+    --blue: #2979FF;
+    --blue2: #82B1FF;
+    --green: #00C853;
+    --green2: #69F0AE;
+    --yellow: #FFD600;
+    --pink: #FF4081;
+    --black: #1A0A00;
+    --white: #FFFEF9;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; overflow-x: hidden; }
+  body { background: var(--white); color: var(--black); font-family: 'Nunito', sans-serif; overflow-x: hidden; }
 
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    background: var(--black); display: flex; justify-content: space-between; align-items: center;
-    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
+  /* ── DECORATIVE SHAPES ── */
+  .deco {
+    position: absolute; pointer-events: none; z-index: 0;
+    border-radius: 50%;
   }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); letter-spacing: 0.1em; text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--orange-pale); }
-
-  .hero {
-    min-height: 100vh; background: var(--black); position: relative;
-    display: grid; grid-template-columns: 1fr 1fr; padding-top: 56px; overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px),
-                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px);
-  }
-  .hero-shapes { position: absolute; inset: 0; pointer-events: none; }
-  .hero-text { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 4rem 4rem; }
-  .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1.5rem; }
-  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 8vw, 7rem); line-height: 0.9; color: var(--cream); margin-bottom: 1.5rem; }
-  h1 span { color: var(--orange); }
-  .hero-sub { font-size: 0.85rem; color: #aaa; line-height: 1.8; max-width: 380px; margin-bottom: 2.5rem; }
-  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--orange); color: var(--black); padding: 0.9rem 2rem;
-    font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-    transition: background 0.2s; display: inline-block;
-  }
-  .btn-primary:hover { background: var(--orange-pale); }
-  .btn-outline {
-    border: 2px solid var(--orange); color: var(--orange); padding: 0.9rem 2rem;
-    font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; background: transparent;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-    transition: all 0.2s; display: inline-block;
-  }
-  .btn-outline:hover { background: var(--orange); color: var(--black); }
-
-  .hero-visual { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; padding: 4rem; }
-  .manga-panel-group { position: relative; width: 340px; height: 420px; }
-  .panel { position: absolute; border: 3px solid var(--orange); }
-  .panel-a { width: 200px; height: 270px; top: 0; left: 0; transform: rotate(-3deg); }
-  .panel-b { width: 170px; height: 190px; top: 20px; right: 0; transform: rotate(2deg); border-color: var(--orange-pale); }
-  .panel-c { width: 250px; height: 170px; bottom: 0; left: 40px; transform: rotate(1deg); border-color: var(--orange-dark); }
-  .panel-inner {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, rgba(232,93,4,0.15), rgba(250,163,7,0.08));
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--orange); letter-spacing: 0.05em;
-  }
-  .speech-bubble {
-    position: absolute; top: 28px; right: -28px;
-    background: var(--orange); color: var(--black);
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;
-    padding: 0.4rem 0.9rem; transform: rotate(5deg); z-index: 3;
-  }
-  .speech-bubble::after {
-    content: ''; position: absolute; bottom: -10px; left: 20px;
-    border: 10px solid transparent; border-top-color: var(--orange); border-bottom: none;
-  }
-  .starburst {
-    position: absolute; bottom: 20px; left: -20px; width: 66px; height: 66px;
-    background: var(--orange-pale);
+  .star-shape {
+    position: absolute; pointer-events: none; z-index: 0;
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    z-index: 3; animation: spin 8s linear infinite;
+  }
+  .star4 {
+    position: absolute; pointer-events: none; z-index: 0;
+    clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+  }
+  .tri {
+    position: absolute; pointer-events: none; z-index: 0;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  /* ── CHECKER BAR ── */
+  .checker {
+    height: 20px;
+    background: repeating-linear-gradient(90deg, var(--or1) 0, var(--or1) 20px, var(--or3) 20px, var(--or3) 40px);
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--black); position: relative; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 2.5rem; height: 60px;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--or1); letter-spacing: 0.08em; text-decoration: none; }
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+  .nav-links a {
+    color: var(--white); text-decoration: none;
+    font-size: 0.82rem; font-weight: 900; letter-spacing: 0.05em;
+    text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 30px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover { background: var(--or1); color: var(--black); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--or1);
+    position: relative; overflow: hidden;
+    min-height: 560px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    border-bottom: 5px solid var(--black);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.1) 2px, transparent 2px);
+    background-size: 28px 28px;
+  }
+
+  /* scattered decorations in hero */
+  .hero-decos { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+  .hero-text {
+    position: relative; z-index: 2;
+    padding: 4rem 3rem 4rem 4rem;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--black); color: var(--or3);
+    font-size: 0.72rem; font-weight: 900; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 0.35rem 1rem; border-radius: 30px;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 9vw, 8rem);
+    color: var(--black); line-height: 0.88;
+    margin-bottom: 1.2rem;
+    text-shadow: 5px 5px 0 rgba(0,0,0,0.12);
+  }
+  .hero h1 em { color: var(--white); font-style: normal; }
+  .hero-sub {
+    font-size: 1rem; font-weight: 700; color: var(--black);
+    line-height: 1.6; max-width: 380px; margin-bottom: 2rem; opacity: 0.8;
+  }
+  .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-black {
+    background: var(--black); color: var(--white);
+    padding: 0.85rem 2rem; border-radius: 50px;
+    font-weight: 900; font-size: 0.85rem; letter-spacing: 0.05em;
+    text-transform: uppercase; text-decoration: none;
+    border: 3px solid var(--black); transition: background 0.15s, color 0.15s;
+    display: inline-block;
+  }
+  .btn-black:hover { background: var(--white); color: var(--black); }
+  .btn-white {
+    background: var(--white); color: var(--black);
+    padding: 0.85rem 2rem; border-radius: 50px;
+    font-weight: 900; font-size: 0.85rem; letter-spacing: 0.05em;
+    text-transform: uppercase; text-decoration: none;
+    border: 3px solid var(--black); transition: background 0.15s, color 0.15s;
+    display: inline-block;
+  }
+  .btn-white:hover { background: var(--black); color: var(--white); }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem 3rem 3rem 0;
+  }
+  .manga-panels { position: relative; width: 320px; height: 400px; }
+  .mpanel {
+    position: absolute; background: var(--white);
+    border: 4px solid var(--black); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; color: rgba(0,0,0,0.22);
+    box-shadow: 5px 5px 0 var(--black);
+  }
+  .mp-a { width: 190px; height: 260px; top: 0; left: 0; transform: rotate(-4deg); font-size: 4.5rem; }
+  .mp-b { width: 160px; height: 170px; top: 10px; right: 10px; transform: rotate(3deg); font-size: 3.5rem; }
+  .mp-c { width: 230px; height: 150px; bottom: 0; left: 30px; transform: rotate(2deg); font-size: 3rem; }
+  .bubble {
+    position: absolute; top: 24px; right: -10px; z-index: 5;
+    background: var(--yellow); color: var(--black);
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+    padding: 0.4rem 0.9rem; border: 3px solid var(--black);
+    border-radius: 6px; transform: rotate(5deg);
+    box-shadow: 3px 3px 0 var(--black);
+  }
+  .bubble::after {
+    content: ''; position: absolute; bottom: -12px; left: 16px;
+    border: 8px solid transparent; border-top: 8px solid var(--black);
+  }
+  .badge-spin-wrap { position: absolute; bottom: 22px; left: -18px; z-index: 5; width: 68px; height: 68px; }
+  .badge-spin {
+    width: 68px; height: 68px;
+    background: var(--blue); color: var(--white);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 0.6rem;
+    text-align: center; line-height: 1.15;
+    animation: spin 10s linear infinite;
+    border: 3px solid var(--black);
+    box-sizing: border-box;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .starburst-text {
-    position: absolute; bottom: 20px; left: -20px; width: 66px; height: 66px;
-    display: flex; align-items: center; justify-content: center; z-index: 4;
-    font-family: 'Bebas Neue', sans-serif; font-size: 0.6rem; color: var(--black); text-align: center; line-height: 1.1;
-  }
+  @keyframes float1 { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(8deg); } }
+  @keyframes float2 { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(8px) rotate(-6deg); } }
+  @keyframes float3 { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.05); } }
+  @keyframes wobble { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
 
-  .stats-strip { background: var(--orange); display: flex; overflow: hidden; border-top: 3px solid var(--orange-dark); border-bottom: 3px solid var(--orange-dark); }
-  .stats-scroll { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--black); overflow: hidden;
+    border-bottom: 4px solid var(--or1);
+  }
+  .marquee-track { display: flex; white-space: nowrap; animation: marquee 18s linear infinite; }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .stat-item {
-    padding: 0.9rem 3rem; display: flex; align-items: center; gap: 1rem;
-    border-right: 2px solid var(--orange-dark);
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--black); letter-spacing: 0.05em;
-    white-space: nowrap;
+  .marquee-item {
+    padding: 0.85rem 2.5rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+    color: var(--or1); letter-spacing: 0.08em;
+    border-right: 2px solid rgba(255,107,0,0.25);
+    display: flex; align-items: center; gap: 1rem; white-space: nowrap;
   }
-  .stat-num { font-size: 1.8rem; }
+  .marquee-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 
-  .section { padding: 5rem 4rem; }
+  /* ── SECTION ── */
+  .section { padding: 4rem 4rem; position: relative; overflow: hidden; }
   .section-header {
-    display: flex; justify-content: space-between; align-items: baseline;
-    margin-bottom: 3rem; border-bottom: 3px solid var(--black); padding-bottom: 1rem;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; position: relative; z-index: 1;
   }
-  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--black); letter-spacing: 0.05em; }
-  .section-title span { color: var(--orange); }
-  .section-link { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--orange); text-decoration: none; text-transform: uppercase; border-bottom: 1px solid var(--orange); }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; color: var(--black); letter-spacing: 0.04em;
+    position: relative; display: inline-block; z-index: 1;
+  }
+  .section-title::after {
+    content: ''; position: absolute;
+    bottom: 2px; left: 0; right: 0; height: 7px;
+    background: var(--yellow); z-index: -1;
+  }
+  .section-link {
+    font-size: 0.8rem; font-weight: 900; color: var(--or1);
+    text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em;
+    border: 2.5px solid var(--or1); padding: 0.4rem 1rem; border-radius: 30px;
+    transition: all 0.15s; position: relative; z-index: 1;
+  }
+  .section-link:hover { background: var(--or1); color: var(--black); }
 
-  .manga-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; }
+  /* ── CARDS ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; position: relative; z-index: 1; }
   .manga-card {
-    background: var(--black); border: 2px solid var(--orange); position: relative; overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    background: var(--white); border: 3px solid var(--black); border-radius: 12px;
+    box-shadow: 6px 6px 0 var(--black); overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
   }
-  .manga-card:hover { border-color: var(--orange-pale); transform: translateY(-4px) rotate(-0.5deg); }
+  .manga-card:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
   .manga-card-thumb {
-    height: 260px;
-    background: linear-gradient(135deg, #1a0a00, #3d1a00);
-    position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
+    border-bottom: 3px solid var(--black); position: relative; overflow: hidden;
   }
+  .thumb-a { background: #E3F2FD; color: var(--blue); }
+  .thumb-b { background: #E8F5E9; color: var(--green); }
+  .thumb-c { background: #FFFDE7; color: #E6AC00; }
+  .thumb-d { background: #FFF3E0; color: var(--or1); }
   .manga-card-thumb::before {
     content: ''; position: absolute; inset: 0;
-    background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(232,93,4,0.1) 20px, rgba(232,93,4,0.1) 21px);
+    background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(0,0,0,0.04) 12px, rgba(0,0,0,0.04) 13px);
   }
-  .manga-card-icon { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(232,93,4,0.3); position: relative; z-index: 1; }
-  .manga-card-badge {
-    position: absolute; top: 12px; right: 12px;
-    background: var(--orange); color: var(--black);
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; padding: 0.25rem 0.6rem; text-transform: uppercase;
+  .manga-card-new {
+    position: absolute; top: 10px; right: 10px;
+    font-size: 0.62rem; font-weight: 900; letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem; border-radius: 30px; border: 2px solid var(--black);
+    text-transform: uppercase; z-index: 1;
   }
-  .manga-card-body { padding: 1.2rem; }
-  .manga-card-genre { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.4rem; }
-  .manga-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--cream); line-height: 1; margin-bottom: 0.5rem; }
-  .manga-card-meta { font-size: 0.7rem; color: #666; display: flex; justify-content: space-between; }
+  .badge-or { background: var(--or1); color: var(--black); }
+  .badge-bl { background: var(--blue); color: var(--white); }
+  .manga-card-body { padding: 1rem 1.1rem; }
+  .manga-card-genre { font-size: 0.65rem; font-weight: 900; letter-spacing: 0.12em; color: var(--or1); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .manga-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--black); line-height: 1; margin-bottom: 0.4rem; }
+  .manga-card-meta { font-size: 0.7rem; color: #888; display: flex; justify-content: space-between; font-weight: 700; }
 
-  .about-strip {
-    background: var(--dark); padding: 5rem 4rem;
+  /* ── STATS ── */
+  .stats-row {
+    background: var(--black);
+    border-top: 4px solid var(--or1);
+    border-bottom: 4px solid var(--or1);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    position: relative; overflow: hidden;
+  }
+  .stat-box {
+    padding: 2.5rem 1.5rem; text-align: center;
+    border-right: 2px solid rgba(255,107,0,0.2);
+    position: relative; z-index: 1;
+  }
+  .stat-box:last-child { border-right: none; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; }
+  .stat-label { font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
+  .sn-or { color: var(--or1); }
+  .sn-bl { color: var(--blue2); }
+  .sn-gr { color: var(--green2); }
+  .sn-ye { color: var(--yellow); }
+  .sl-or { color: var(--or3); }
+  .sl-bl { color: var(--blue2); }
+  .sl-gr { color: var(--green2); }
+  .sl-ye { color: var(--yellow); }
+
+  /* ── ABOUT ── */
+  .about-banner {
+    background: var(--orpale);
+    border-top: 4px solid var(--black);
+    border-bottom: 4px solid var(--black);
+    padding: 4rem;
     display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
-    border-top: 3px solid var(--orange); border-bottom: 3px solid var(--orange);
+    position: relative; overflow: hidden;
   }
-  .about-text h2 { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--cream); line-height: 0.95; margin-bottom: 1.5rem; }
-  .about-text h2 span { color: var(--orange); }
-  .about-text p { color: #aaa; line-height: 1.8; font-size: 0.85rem; margin-bottom: 1rem; }
-  .about-art { height: 280px; }
-  .about-art svg { width: 100%; height: 100%; }
+  .about-text { position: relative; z-index: 1; }
+  .about-banner h2 { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--black); line-height: 0.9; margin-bottom: 1.2rem; }
+  .about-banner h2 span { color: var(--or1); }
+  .about-banner p { font-size: 0.95rem; font-weight: 700; color: var(--black); line-height: 1.7; opacity: 0.75; margin-bottom: 1rem; }
+  .about-banner em { display: block; font-size: 1rem; font-weight: 900; color: var(--or1); font-style: italic; margin-bottom: 1.5rem; }
+  .about-art-wrap { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+  .about-art {
+    background: var(--or1); border: 4px solid var(--black);
+    border-radius: 16px; box-shadow: 8px 8px 0 var(--black);
+    padding: 2.5rem; min-height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    width: 100%;
+  }
+  .about-art svg { width: 100%; max-width: 220px; }
 
-  footer { background: var(--black); border-top: 3px solid var(--orange); padding: 3rem 4rem; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--orange); display: block; margin-bottom: 1rem; }
-  .footer-desc { font-size: 0.75rem; color: #555; line-height: 1.8; }
-  .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black); padding: 3rem 4rem;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    border-top: 4px solid var(--or1); position: relative; overflow: hidden;
+  }
+  .footer-inner { position: relative; z-index: 1; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--or1); display: block; margin-bottom: 0.8rem; }
+  .footer-desc { font-size: 0.8rem; color: #777; line-height: 1.8; font-weight: 700; }
+  .footer-col { position: relative; z-index: 1; }
+  .footer-col h4 { font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em; color: var(--or1); text-transform: uppercase; margin-bottom: 0.8rem; }
   .footer-col ul { list-style: none; }
-  .footer-col li { margin-bottom: 0.6rem; }
-  .footer-col a { font-size: 0.75rem; color: #555; text-decoration: none; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--orange); }
-  .footer-bottom { background: var(--black); border-top: 1px solid #222; padding: 1.5rem 4rem; display: flex; justify-content: space-between; font-size: 0.7rem; color: #444; }
+  .footer-col li { margin-bottom: 0.5rem; }
+  .footer-col a { font-size: 0.78rem; color: #666; text-decoration: none; font-weight: 700; transition: color 0.15s; }
+  .footer-col a:hover { color: var(--or1); }
+  .footer-bottom {
+    background: var(--black); border-top: 1px solid #222;
+    padding: 1.2rem 4rem; display: flex; justify-content: space-between;
+    font-size: 0.7rem; color: #444; font-weight: 700;
+  }
 
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; }
     .hero-visual { display: none; }
-    .about-strip { grid-template-columns: 1fr; }
-    .about-art { display: none; }
+    .about-banner { grid-template-columns: 1fr; }
+    .about-art-wrap { display: none; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
     footer { grid-template-columns: 1fr 1fr; }
-    .section { padding: 3rem 1.5rem; }
+    .section { padding: 2.5rem 1.5rem; }
+    nav { padding: 0 1.5rem; }
     .nav-links { display: none; }
+    .footer-bottom { padding: 1.2rem 1.5rem; }
   }
 </style>
 </head>
 <body>
 
+<div class="checker"></div>
+
+<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">MangaEs</a>
   <ul class="nav-links">
@@ -187,64 +347,91 @@
   </ul>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <svg class="hero-shapes" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="800,0 1200,0 1200,400 900,200" fill="rgba(232,93,4,0.06)"/>
-    <polygon points="0,600 300,900 0,900" fill="rgba(250,163,7,0.08)"/>
-    <polygon points="600,100 900,300 700,500 400,350" fill="rgba(232,93,4,0.04)"/>
-    <line x1="0" y1="450" x2="400" y2="200" stroke="rgba(232,93,4,0.15)" stroke-width="1"/>
-    <line x1="600" y1="0" x2="1200" y2="600" stroke="rgba(250,163,7,0.1)" stroke-width="1"/>
-    <line x1="800" y1="900" x2="1200" y2="300" stroke="rgba(232,93,4,0.12)" stroke-width="1"/>
-  </svg>
+  <!-- dot bg via ::before -->
+
+  <!-- scattered shapes inside hero -->
+  <div class="hero-decos">
+    <!-- blue circles -->
+    <div class="deco" style="width:54px;height:54px;background:var(--blue);top:8%;left:52%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 3.2s ease-in-out infinite;"></div>
+    <div class="deco" style="width:28px;height:28px;background:var(--blue2);top:68%;left:58%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float2 2.8s ease-in-out infinite;"></div>
+    <div class="deco" style="width:18px;height:18px;background:var(--blue);top:20%;left:72%;border:2px solid var(--black);animation:float3 2.4s ease-in-out infinite;"></div>
+    <!-- green circles -->
+    <div class="deco" style="width:42px;height:42px;background:var(--green);top:75%;left:42%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float2 3.5s ease-in-out infinite;"></div>
+    <div class="deco" style="width:22px;height:22px;background:var(--green2);top:14%;left:86%;border:2px solid var(--black);animation:float1 2.6s ease-in-out infinite;"></div>
+    <div class="deco" style="width:36px;height:36px;background:var(--green);top:50%;left:80%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float3 3.8s ease-in-out infinite;"></div>
+    <!-- yellow circles -->
+    <div class="deco" style="width:48px;height:48px;background:var(--yellow);top:30%;left:64%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 4s ease-in-out infinite;"></div>
+    <div class="deco" style="width:20px;height:20px;background:var(--yellow);top:82%;left:74%;border:2px solid var(--black);animation:float2 2.2s ease-in-out infinite;"></div>
+    <!-- 5-point stars -->
+    <div class="star-shape" style="width:38px;height:38px;background:var(--yellow);top:12%;left:60%;border:none;animation:float2 3s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+    <div class="star-shape" style="width:24px;height:24px;background:var(--green);top:55%;left:90%;animation:float1 2.5s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+    <div class="star-shape" style="width:30px;height:30px;background:var(--blue);top:88%;left:55%;animation:float3 3.4s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+    <!-- 4-point stars -->
+    <div class="star4" style="width:32px;height:32px;background:var(--blue2);top:40%;left:94%;animation:wobble 3s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+    <div class="star4" style="width:22px;height:22px;background:var(--yellow);top:5%;left:90%;animation:wobble 2.5s ease-in-out infinite;filter:drop-shadow(1px 1px 0 var(--black));"></div>
+    <!-- left side small decorations -->
+    <div class="deco" style="width:20px;height:20px;background:var(--yellow);top:15%;left:8%;border:2px solid var(--black);animation:float2 3s ease-in-out infinite;"></div>
+    <div class="star-shape" style="width:22px;height:22px;background:var(--blue);top:75%;left:12%;animation:float1 2.8s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+    <div class="deco" style="width:14px;height:14px;background:var(--green2);top:50%;left:5%;border:2px solid var(--black);animation:float3 2.2s ease-in-out infinite;"></div>
+  </div>
 
   <div class="hero-text">
-    <p class="hero-eyebrow">■ Cómics · Manga · Arte Secuencial</p>
-    <h1>MANGA<br>EN <span>ESPAÑOL</span></h1>
-    <p class="hero-sub">Traducciones, reseñas y creaciones originales de cómics en español. <em style="font-family:'Libre Baskerville',serif; color:var(--orange); font-style:italic">Arte que rompe los bordes del panel.</em></p>
-    <div class="hero-cta">
-      <a href="gallery.html" class="btn-primary">Ver Galería</a>
-      <a href="blog.html" class="btn-outline">Leer Blog</a>
+    <span class="hero-badge">★ Cómics · Manga · Arte Secuencial</span>
+    <h1>MANGA<br>EN <em>ESPAÑOL</em></h1>
+    <p class="hero-sub">Traducciones, reseñas y creaciones originales de cómics para el mundo hispanohablante.</p>
+    <div class="hero-btns">
+      <a href="gallery.html" class="btn-black">Ver Galería →</a>
+      <a href="blog.html" class="btn-white">Leer Blog</a>
     </div>
   </div>
 
   <div class="hero-visual">
-    <div class="manga-panel-group">
-      <div class="panel panel-a"><div class="panel-inner">CAPÍTULO I</div></div>
-      <div class="panel panel-b"><div class="panel-inner">ACCIÓN</div></div>
-      <div class="panel panel-c"><div class="panel-inner">AVENTURA</div></div>
-      <div class="speech-bubble">¡ASOMBROSO!</div>
-      <div class="starburst"></div>
-      <div class="starburst-text">NUEVO<br>CAP.</div>
+    <div class="manga-panels">
+      <div class="mpanel mp-a">漫</div>
+      <div class="mpanel mp-b">画</div>
+      <div class="mpanel mp-c">語</div>
+      <div class="bubble">¡ASOMBROSO!</div>
+      <div class="badge-spin-wrap">
+        <div class="badge-spin">NUEVO<br>CAP.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="stats-strip">
-  <div class="stats-scroll">
-    <div class="stat-item"><span class="stat-num">120+</span> Capítulos traducidos</div>
-    <div class="stat-item"><span class="stat-num">15</span> Series activas</div>
-    <div class="stat-item"><span class="stat-num">8K</span> Lectores mensuales</div>
-    <div class="stat-item"><span class="stat-num">4</span> Años de experiencia</div>
-    <div class="stat-item">■ Cómics en Español ■</div>
-    <div class="stat-item"><span class="stat-num">120+</span> Capítulos traducidos</div>
-    <div class="stat-item"><span class="stat-num">15</span> Series activas</div>
-    <div class="stat-item"><span class="stat-num">8K</span> Lectores mensuales</div>
-    <div class="stat-item"><span class="stat-num">4</span> Años de experiencia</div>
-    <div class="stat-item">■ Cómics en Español ■</div>
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--or1)"></span>Manga en Español</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--blue)"></span>120+ Capítulos</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--green)"></span>15 Series Activas</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--yellow)"></span>Traducción Amateur</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--or3)"></span>Arte sin Fronteras</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--blue2)"></span>Manga en Español</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--green2)"></span>120+ Capítulos</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--yellow)"></span>15 Series Activas</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--or1)"></span>Traducción Amateur</div>
+    <div class="marquee-item"><span class="marquee-dot" style="background:var(--green)"></span>Arte sin Fronteras</div>
   </div>
 </div>
 
-<section class="section">
+<!-- FEATURED SERIES -->
+<section class="section" style="background:var(--white)">
+  <!-- background scattered shapes -->
+  <div class="deco" style="width:70px;height:70px;background:var(--blue);opacity:0.12;top:10%;right:3%;border-radius:50%;position:absolute;"></div>
+  <div class="star-shape" style="width:50px;height:50px;background:var(--yellow);opacity:0.18;bottom:12%;left:2%;position:absolute;"></div>
+  <div class="deco" style="width:40px;height:40px;background:var(--green);opacity:0.15;top:50%;right:6%;position:absolute;border-radius:50%;"></div>
+
   <div class="section-header">
-    <h2 class="section-title">ÚLTIMAS <span>SERIES</span></h2>
+    <h2 class="section-title">ÚLTIMAS SERIES</h2>
     <a href="gallery.html" class="section-link">Ver todo →</a>
   </div>
-  <div class="manga-grid">
+  <div class="cards-grid">
     <div class="manga-card">
-      <div class="manga-card-thumb">
-        <div class="manga-card-icon">漫</div>
-        <div class="manga-card-badge">Nuevo</div>
+      <div class="manga-card-thumb thumb-a">
+        <span style="position:relative;z-index:1">鉄</span>
+        <span class="manga-card-new badge-or">Nuevo</span>
       </div>
       <div class="manga-card-body">
         <p class="manga-card-genre">Acción · Aventura</p>
@@ -253,7 +440,9 @@
       </div>
     </div>
     <div class="manga-card">
-      <div class="manga-card-thumb"><div class="manga-card-icon">物</div></div>
+      <div class="manga-card-thumb thumb-b">
+        <span style="position:relative;z-index:1">雨</span>
+      </div>
       <div class="manga-card-body">
         <p class="manga-card-genre">Drama · Romance</p>
         <h3 class="manga-card-title">Lluvia de Verano</h3>
@@ -261,9 +450,9 @@
       </div>
     </div>
     <div class="manga-card">
-      <div class="manga-card-thumb">
-        <div class="manga-card-icon">語</div>
-        <div class="manga-card-badge">Popular</div>
+      <div class="manga-card-thumb thumb-c">
+        <span style="position:relative;z-index:1">魔</span>
+        <span class="manga-card-new badge-bl">Popular</span>
       </div>
       <div class="manga-card-body">
         <p class="manga-card-genre">Fantasía · Magia</p>
@@ -272,7 +461,9 @@
       </div>
     </div>
     <div class="manga-card">
-      <div class="manga-card-thumb"><div class="manga-card-icon">話</div></div>
+      <div class="manga-card-thumb thumb-d">
+        <span style="position:relative;z-index:1">珈</span>
+      </div>
       <div class="manga-card-body">
         <p class="manga-card-genre">Slice of Life</p>
         <h3 class="manga-card-title">Café del Martes</h3>
@@ -282,32 +473,77 @@
   </div>
 </section>
 
-<div class="about-strip">
-  <div class="about-text">
-    <h2>EL ARTE<br>SIN <span>FRONTERAS</span></h2>
-    <p>Como Picasso deconstruyó la forma para revelar nuevas verdades, nosotros desmantelamos las barreras del idioma para acercar el manga y los cómics al mundo hispanohablante.</p>
-    <p><em style="font-family:'Libre Baskerville',serif; color:var(--orange-pale); font-style:italic">"Todo acto de creación es, en primer lugar, un acto de destrucción."</em></p>
-    <p style="margin-top:1.5rem"><a href="blog.html" class="btn-primary">Conoce el Proyecto</a></p>
+<!-- STATS -->
+<div class="stats-row">
+  <!-- bg decos -->
+  <div class="deco" style="width:60px;height:60px;background:var(--blue);opacity:0.18;top:10%;left:5%;position:absolute;border-radius:50%;"></div>
+  <div class="star-shape" style="width:44px;height:44px;background:var(--green);opacity:0.2;bottom:5%;right:8%;position:absolute;"></div>
+  <div class="deco" style="width:30px;height:30px;background:var(--yellow);opacity:0.25;top:20%;right:22%;position:absolute;border-radius:50%;"></div>
+  <div class="star4" style="width:36px;height:36px;background:var(--or3);opacity:0.2;bottom:10%;left:28%;position:absolute;"></div>
+
+  <div class="stat-box">
+    <div class="stat-num sn-or">120+</div>
+    <div class="stat-label sl-or">Capítulos</div>
   </div>
-  <div class="about-art">
-    <svg viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="200,20 320,80 300,200 180,240 80,180 60,60" fill="none" stroke="#E85D04" stroke-width="2"/>
-      <polygon points="200,20 260,100 200,150 140,100" fill="rgba(232,93,4,0.15)" stroke="#E85D04" stroke-width="1.5"/>
-      <polygon points="260,100 320,80 300,200 260,180" fill="rgba(250,163,7,0.1)" stroke="#FAA307" stroke-width="1.5"/>
-      <polygon points="140,100 200,150 180,240 80,180" fill="rgba(232,93,4,0.08)" stroke="#E85D04" stroke-width="1.5"/>
-      <circle cx="175" cy="110" r="15" fill="none" stroke="#E85D04" stroke-width="2"/>
-      <circle cx="225" cy="110" r="12" fill="rgba(232,93,4,0.3)" stroke="#FAA307" stroke-width="1.5"/>
-      <line x1="200" y1="140" x2="200" y2="170" stroke="#E85D04" stroke-width="2"/>
-      <path d="M175,175 Q200,190 225,175" fill="none" stroke="#FAA307" stroke-width="2"/>
-      <rect x="50" y="20" width="55" height="38" transform="rotate(-15 77 39)" fill="rgba(232,93,4,0.1)" stroke="#E85D04" stroke-width="1"/>
-      <rect x="295" y="210" width="75" height="48" transform="rotate(10 332 234)" fill="rgba(250,163,7,0.08)" stroke="#FAA307" stroke-width="1"/>
-      <text x="30" y="268" font-family="'Bebas Neue',sans-serif" font-size="13" fill="rgba(232,93,4,0.35)" letter-spacing="3">CUBISMO · MANGA · ARTE</text>
-    </svg>
+  <div class="stat-box">
+    <div class="stat-num sn-bl">15</div>
+    <div class="stat-label sl-bl">Series activas</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num sn-gr">8K</div>
+    <div class="stat-label sl-gr">Lectores / mes</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num sn-ye">4</div>
+    <div class="stat-label sl-ye">Años activos</div>
   </div>
 </div>
 
+<!-- ABOUT -->
+<div class="about-banner">
+  <!-- bg decos -->
+  <div class="deco" style="width:80px;height:80px;background:var(--blue);opacity:0.1;top:-20px;right:10%;position:absolute;border-radius:50%;"></div>
+  <div class="star-shape" style="width:55px;height:55px;background:var(--green);opacity:0.13;bottom:15%;left:3%;position:absolute;"></div>
+  <div class="deco" style="width:44px;height:44px;background:var(--yellow);opacity:0.2;top:60%;right:4%;position:absolute;border-radius:50%;"></div>
+  <div class="star4" style="width:34px;height:34px;background:var(--or1);opacity:0.2;top:10%;left:48%;position:absolute;"></div>
+  <div class="deco" style="width:22px;height:22px;background:var(--blue2);opacity:0.3;bottom:8%;right:45%;position:absolute;border-radius:50%;"></div>
+
+  <div class="about-text">
+    <h2>EL ARTE<br>SIN <span>FRONTERAS</span></h2>
+    <p>Traducimos manga y cómics al español con pasión y rigor. Nuestro equipo de traductores amateur lleva años trabajando para acercar estas historias al mundo hispanohablante.</p>
+    <em>"Arte que rompe los bordes del panel."</em>
+    <a href="blog.html" class="btn-black" style="display:inline-block">Conoce el Proyecto →</a>
+  </div>
+  <div class="about-art-wrap">
+    <div class="about-art">
+      <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="20" width="160" height="160" rx="12" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2.5"/>
+        <rect x="50" y="50" width="50" height="50" rx="8" fill="rgba(255,255,255,0.35)" stroke="rgba(0,0,0,0.25)" stroke-width="2"/>
+        <rect x="120" y="50" width="50" height="50" rx="8" fill="rgba(255,255,255,0.35)" stroke="rgba(0,0,0,0.25)" stroke-width="2"/>
+        <circle cx="75" cy="75" r="12" fill="rgba(0,0,0,0.35)"/>
+        <circle cx="145" cy="75" r="12" fill="rgba(0,0,0,0.35)"/>
+        <rect x="60" y="120" width="100" height="24" rx="12" fill="rgba(255,255,255,0.3)" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>
+        <!-- decorative colored dots on the art card -->
+        <circle cx="40" cy="170" r="8" fill="#2979FF" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        <circle cx="180" cy="30" r="7" fill="#00C853" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        <circle cx="200" cy="160" r="6" fill="#FFD600" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+        <!-- mini star -->
+        <polygon points="110,155 113,163 121,163 115,168 117,176 110,171 103,176 105,168 99,163 107,163" fill="#FFD600" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+        <text x="50" y="193" font-family="'Bebas Neue',sans-serif" font-size="13" fill="rgba(0,0,0,0.3)" letter-spacing="4">MANGA · 漫画</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-  <div>
+  <!-- footer decos -->
+  <div class="deco" style="width:50px;height:50px;background:var(--blue);opacity:0.15;top:20%;right:5%;position:absolute;border-radius:50%;"></div>
+  <div class="star-shape" style="width:38px;height:38px;background:var(--green);opacity:0.18;bottom:20%;left:42%;position:absolute;"></div>
+  <div class="star4" style="width:28px;height:28px;background:var(--yellow);opacity:0.2;top:15%;left:55%;position:absolute;"></div>
+  <div class="deco" style="width:20px;height:20px;background:var(--or3);opacity:0.3;bottom:15%;right:22%;position:absolute;border-radius:50%;"></div>
+
+  <div class="footer-inner">
     <span class="footer-logo">MangaEs</span>
     <p class="footer-desc">Cómics y manga traducidos con pasión al español.<br>Arte que rompe los bordes del panel.</p>
   </div>
@@ -323,7 +559,7 @@
     <h4>Info</h4>
     <ul>
       <li><a href="contact.html">Contacto</a></li>
-      <li><a href="#">Sobre Nosotros</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
       <li><a href="#">Política</a></li>
     </ul>
   </div>
@@ -338,7 +574,8 @@
 </footer>
 <div class="footer-bottom">
   <span>© 2025 MangaEs — Todos los derechos reservados</span>
-  <span>Hecho con ■ en español</span>
+  <span>Hecho con ♥ en español</span>
 </div>
+
 </body>
 </html>
