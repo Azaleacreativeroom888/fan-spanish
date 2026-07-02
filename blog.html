@@ -4,212 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — MangaEs</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,700;0,900;1,900&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --orange: #E85D04;
-    --orange-dark: #9D0208;
-    --orange-light: #F48C06;
-    --orange-pale: #FAA307;
-    --cream: #FFFBF0;
-    --black: #0A0A0A;
-    --dark: #1A1209;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; }
+  :root{--or1:#FF6B00;--or2:#FF8C00;--or3:#FFB347;--or4:#FFD580;--orpale:#FFF3E0;--blue:#2979FF;--blue2:#82B1FF;--green:#00C853;--green2:#69F0AE;--yellow:#FFD600;--black:#1A0A00;--white:#FFFEF9;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--white);color:var(--black);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    background: var(--black); display: flex; justify-content: space-between; align-items: center;
-    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
-  }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
+  .checker{height:20px;background:repeating-linear-gradient(90deg,var(--or1) 0,var(--or1) 20px,var(--or3) 20px,var(--or3) 40px);}
+
+  nav{background:var(--black);display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:60px;position:sticky;top:0;z-index:100;}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--or1);text-decoration:none;}
+  .nav-links{display:flex;gap:.25rem;list-style:none;}
+  .nav-links a{color:var(--white);text-decoration:none;font-size:.82rem;font-weight:900;text-transform:uppercase;padding:.5rem 1rem;border-radius:30px;transition:background .15s,color .15s;}
+  .nav-links a:hover,.nav-links a.active{background:var(--or1);color:var(--black);}
 
   /* PAGE HEADER */
-  .page-header {
-    background: var(--black); padding: 6rem 4rem 3rem;
-    position: relative; overflow: hidden; border-bottom: 3px solid var(--orange);
-  }
-  .page-header::before {
-    content: 'BLOG';
-    position: absolute; right: 2rem; bottom: -2rem;
-    font-family: 'Bebas Neue', sans-serif; font-size: 14rem;
-    color: rgba(232,93,4,0.06); line-height: 1; pointer-events: none;
-  }
-  .page-header-bg {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      -55deg, transparent, transparent 40px,
-      rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px
-    );
-  }
-  .page-header-inner { position: relative; z-index: 1; }
-  .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
-  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
-  .page-title span { color: var(--orange); }
-  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 520px; margin-top: 1rem; }
+  .page-header{background:var(--or1);padding:3.5rem 4rem 3rem;position:relative;overflow:hidden;border-bottom:5px solid var(--black);}
+  .page-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.1) 2px,transparent 2px);background-size:28px 28px;pointer-events:none;}
+  .ph-inner{position:relative;z-index:1;}
+  .ph-badge{display:inline-block;background:var(--black);color:var(--or3);font-size:.7rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .9rem;border-radius:30px;margin-bottom:1rem;}
+  .ph-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);color:var(--black);line-height:.9;text-shadow:4px 4px 0 rgba(0,0,0,0.12);}
+  .ph-title em{color:var(--white);font-style:normal;}
+  .ph-desc{font-size:.9rem;font-weight:700;color:rgba(0,0,0,0.65);max-width:500px;line-height:1.6;margin-top:.8rem;}
 
-  /* FILTER BAR */
-  .filter-bar {
-    background: var(--dark); padding: 1.2rem 4rem;
-    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
-    border-bottom: 2px solid rgba(232,93,4,0.2);
-    position: sticky; top: 56px; z-index: 50;
-  }
-  .filter-label { font-size: 0.65rem; letter-spacing: 0.2em; color: #666; text-transform: uppercase; margin-right: 0.25rem; }
-  .filter-btn {
-    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
-    padding: 0.35rem 1rem; font-family: 'Space Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .filter-btn:hover { background: rgba(232,93,4,0.15); color: var(--orange); border-color: var(--orange); }
-  .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .deco{position:absolute;pointer-events:none;border-radius:50%;}
+  .star-s{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+  .star4{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes float3{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
-  /* MAIN LAYOUT */
-  .blog-layout {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  /* FILTER */
+  .filter-bar{background:var(--black);padding:1rem 4rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;border-bottom:3px solid var(--or1);}
+  .f-label{font-size:.68rem;font-weight:900;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-right:.3rem;}
+  .f-btn{background:transparent;border:2px solid #444;color:#888;padding:.35rem 1rem;border-radius:30px;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+  .f-btn:hover{border-color:var(--or1);color:var(--or1);}
+  .f-btn.active{background:var(--or1);border-color:var(--or1);color:var(--black);}
 
-  /* ENTRIES */
-  .blog-main { padding: 3rem 4rem 4rem; border-right: 2px solid rgba(232,93,4,0.12); }
+  /* LAYOUT */
+  .blog-layout{display:grid;grid-template-columns:1fr 290px;max-width:1200px;margin:0 auto;}
 
-  .year-divider {
-    display: flex; align-items: center; gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  .year-divider-num {
-    font-family: 'Bebas Neue', sans-serif; font-size: 4rem;
-    color: rgba(232,93,4,0.18); line-height: 1; white-space: nowrap;
-  }
-  .year-divider-line { flex: 1; height: 1px; background: rgba(232,93,4,0.15); }
+  /* MAIN */
+  .blog-main{padding:2.5rem 3rem 4rem;border-right:3px solid var(--orpale);position:relative;overflow:hidden;}
 
   /* ENTRY CARD */
-  .entry-card {
-    background: var(--black);
-    border: 2px solid rgba(232,93,4,0.25);
-    margin-bottom: 1.5rem;
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
-    transition: border-color 0.2s, transform 0.2s;
-    animation: fadeUp 0.4s ease both;
-  }
-  .entry-card:hover { border-color: var(--orange); transform: translateX(4px); }
+  .entry-card{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);overflow:hidden;margin-bottom:1.5rem;transition:transform .15s,box-shadow .15s;animation:fadeUp .4s ease both;}
+  .entry-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--black);}
+  .entry-card:nth-child(1){animation-delay:.05s}
+  .entry-card:nth-child(2){animation-delay:.10s}
+  .entry-card:nth-child(3){animation-delay:.15s}
+  .entry-card:nth-child(4){animation-delay:.20s}
+  .entry-card:nth-child(5){animation-delay:.25s}
+  .entry-card:nth-child(6){animation-delay:.30s}
+  .entry-card:nth-child(7){animation-delay:.35s}
+  .entry-card:nth-child(8){animation-delay:.40s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .entry-card:nth-child(1) { animation-delay: 0.05s; }
-  .entry-card:nth-child(2) { animation-delay: 0.10s; }
-  .entry-card:nth-child(3) { animation-delay: 0.15s; }
-  .entry-card:nth-child(4) { animation-delay: 0.20s; }
-  .entry-card:nth-child(5) { animation-delay: 0.25s; }
-  .entry-card:nth-child(6) { animation-delay: 0.30s; }
-  .entry-card:nth-child(7) { animation-delay: 0.35s; }
-  .entry-card:nth-child(8) { animation-delay: 0.40s; }
+  .entry-header{padding:.7rem 1.2rem;display:flex;align-items:center;gap:.8rem;border-bottom:3px solid var(--black);}
+  .entry-date{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.08em;color:var(--black);}
+  .entry-tag{margin-left:auto;font-size:.6rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .7rem;border-radius:30px;border:2px solid var(--black);}
+  .t-manga{background:var(--orpale);color:var(--or1);}
+  .t-trans{background:#E3F2FD;color:var(--blue);}
+  .t-movie{background:#FFFDE7;color:#B8860B;}
+  .t-humor{background:#E8F5E9;color:var(--green);}
+  .t-nuance{background:#EDE7F6;color:#7B1FA2;}
+  .t-vocab{background:#E3F2FD;color:#1565C0;}
 
-  .entry-header {
-    background: rgba(232,93,4,0.08);
-    border-bottom: 1px solid rgba(232,93,4,0.2);
-    padding: 0.6rem 1.2rem;
-    display: flex; align-items: center; gap: 1rem;
-  }
-  .entry-date {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1rem; letter-spacing: 0.1em; color: var(--orange);
-  }
-  .entry-tag {
-    margin-left: auto;
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; padding: 0.2rem 0.6rem;
-    border: 1px solid;
-  }
-  .tag-manga    { color: var(--orange); border-color: var(--orange); }
-  .tag-translation { color: var(--orange-pale); border-color: var(--orange-pale); }
-  .tag-movie    { color: #aaa; border-color: #555; }
-  .tag-humor    { color: var(--orange-light); border-color: var(--orange-light); }
-  .tag-nuance   { color: #d4a0ff; border-color: #7a4a99; }
-  .tag-vocabulary { color: #80cfff; border-color: #3a7aaa; }
+  /* header color per tag */
+  .hd-manga{background:var(--orpale);}
+  .hd-trans{background:#E3F2FD;}
+  .hd-movie{background:#FFFDE7;}
+  .hd-humor{background:#E8F5E9;}
+  .hd-nuance{background:#EDE7F6;}
+  .hd-vocab{background:#E1F5FE;}
 
-  .entry-body { padding: 1.2rem 1.4rem 1.4rem; }
-  .entry-body p {
-    font-size: 0.82rem; line-height: 1.85; color: #ccc;
-    font-family: 'Libre Baskerville', serif;
-  }
-  .entry-body strong { color: var(--orange-pale); font-weight: 700; }
-  .entry-body .ja { color: var(--orange); font-style: normal; font-family: sans-serif; }
+  .entry-body{padding:1.1rem 1.3rem;}
+  .entry-body p{font-family:'Libre Baskerville',serif;font-size:.85rem;line-height:1.85;color:#444;}
+  .entry-body p+p{margin-top:.7rem;}
+  .entry-body strong{color:var(--or1);font-weight:700;}
+  .entry-body .ja{color:var(--blue);font-family:sans-serif;}
 
   /* SIDEBAR */
-  .blog-sidebar { padding: 3rem 2rem; }
+  .blog-sidebar{padding:2.5rem 2rem;}
+  .sw{margin-bottom:2rem;}
+  .sw-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--black);border-bottom:4px solid var(--or1);padding-bottom:.3rem;margin-bottom:1rem;position:relative;}
+  .sw-title::after{content:'';position:absolute;left:0;bottom:-4px;width:40px;height:4px;background:var(--yellow);}
 
-  .sidebar-widget { margin-bottom: 2.5rem; }
-  .sidebar-title {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--black);
-    border-bottom: 2px solid var(--orange); padding-bottom: 0.4rem; margin-bottom: 1rem;
-  }
+  .tag-cloud{display:flex;flex-wrap:wrap;gap:.4rem;}
+  .tag-pill{border:2.5px solid var(--black);padding:.3rem .8rem;border-radius:30px;font-size:.7rem;font-weight:900;text-transform:uppercase;cursor:pointer;transition:all .15s;text-decoration:none;display:inline-block;}
+  .tp-or{background:var(--orpale);color:var(--or1);}  .tp-or:hover{background:var(--or1);color:var(--black);}
+  .tp-bl{background:#E3F2FD;color:var(--blue);} .tp-bl:hover{background:var(--blue);color:var(--white);}
+  .tp-gr{background:#E8F5E9;color:var(--green);} .tp-gr:hover{background:var(--green);color:var(--black);}
+  .tp-ye{background:#FFFDE7;color:#B8860B;} .tp-ye:hover{background:var(--yellow);color:var(--black);}
+  .tp-pu{background:#EDE7F6;color:#7B1FA2;} .tp-pu:hover{background:#7B1FA2;color:var(--white);}
 
-  /* Tag cloud */
-  .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tag-pill {
-    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
-    padding: 0.3rem 0.8rem; font-size: 0.68rem; text-decoration: none;
-    letter-spacing: 0.05em; transition: all 0.2s; cursor: pointer;
-    font-family: 'Space Mono', monospace;
-  }
-  .tag-pill:hover { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  .stat-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:2px dashed rgba(255,107,0,.2);}
+  .stat-row:last-child{border-bottom:none;}
+  .stat-label{font-size:.75rem;font-weight:700;color:#888;}
+  .stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--or1);}
 
-  /* Stats widget */
-  .stat-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 0.7rem 0; border-bottom: 1px solid rgba(232,93,4,0.1);
-    font-size: 0.75rem;
-  }
-  .stat-row:last-child { border-bottom: none; }
-  .stat-row-label { color: #888; }
-  .stat-row-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--orange); }
+  .quote-box{background:var(--orpale);border:3px solid var(--black);border-radius:10px;box-shadow:4px 4px 0 var(--black);padding:1.2rem;position:relative;}
+  .quote-box::before{content:'"';font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--or1);line-height:.8;display:block;margin-bottom:.3rem;}
+  .quote-box p{font-family:'Libre Baskerville',serif;font-size:.82rem;font-style:italic;line-height:1.7;color:#555;}
 
-  /* About widget */
-  .about-widget {
-    background: var(--black); border: 2px solid var(--orange); padding: 1.4rem;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-  .about-widget p { font-size: 0.75rem; color: #888; line-height: 1.8; }
-  .about-widget p em { color: var(--orange-pale); font-style: italic; font-family: 'Libre Baskerville', serif; }
+  footer{background:var(--black);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:4px solid var(--or1);position:relative;overflow:hidden;}
+  .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--or1);text-decoration:none;}
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{font-size:.78rem;color:#666;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:.05em;transition:color .15s;}
+  .footer-links a:hover{color:var(--or1);}
 
-  /* Cubist mini art */
-  .sidebar-art { margin-top: 0.5rem; }
-  .sidebar-art svg { width: 100%; max-width: 240px; height: 120px; }
-
-  /* FOOTER */
-  footer {
-    background: var(--black); border-top: 3px solid var(--orange);
-    padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
-  .footer-links a:hover { color: var(--orange); }
-
-  @media (max-width: 900px) {
-    .blog-layout { grid-template-columns: 1fr; }
-    .blog-main { border-right: none; padding: 2rem 1.5rem; }
-    .blog-sidebar { padding: 2rem 1.5rem; border-top: 2px solid rgba(232,93,4,0.15); }
-    .filter-bar { padding: 1rem 1.5rem; }
-    .page-header { padding: 5rem 1.5rem 2rem; }
-    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
-    .nav-links { display: none; }
+  @media(max-width:900px){
+    .blog-layout{grid-template-columns:1fr;}
+    .blog-main{border-right:none;padding:2rem 1.5rem;}
+    .blog-sidebar{padding:2rem 1.5rem;border-top:3px solid var(--orpale);}
+    .filter-bar,.page-header{padding-left:1.5rem;padding-right:1.5rem;}
+    footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+    .nav-links{display:none;}
   }
 </style>
 </head>
 <body>
 
+<div class="checker"></div>
 <nav>
   <a href="index.html" class="nav-logo">MangaEs</a>
   <ul class="nav-links">
@@ -221,37 +137,51 @@
 </nav>
 
 <div class="page-header">
-  <div class="page-header-bg"></div>
-  <div class="page-header-inner">
-    <p class="page-tag">■ Diario · Traducción · Manga</p>
-    <h1 class="page-title">EL <span>BLOG</span></h1>
-    <p class="page-desc">Notas del día a día: el proceso de traducción, el camino para ser mangaka, y todo lo que ocurre en el medio.</p>
+  <div class="deco" style="width:55px;height:55px;background:var(--blue);top:15%;right:20%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:40px;height:40px;background:var(--yellow);top:8%;right:12%;animation:float2 2.8s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:28px;height:28px;background:var(--green);bottom:18%;right:25%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+  <div class="star4" style="width:32px;height:32px;background:var(--blue2);top:55%;right:10%;animation:float1 4s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:18px;height:18px;background:var(--yellow);bottom:20%;right:40%;border:2px solid var(--black);animation:float2 2.4s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:24px;height:24px;background:var(--green2);top:35%;right:32%;animation:float3 3.2s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="ph-inner">
+    <span class="ph-badge">✍ Diario · Traducción · Manga</span>
+    <h1 class="ph-title">EL <em>BLOG</em></h1>
+    <p class="ph-desc">Notas del día a día: el proceso de traducción, el camino para ser mangaka, y todo lo que ocurre en el medio.</p>
   </div>
 </div>
 
 <div class="filter-bar">
-  <span class="filter-label">Filtrar:</span>
-  <button class="filter-btn active" onclick="filterEntries('all', this)">Todos</button>
-  <button class="filter-btn" onclick="filterEntries('Manga', this)">Manga</button>
-  <button class="filter-btn" onclick="filterEntries('Translation', this)">Traducción</button>
-  <button class="filter-btn" onclick="filterEntries('Movie', this)">Película</button>
-  <button class="filter-btn" onclick="filterEntries('Humor', this)">Humor</button>
-  <button class="filter-btn" onclick="filterEntries('Nuance', this)">Matiz</button>
-  <button class="filter-btn" onclick="filterEntries('Vocabulary', this)">Vocabulario</button>
+  <span class="f-label">Filtrar:</span>
+  <button class="f-btn active" onclick="filterEntries('all',this)">Todos</button>
+  <button class="f-btn" onclick="filterEntries('Manga',this)">Manga</button>
+  <button class="f-btn" onclick="filterEntries('Translation',this)">Traducción</button>
+  <button class="f-btn" onclick="filterEntries('Movie',this)">Película</button>
+  <button class="f-btn" onclick="filterEntries('Humor',this)">Humor</button>
+  <button class="f-btn" onclick="filterEntries('Nuance',this)">Matiz</button>
+  <button class="f-btn" onclick="filterEntries('Vocabulary',this)">Vocabulario</button>
 </div>
 
 <div class="blog-layout">
   <main class="blog-main">
+    <!-- bg decos -->
+    <div class="deco" style="width:60px;height:60px;background:var(--blue);opacity:.08;top:5%;right:2%;position:absolute;border-radius:50%;"></div>
+    <div class="star-s" style="width:44px;height:44px;background:var(--yellow);opacity:.12;bottom:10%;left:0;position:absolute;"></div>
+    <div class="deco" style="width:34px;height:34px;background:var(--green);opacity:.1;top:45%;left:1%;position:absolute;border-radius:50%;"></div>
 
-    <div class="year-divider">
-      <div class="year-divider-num">2026</div>
-      <div class="year-divider-line"></div>
+    <div class="entry-card" data-tag="Manga">
+      <div class="entry-header hd-manga">
+        <span class="entry-date">2026 · 05 · 18</span>
+        <span class="entry-tag t-manga">Manga</span>
+      </div>
+      <div class="entry-body">
+        <p>Ahora mismo estoy traduciendo una columna de periódico. Es bastante difícil — como soy mejor traduciendo diálogos, las columnas me toman mucho más tiempo.</p>
+      </div>
     </div>
 
     <div class="entry-card" data-tag="Manga">
-      <div class="entry-header">
+      <div class="entry-header hd-manga">
         <span class="entry-date">2026 · 07 · 02</span>
-        <span class="entry-tag tag-manga">Manga</span>
+        <span class="entry-tag t-manga">Manga</span>
       </div>
       <div class="entry-body">
         <p>Cuando miro vlogs españoles, el cielo tiene un tono anaranjado muy bonito.
@@ -259,176 +189,108 @@
       </div>
     </div>
 
-    <div class="entry-card" data-tag="Manga">
-      <div class="entry-header">
+    <div class="entry-card" data-tag="Translation">
+      <div class="entry-header hd-trans">
         <span class="entry-date">2026 · 06 · 25</span>
-        <span class="entry-tag tag-manga">Manga</span>
+        <span class="entry-tag t-trans">Traducción</span>
       </div>
       <div class="entry-body">
-        <p>Me encanta la paella.
-          En mi ciudad hay un restaurante español y la comida está muy buena.</p>
+        <p>Me encanta la paella. En mi ciudad hay un restaurante español y la comida está muy buena.</p>
       </div>
     </div>
 
-    <div class="entry-card" data-tag="Manga">
-      <div class="entry-header">
+    <div class="entry-card" data-tag="Movie">
+      <div class="entry-header hd-movie">
+        <span class="entry-date">2026 · 05 · 10</span>
+        <span class="entry-tag t-movie">Película</span>
+      </div>
+      <div class="entry-body">
+        <p>Vi <strong>Dumbo</strong> de Disney. No sabía que el nombre del personaje venía de <em style="color:var(--blue)">"dumb"</em> (mudo/tonto) y <em style="color:var(--blue)">"jumbo"</em>. Fue una película muy tierna.</p>
+      </div>
+    </div>
+
+    <div class="entry-card" data-tag="Translation">
+      <div class="entry-header hd-trans">
         <span class="entry-date">2026 · 06 · 18</span>
-        <span class="entry-tag tag-manga">Manga</span>
+        <span class="entry-tag t-trans">Traducción</span>
       </div>
       <div class="entry-body">
         <p>Soy dibujante de manga. Me gusta el manga Golden Kamuy.</p>
       </div>
     </div>
 
-    <!-- Entry 1 -->
-    <div class="entry-card" data-tag="Manga">
-      <div class="entry-header">
-        <span class="entry-date">2026 · 05 · 18</span>
-        <span class="entry-tag tag-manga">Manga</span>
-      </div>
-      <div class="entry-body">
-        <p>Ahora mismo estoy traduciendo una columna de periódico. Es bastante difícil — como soy mejor traduciendo diálogos, las columnas me toman mucho más tiempo.</p>
-      </div>
-    </div>
-
-    <!-- Entry 2 -->
-    <div class="entry-card" data-tag="Manga">
-      <div class="entry-header">
-        <span class="entry-date">2026 · 05 · 15</span>
-        <span class="entry-tag tag-manga">Manga</span>
-      </div>
-      <div class="entry-body">
-        <p>Le estoy mostrando mi manga a mi familia para ver qué piensan. También al editor. No estoy jugando — hablo en serio sobre convertirme en mangaka. Sé que es difícil, pero sigo intentándolo.</p>
-        <p style="margin-top:0.8rem">Ahora estoy trabajando en un manga de 4 páginas. Después pasaré a uno de 8 páginas. En este momento estoy haciendo el entintado a pluma del de 4 páginas, y al mismo tiempo desarrollando la historia del de 8 páginas — aunque aún no tengo claro cuál será.</p>
-        <p style="margin-top:0.8rem">Mi cerebro se cansa mucho de estudiar traducción inglés–japonés y trabajar en manga al mismo tiempo.</p>
-      </div>
-    </div>
-
-    <!-- Entry 3 -->
-    <div class="entry-card" data-tag="Translation">
-      <div class="entry-header">
-        <span class="entry-date">2026 · 05 · 14</span>
-        <span class="entry-tag tag-translation">Traducción</span>
-      </div>
-      <div class="entry-body">
-        <p>Estoy aprendiendo a traducir. Cuando miré el papel de la estudiante de al lado, no tenía ninguna corrección. Me pareció increíble y me hizo querer esforzarme más.</p>
-        <p style="margin-top:0.8rem">Mi profesora parece verlo todo — honestamente no sé cómo, pero puede detectar exactamente con qué estoy luchando, casi como si lo supiera todo. Luego me di cuenta de que es simplemente porque todos cometemos los mismos errores.</p>
-      </div>
-    </div>
-
-    <!-- Entry 4 -->
-    <div class="entry-card" data-tag="Movie">
-      <div class="entry-header">
-        <span class="entry-date">2026 · 05 · 10</span>
-        <span class="entry-tag tag-movie">Película</span>
-      </div>
-      <div class="entry-body">
-        <p>Vi <strong>Dumbo</strong> de Disney. No sabía que el nombre del personaje venía de <em>"dumb"</em> (mudo / tonto) y <em>"jumbo"</em>. Fue una película muy tierna.</p>
-      </div>
-    </div>
-
-    <div class="year-divider" style="margin-top:3rem">
-      <div class="year-divider-num">2026 · 04</div>
-      <div class="year-divider-line"></div>
-    </div>
-
-    <!-- Entry 5 -->
-    <div class="entry-card" data-tag="Translation">
-      <div class="entry-header">
-        <span class="entry-date">2026 · 04 · 22</span>
-        <span class="entry-tag tag-translation">Traducción</span>
-      </div>
-      <div class="entry-body">
-        <p>Las secciones de diálogo volvieron con casi ninguna corrección — lo que se sintió genial. Me está haciendo pensar que la traducción de manga podría ser algo que de verdad quiero perseguir.</p>
-      </div>
-    </div>
-
-    <!-- Entry 6 -->
     <div class="entry-card" data-tag="Humor">
-      <div class="entry-header">
+      <div class="entry-header hd-humor">
         <span class="entry-date">2026 · 04 · 22</span>
-        <span class="entry-tag tag-humor">Humor</span>
+        <span class="entry-tag t-humor">Humor</span>
       </div>
       <div class="entry-body">
         <p>Al parecer, si traduces un chiste con demasiada energía, te lo rechazan. ¿Entonces cuál es la "zona segura" para la comedia? No estoy segura de que exista — pero quiero ir mejorando poco a poco para lograr el remate sin perder el golpe.</p>
       </div>
     </div>
 
-    <!-- Entry 7 -->
     <div class="entry-card" data-tag="Nuance">
-      <div class="entry-header">
+      <div class="entry-header hd-nuance">
         <span class="entry-date">2026 · 04 · 21</span>
-        <span class="entry-tag tag-nuance">Matiz</span>
+        <span class="entry-tag t-nuance">Matiz</span>
       </div>
       <div class="entry-body">
-        <p>Personalmente, creo que <strong class="ja">「あんたなんか人間じゃない」</strong> se captura mejor como <strong>"You are a monster."</strong> — tiene el mismo peso emocional sin ser demasiado literal.</p>
+        <p>Personalmente creo que <strong class="ja">「あんたなんか人間じゃない」</strong> se captura mejor como <strong>"You are a monster."</strong> — tiene el mismo peso emocional sin ser demasiado literal.</p>
       </div>
     </div>
 
-    <!-- Entry 8 -->
     <div class="entry-card" data-tag="Vocabulary">
-      <div class="entry-header">
+      <div class="entry-header hd-vocab">
         <span class="entry-date">2026 · 04 · 20</span>
-        <span class="entry-tag tag-vocabulary">Vocabulario</span>
+        <span class="entry-tag t-vocab">Vocabulario</span>
       </div>
       <div class="entry-body">
-        <p>Todavía luchando con cómo traducir <strong>"indeed"</strong> y <strong>"How iconic"</strong> de forma natural. Por ahora, el plan es hacer muchas traducciones de práctica y enfocarme en la velocidad sin bajar la calidad — la mejora viene con la repetición.</p>
+        <p>Todavía luchando con cómo traducir <strong>"indeed"</strong> y <strong>"How iconic"</strong> de forma natural. El plan: muchas traducciones de práctica enfocadas en velocidad sin bajar calidad — la mejora viene con la repetición.</p>
       </div>
     </div>
-
   </main>
 
-  <!-- SIDEBAR -->
   <aside class="blog-sidebar">
-
-    <div class="sidebar-widget">
-      <h3 class="sidebar-title">Sobre este Blog</h3>
-      <div class="about-widget">
-        <p>Notas personales de alguien que estudia traducción inglés–japonés y trabaja en su propio manga al mismo tiempo. <em>El camino hacia ser mangaka, un panel a la vez.</em></p>
-        <div class="sidebar-art">
-          <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="120,10 190,50 175,100 120,115 65,100 50,50" fill="none" stroke="rgba(232,93,4,0.3)" stroke-width="1.5"/>
-            <polygon points="120,10 155,55 120,80 85,55" fill="rgba(232,93,4,0.1)" stroke="#E85D04" stroke-width="1"/>
-            <circle cx="105" cy="60" r="8" fill="none" stroke="#E85D04" stroke-width="1.5"/>
-            <circle cx="135" cy="60" r="6" fill="rgba(232,93,4,0.25)" stroke="#FAA307" stroke-width="1"/>
-            <path d="M105,78 Q120,88 135,78" fill="none" stroke="#FAA307" stroke-width="1.5"/>
-            <text x="40" y="114" font-family="'Bebas Neue',sans-serif" font-size="10" fill="rgba(232,93,4,0.3)" letter-spacing="3">MANGA · 翻訳 · ART</text>
-          </svg>
-        </div>
+    <div class="sw">
+      <h3 class="sw-title">Sobre este Blog</h3>
+      <div class="quote-box">
+        <p>Notas personales de alguien que estudia traducción inglés–japonés y trabaja en su propio manga al mismo tiempo. El camino hacia ser mangaka, un panel a la vez.</p>
       </div>
     </div>
 
-    <div class="sidebar-widget">
-      <h3 class="sidebar-title">Estadísticas</h3>
-      <div class="stat-row"><span class="stat-row-label">Entradas totales</span><span class="stat-row-val">8</span></div>
-      <div class="stat-row"><span class="stat-row-label">Sobre traducción</span><span class="stat-row-val">4</span></div>
-      <div class="stat-row"><span class="stat-row-label">Sobre manga</span><span class="stat-row-val">2</span></div>
-      <div class="stat-row"><span class="stat-row-label">Páginas de manga en progreso</span><span class="stat-row-val">4+8</span></div>
+    <div class="sw">
+      <h3 class="sw-title">Estadísticas</h3>
+      <div class="stat-row"><span class="stat-label">Entradas totales</span><span class="stat-val">8</span></div>
+      <div class="stat-row"><span class="stat-label">Sobre traducción</span><span class="stat-val">4</span></div>
+      <div class="stat-row"><span class="stat-label">Sobre manga</span><span class="stat-val">2</span></div>
+      <div class="stat-row"><span class="stat-label">Páginas en progreso</span><span class="stat-val">4+8</span></div>
     </div>
 
-    <div class="sidebar-widget">
-      <h3 class="sidebar-title">Categorías</h3>
+    <div class="sw">
+      <h3 class="sw-title">Categorías</h3>
       <div class="tag-cloud">
-        <span class="tag-pill" onclick="filterEntries('Manga', null)">Manga</span>
-        <span class="tag-pill" onclick="filterEntries('Translation', null)">Traducción</span>
-        <span class="tag-pill" onclick="filterEntries('Movie', null)">Película</span>
-        <span class="tag-pill" onclick="filterEntries('Humor', null)">Humor</span>
-        <span class="tag-pill" onclick="filterEntries('Nuance', null)">Matiz</span>
-        <span class="tag-pill" onclick="filterEntries('Vocabulary', null)">Vocabulario</span>
+        <span class="tag-pill tp-or" onclick="filterEntries('Manga',null)">Manga</span>
+        <span class="tag-pill tp-bl" onclick="filterEntries('Translation',null)">Traducción</span>
+        <span class="tag-pill tp-ye" onclick="filterEntries('Movie',null)">Película</span>
+        <span class="tag-pill tp-gr" onclick="filterEntries('Humor',null)">Humor</span>
+        <span class="tag-pill tp-pu" onclick="filterEntries('Nuance',null)">Matiz</span>
+        <span class="tag-pill tp-bl" onclick="filterEntries('Vocabulary',null)">Vocabulario</span>
       </div>
     </div>
 
-    <div class="sidebar-widget">
-      <h3 class="sidebar-title">Frases del diario</h3>
-      <p style="font-size:0.78rem; color:#888; line-height:1.8; font-family:'Libre Baskerville',serif; font-style:italic; border-left:3px solid var(--orange); padding-left:1rem;">
-        "Mi cerebro se cansa mucho de estudiar traducción y trabajar en manga al mismo tiempo."
-      </p>
+    <!-- sidebar decos -->
+    <div style="margin-top:2rem;display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;">
+      <div style="width:40px;height:40px;background:var(--blue);border:3px solid var(--black);border-radius:50%;box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+      <div style="width:36px;height:36px;background:var(--yellow);border:3px solid var(--black);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);box-shadow:3px 3px 0 var(--black);animation:float2 2.8s ease-in-out infinite;"></div>
+      <div style="width:34px;height:34px;background:var(--green);border:3px solid var(--black);border-radius:50%;box-shadow:3px 3px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+      <div style="width:32px;height:32px;background:var(--or1);border:3px solid var(--black);clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);box-shadow:3px 3px 0 var(--black);animation:float1 4s ease-in-out infinite;"></div>
     </div>
-
   </aside>
 </div>
 
 <footer>
+  <div class="deco" style="width:40px;height:40px;background:var(--blue);opacity:.18;top:20%;right:10%;position:absolute;border-radius:50%;"></div>
+  <div class="star-s" style="width:30px;height:30px;background:var(--yellow);opacity:.2;bottom:15%;left:45%;position:absolute;"></div>
   <a href="index.html" class="footer-logo">MangaEs</a>
   <div class="footer-links">
     <a href="gallery.html">Galería</a>
@@ -438,22 +300,10 @@
 </footer>
 
 <script>
-  function filterEntries(tag, btn) {
-    if (btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    document.querySelectorAll('.entry-card').forEach(card => {
-      if (tag === 'all' || card.dataset.tag === tag) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-    document.querySelectorAll('.year-divider').forEach(div => {
-      div.style.display = '';
-    });
-  }
+function filterEntries(tag, btn) {
+  if (btn) { document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  document.querySelectorAll('.entry-card').forEach(c => { c.style.display = (tag==='all'||c.dataset.tag===tag)?'':'none'; });
+}
 </script>
 </body>
 </html>
