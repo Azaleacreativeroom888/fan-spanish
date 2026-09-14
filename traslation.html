@@ -4,198 +4,140 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Translation Log — MangaEs</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,700;0,900;1,900&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --orange: #E85D04;
-    --orange-dark: #9D0208;
-    --orange-light: #F48C06;
-    --orange-pale: #FAA307;
-    --cream: #FFFBF0;
-    --black: #0A0A0A;
-    --dark: #1A1209;
-    --dark2: #241508;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--cream); color: var(--black); font-family: 'Space Mono', monospace; }
+  :root{--or1:#FF6B00;--or2:#FF8C00;--or3:#FFB347;--or4:#FFD580;--orpale:#FFF3E0;--blue:#2979FF;--blue2:#82B1FF;--green:#00C853;--green2:#69F0AE;--yellow:#FFD600;--black:#1A0A00;--white:#FFFEF9;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--white);color:var(--black);font-family:'Nunito',sans-serif;overflow-x:hidden;}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    background: var(--black); display: flex; justify-content: space-between; align-items: center;
-    padding: 0 2rem; height: 56px; border-bottom: 3px solid var(--orange);
-  }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); text-decoration: none; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { color: var(--cream); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover, .nav-links a.active { color: var(--orange-pale); }
+  .checker{height:20px;background:repeating-linear-gradient(90deg,var(--or1) 0,var(--or1) 20px,var(--or3) 20px,var(--or3) 40px);}
+
+  nav{background:var(--black);display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:60px;position:sticky;top:0;z-index:100;}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--or1);text-decoration:none;}
+  .nav-links{display:flex;gap:.25rem;list-style:none;}
+  .nav-links a{color:var(--white);text-decoration:none;font-size:.82rem;font-weight:900;text-transform:uppercase;padding:.5rem 1rem;border-radius:30px;transition:background .15s,color .15s;}
+  .nav-links a:hover,.nav-links a.active{background:var(--or1);color:var(--black);}
 
   /* PAGE HEADER */
-  .page-header {
-    background: var(--black); padding: 6rem 4rem 3rem;
-    position: relative; overflow: hidden; border-bottom: 3px solid var(--orange);
-  }
-  .page-header::before {
-    content: '翻訳';
-    position: absolute; right: 2rem; bottom: -1.5rem;
-    font-family: sans-serif; font-size: 12rem;
-    color: rgba(232,93,4,0.06); line-height: 1; pointer-events: none;
-  }
-  .page-header-bg {
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      -55deg, transparent, transparent 40px,
-      rgba(232,93,4,0.04) 40px, rgba(232,93,4,0.04) 41px
-    );
-  }
-  .page-header-inner { position: relative; z-index: 1; }
-  .page-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--orange); text-transform: uppercase; margin-bottom: 1rem; }
-  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--cream); line-height: 0.9; }
-  .page-title span { color: var(--orange); }
-  .page-desc { color: #888; font-size: 0.8rem; line-height: 1.8; max-width: 520px; margin-top: 1rem; }
+  .page-header{background:var(--or1);padding:3.5rem 4rem 3rem;position:relative;overflow:hidden;border-bottom:5px solid var(--black);}
+  .page-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.1) 2px,transparent 2px);background-size:28px 28px;pointer-events:none;}
+  .ph-inner{position:relative;z-index:1;}
+  .ph-badge{display:inline-block;background:var(--black);color:var(--or3);font-size:.7rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .9rem;border-radius:30px;margin-bottom:1rem;}
+  .ph-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);color:var(--black);line-height:.9;text-shadow:4px 4px 0 rgba(0,0,0,0.12);}
+  .ph-title em{color:var(--white);font-style:normal;}
+  .ph-desc{font-size:.9rem;font-weight:700;color:rgba(0,0,0,0.65);max-width:520px;line-height:1.6;margin-top:.8rem;}
 
-  /* FILTER BAR */
-  .filter-bar {
-    background: var(--dark); padding: 1.2rem 4rem;
-    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
-    border-bottom: 2px solid rgba(232,93,4,0.2);
-    position: sticky; top: 56px; z-index: 50;
-  }
-  .filter-label { font-size: 0.65rem; letter-spacing: 0.2em; color: #666; text-transform: uppercase; margin-right: 0.25rem; }
-  .filter-btn {
-    background: transparent; border: 1px solid rgba(232,93,4,0.3); color: #888;
-    padding: 0.35rem 1rem; font-family: 'Space Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .filter-btn:hover { background: rgba(232,93,4,0.15); color: var(--orange); border-color: var(--orange); }
-  .filter-btn.active { background: var(--orange); border-color: var(--orange); color: var(--black); }
+  /* floating decos */
+  .deco{position:absolute;pointer-events:none;border-radius:50%;}
+  .star-s{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+  .star4{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes float3{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
-  /* CONTAINER */
-  .container {
-    max-width: 820px;
-    margin: 3rem auto 5rem;
-    padding: 0 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+  /* FILTER */
+  .filter-bar{background:var(--black);padding:1rem 4rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;border-bottom:3px solid var(--or1);}
+  .f-label{font-size:.68rem;font-weight:900;color:#777;text-transform:uppercase;letter-spacing:.1em;margin-right:.3rem;}
+  .f-btn{background:transparent;border:2px solid #444;color:#888;padding:.35rem 1rem;border-radius:30px;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+  .f-btn:hover{border-color:var(--or1);color:var(--or1);}
+  .f-btn.active{background:var(--or1);border-color:var(--or1);color:var(--black);}
 
-  /* ENTRY CARD */
-  .entry-card {
-    background: var(--black);
-    border: 2px solid rgba(232,93,4,0.3);
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-    transition: border-color 0.2s, transform 0.2s;
-    animation: fadeUp 0.4s ease both;
-    overflow: hidden;
-  }
-  .entry-card:hover { border-color: var(--orange); transform: translateX(5px); }
+  /* LAYOUT */
+  .layout{max-width:1100px;margin:3rem auto 5rem;padding:0 2rem;display:flex;gap:2.5rem;align-items:flex-start;}
+  .main-col{flex:3;min-width:0;}
+  .sidebar-col{flex:1;min-width:220px;}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .entry-card:nth-child(1) { animation-delay: 0.05s; }
-  .entry-card:nth-child(2) { animation-delay: 0.10s; }
-  .entry-card:nth-child(3) { animation-delay: 0.15s; }
-  .entry-card:nth-child(4) { animation-delay: 0.20s; }
+  /* SIDEBAR */
+  .sidebar-block{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);padding:1.4rem;margin-bottom:1.4rem;position:sticky;top:80px;}
+  .sidebar-block h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--black);border-bottom:3px solid var(--or1);padding-bottom:.4rem;margin-bottom:.8rem;}
+  .sidebar-link{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--black);font-size:.85rem;font-weight:700;padding:.55rem .5rem;border-radius:8px;border-bottom:1px dashed rgba(255,107,0,.25);transition:background .15s,padding-left .15s;}
+  .sidebar-link:last-child{border-bottom:none;}
+  .sidebar-link::before{content:'▶';font-size:.6rem;color:var(--or1);flex-shrink:0;}
+  .sidebar-link:hover{background:var(--orpale);padding-left:.9rem;color:var(--or1);}
 
-  /* CARD TITLE BAR */
-  .entry-header {
-    background: rgba(232,93,4,0.1);
-    border-bottom: 2px solid rgba(232,93,4,0.25);
-    padding: 0.9rem 1.4rem;
-    display: flex; align-items: center; gap: 1rem;
-  }
-  .entry-header h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem; color: var(--cream);
-    letter-spacing: 0.04em; line-height: 1.2; flex: 1;
-  }
-  .entry-tag {
-    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; padding: 0.2rem 0.7rem;
-    border: 1px solid; white-space: nowrap;
-  }
-  .tag-mini    { color: var(--orange-pale); border-color: var(--orange-pale); }
-  .tag-trans   { color: var(--orange);      border-color: var(--orange); }
+  /* sidebar decos */
+  .side-decos{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:1.2rem;}
+  .sd{width:34px;height:34px;border:3px solid var(--black);}
+  .sd-circle{border-radius:50%;}
+  .sd-star{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);border:none;}
+  .sd-star4{clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);border:none;}
 
-  /* SECTIONS inside card */
-  .entry-body { padding: 0; }
+  /* NOTE CARD */
+  .note-card{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);margin-bottom:2rem;overflow:hidden;transition:transform .15s,box-shadow .15s;animation:fadeUp .4s ease both;}
+  .note-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--black);}
+  .note-card:nth-child(1){animation-delay:.05s}
+  .note-card:nth-child(2){animation-delay:.10s}
+  .note-card:nth-child(3){animation-delay:.15s}
+  .note-card:nth-child(4){animation-delay:.20s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-  .section {
-    padding: 1rem 1.4rem;
-    border-bottom: 1px dashed rgba(232,93,4,0.15);
-  }
-  .section:last-child { border-bottom: none; }
+  /* CARD HEADER */
+  .note-header{padding:1rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;border-bottom:3px solid var(--black);}
+  .note-num{width:34px;height:34px;border-radius:50%;background:var(--or1);color:var(--black);font-family:'Bebas Neue',sans-serif;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2.5px solid var(--black);box-shadow:2px 2px 0 var(--black);}
+  .note-num.num-star{background:var(--yellow);}
+  .note-num.num-blue{background:var(--blue);color:var(--white);}
+  .note-num.num-green{background:var(--green);}
+  .note-num.num-purple{background:#9C27B0;color:var(--white);}
+  .note-jp{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-style:italic;line-height:1.55;flex:1;}
+  .note-jp small{display:block;font-size:.72rem;font-style:normal;opacity:.55;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-family:'Nunito',sans-serif;}
 
-  .section-label {
-    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 0.5rem; font-weight: 700;
-  }
+  /* TRANSLATION BAND */
+  .note-trans{padding:.9rem 1.5rem .9rem 3.8rem;font-size:1rem;font-family:'Libre Baskerville',serif;font-style:italic;line-height:1.5;position:relative;border-bottom:3px solid var(--black);}
+  .note-trans::before{content:attr(data-flag);position:absolute;left:1.2rem;top:50%;transform:translateY(-50%);font-size:1.2rem;font-style:normal;}
+  .trans-or{background:var(--orpale);}
+  .trans-bl{background:#E3F2FD;}
+  .trans-gr{background:#E8F5E9;}
+  .trans-ye{background:#FFFDE7;}
 
-  .section p {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 0.85rem; line-height: 1.85; color: #ccc;
-  }
-  .section p + p { margin-top: 0.6rem; }
-  .section p strong { color: var(--orange-pale); font-weight: 700; }
+  /* TOGGLE */
+  .toggle-btn{background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:900;padding:.75rem 1.5rem;width:100%;text-align:left;border-bottom:2px solid transparent;display:flex;align-items:center;gap:.5rem;transition:background .15s;color:var(--black);text-transform:uppercase;letter-spacing:.05em;}
+  .toggle-btn:hover{background:var(--orpale);}
+  .toggle-btn .arrow{margin-left:auto;font-size:.75rem;transition:transform .2s;}
+  .toggle-btn.open .arrow{transform:rotate(180deg);}
+  .toggle-btn .t-icon{font-size:.95rem;}
 
-  /* Arrow between versions */
-  .arrow {
-    display: block;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem; color: rgba(232,93,4,0.4);
-    margin: 0.4rem 0; text-align: center; letter-spacing: 0.1em;
-  }
+  /* NOTE BODY */
+  .note-body{display:none;padding:1.4rem 1.5rem;border-top:2px dashed rgba(255,107,0,.25);}
+  .note-body.open{display:block;}
+  .breakdown-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--or1);margin-bottom:1rem;padding-bottom:.3rem;border-bottom:2px solid var(--orpale);}
 
-  /* Memo section — slightly different background */
-  .section.memo {
-    background: rgba(232,93,4,0.05);
-    border-left: 3px solid var(--orange);
-    border-bottom: 1px dashed rgba(232,93,4,0.15);
-  }
-  .section.memo .section-label { color: var(--orange-pale); }
-  .section.memo p {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem; color: #aaa; line-height: 1.9;
-  }
-  .section.memo p strong { color: var(--orange); }
+  /* WORD ROW */
+  .word-row{display:grid;grid-template-columns:180px 1fr;gap:.4rem 1.2rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px dashed rgba(255,107,0,.2);align-items:start;}
+  .word-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .word-term{font-weight:900;color:var(--or1);font-size:.95rem;line-height:1.4;padding-top:2px;}
+  .word-term.wt-blue{color:var(--blue);}
+  .word-term.wt-green{color:var(--green);}
+  .word-term.wt-warn{color:#E65100;}
+  .word-desc{font-size:.88rem;line-height:1.75;color:#444;font-family:'Libre Baskerville',serif;}
+  .word-desc em{color:var(--blue);font-style:italic;}
+  .word-desc .jp-ref{display:block;font-size:.78rem;color:#888;margin-top:.2rem;font-style:italic;}
+  .grammar-tag{display:inline-block;background:var(--orpale);color:var(--or1);border:2px solid var(--or1);border-radius:30px;font-size:.62rem;font-weight:900;padding:.1rem .55rem;margin-left:.3rem;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;font-family:'Nunito',sans-serif;}
+  .grammar-tag.gt-blue{background:#E3F2FD;color:var(--blue);border-color:var(--blue);}
+  .grammar-tag.gt-green{background:#E8F5E9;color:var(--green);border-color:var(--green);}
 
-  /* Inline code / Japanese highlight */
-  .ja {
-    color: var(--orange);
-    font-style: normal;
-    font-family: sans-serif;
-    font-size: 1em;
-  }
-  .en {
-    color: var(--orange-pale);
-    font-style: italic;
-  }
+  /* mini-knowledge card */
+  .note-card.mini .note-header{background:var(--orpale);}
 
-  /* FOOTER */
-  footer {
-    background: var(--black); border-top: 3px solid var(--orange);
-    padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { font-size: 0.7rem; color: #555; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; }
-  .footer-links a:hover { color: var(--orange); }
+  footer{background:var(--black);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:4px solid var(--or1);position:relative;overflow:hidden;}
+  .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--or1);text-decoration:none;}
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{font-size:.78rem;color:#666;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:.05em;transition:color .15s;}
+  .footer-links a:hover{color:var(--or1);}
 
-  @media (max-width: 768px) {
-    .container { padding: 0 1rem; margin: 2rem auto 4rem; }
-    .filter-bar { padding: 1rem 1.5rem; }
-    .page-header { padding: 5rem 1.5rem 2rem; }
-    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; }
-    .nav-links { display: none; }
+  @media(max-width:900px){
+    .layout{flex-direction:column;}
+    .sidebar-col{width:100%;}
+    .sidebar-block{position:static;}
+    .word-row{grid-template-columns:1fr;gap:.2rem;}
+    .filter-bar,.page-header{padding-left:1.5rem;padding-right:1.5rem;}
+    footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+    .nav-links{display:none;}
   }
 </style>
 </head>
 <body>
 
+<div class="checker"></div>
 <nav>
   <a href="index.html" class="nav-logo">MangaEs</a>
   <ul class="nav-links">
@@ -207,117 +149,292 @@
 </nav>
 
 <div class="page-header">
-  <div class="page-header-bg"></div>
-  <div class="page-header-inner">
-    <p class="page-tag">■ Notas · Decisiones · Proceso</p>
-    <h1 class="page-title">LOG DE <span>TRADUCCIÓN</span></h1>
-    <p class="page-desc">Registro de traducciones en proceso: texto original, versión traducida y notas sobre las decisiones tomadas.</p>
+  <!-- header decos -->
+  <div class="deco" style="width:55px;height:55px;background:var(--blue);top:15%;right:20%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:40px;height:40px;background:var(--yellow);top:8%;right:12%;animation:float2 2.8s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:28px;height:28px;background:var(--green);bottom:18%;right:25%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+  <div class="star4" style="width:32px;height:32px;background:var(--blue2);top:55%;right:10%;animation:float1 4s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:18px;height:18px;background:var(--yellow);bottom:20%;right:40%;border:2px solid var(--black);animation:float2 2.4s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:24px;height:24px;background:var(--green2);top:35%;right:32%;animation:float3 3.2s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="ph-inner">
+    <span class="ph-badge">📖 Notas · Decisiones · Gramática</span>
+    <h1 class="ph-title">LOG DE <em>TRADUCCIÓN</em></h1>
+    <p class="ph-desc">Texto original → Traducción + Análisis de palabras y gramática. Haz clic en cada tarjeta para ver el desglose.</p>
   </div>
 </div>
 
 <div class="filter-bar">
-  <span class="filter-label">Filtrar:</span>
-  <button class="filter-btn active" onclick="filterCards('all', this)">Todos</button>
-  <button class="filter-btn" onclick="filterCards('mini', this)">Mini Conocimiento</button>
-  <button class="filter-btn" onclick="filterCards('trans', this)">Traducción</button>
+  <span class="f-label">Filtrar:</span>
+  <button class="f-btn active" onclick="filterCards('all',this)">Todos</button>
+
+  <button class="f-btn" onclick="filterCards('manga',this)">Manga</button>
+  <button class="f-btn" onclick="filterCards('novel',this)">Novela</button>
 </div>
 
-<div class="container">
+<div class="layout">
+  <div class="main-col">
 
-  <!-- Entry 1 -->
-  <div class="entry-card" data-tag="mini">
-    <div class="entry-header">
-      <h2>アルファベットはAlfaとBeta！？</h2>
-      <span class="entry-tag tag-mini">Mini Conocimiento</span>
-    </div>
-    <div class="entry-body">
-      <div class="section">
-        <div class="section-label">知識 · Dato</div>
-        <p>Las dos primeras letras del griego son <span class="ja">α（alpha）</span> y <span class="ja">β（beta）</span> — juntas forman la palabra <strong>alphabet</strong>（アルファベット）。</p>
+    <!-- ★ MINI KNOWLEDGE: alphabet -->
+    <div class="note-card mini" data-cat="mini">
+      <div class="note-header" style="background:var(--orpale)">
+        <div class="note-num num-star">★</div>
+        <div class="note-jp">
+          アルファベットは「Alfa」と「Beta」！？
+          <small>Mini Conocimiento / 豆知識</small>
+        </div>
+      </div>
+      <div class="note-trans trans-or" data-flag="💡">
+        Las dos primeras letras del griego, <strong>α (alpha)</strong> y <strong>β (beta)</strong>, se unieron para formar la palabra <strong>alphabet</strong>（アルファベット）。
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span class="t-icon">🔍</span><span>Ver análisis</span><span class="arrow">▼</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Análisis etimológico</div>
+        <div class="word-row">
+          <div class="word-term">alpha (α)</div>
+          <div class="word-desc">Primera letra del alfabeto griego. <span class="jp-ref">英語の "A" に相当。</span></div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">beta (β)</div>
+          <div class="word-desc">Segunda letra del alfabeto griego. <span class="jp-ref">英語の "B" に相当。</span></div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">alphabet</div>
+          <div class="word-desc">α + β → <em>alphabet</em>。Los nombres de las dos primeras letras fusionados.<span class="jp-ref">最初の2文字の名前を合わせた言葉。</span></div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Entry 2 -->
-  <div class="entry-card" data-tag="mini">
-    <div class="entry-header">
-      <h2>"actually" は「実は」だけじゃない</h2>
-      <span class="entry-tag tag-mini">Mini Conocimiento</span>
-    </div>
-    <div class="entry-body">
-      <div class="section">
-        <div class="section-label">意味 · Significado</div>
-        <p>Matiz: corregir suavemente una expectativa o añadir una realidad inesperada.<br>
-        期待と違う事実を軽く修正するニュアンス。</p>
+    <!-- ★ MINI KNOWLEDGE: "actually" -->
+    <div class="note-card mini" data-cat="mini">
+      <div class="note-header" style="background:#E3F2FD">
+        <div class="note-num num-blue">★</div>
+        <div class="note-jp">
+          "actually" は「実は」だけじゃない
+          <small>Mini Conocimiento / 豆知識</small>
+        </div>
       </div>
-      <div class="section">
-        <div class="section-label">例文 · Ejemplo</div>
-        <p><strong class="en">"I actually like it."</strong><br>
-        <span class="ja">（意外とそれ好き / En realidad me gusta）</span></p>
+      <div class="note-trans trans-bl" data-flag="💡">
+        <strong>"I actually like it."</strong> → 意外とそれ好き / En realidad me gusta (más de lo esperado).
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span class="t-icon">🔍</span><span>Ver análisis</span><span class="arrow">▼</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Matices de "actually"</div>
+        <div class="word-row">
+          <div class="word-term wt-blue">actually</div>
+          <div class="word-desc">
+            Corrección suave de una expectativa. No solo "実は" sino también un matiz de sorpresa.
+            <span class="jp-ref">期待と違う事実を軽く修正するニュアンス。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-blue">"I actually like it."</div>
+          <div class="word-desc">
+            Implica: "contrariamente a lo que podrías pensar, me gusta."
+            <span class="jp-ref">「意外とそれ好き」「実はそれ好きなんだよね」</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Entry 3 -->
-  <div class="entry-card" data-tag="trans">
-    <div class="entry-header">
-      <h2>「このセリフどう訳す問題」— David D. Levine</h2>
-      <span class="entry-tag tag-trans">Traducción</span>
+    <!-- NOTE 1: David D. Levine -->
+    <div class="note-card" data-cat="novel">
+      <div class="note-header">
+        <div class="note-num">1</div>
+        <div class="note-jp">
+          "Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy."
+          <small>小説翻訳 / David D. Levine — ムラサキキリンのチャーリーは様子が変</small>
+        </div>
+      </div>
+      <div class="note-trans trans-or" data-flag="🇯🇵">
+        独我論的妄想は、しばしば他者の人格の正当性やときにはその存在への全般的鈍感さの単なる初期症状とみなされています。
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span class="t-icon">🔍</span><span>Ver análisis de palabras</span><span class="arrow">▼</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Análisis de palabras</div>
+        <div class="word-row">
+          <div class="word-term">solipsistic</div>
+          <div class="word-desc">
+            <strong>「独我論的」</strong>が正確。自我とその所産だけが実在するという立場。
+            <span class="jp-ref">「唯我的」では単に自己中心的な態度になってしまうので不正確。</span>
+            <span class="grammar-tag">哲学用語</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">delusions</div>
+          <div class="word-desc">
+            「妄想」。強い思い込みや誤った信念。
+            <span class="jp-ref">英語では medical term として使われることが多い。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">initial manifestation</div>
+          <div class="word-desc">
+            「初期症状」。<em>manifestation</em> = 現れ・症状。
+            <span class="jp-ref">「最初の発現」より「初期症状」の方が自然な日本語。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-warn">general ⚠️</div>
+          <div class="word-desc">
+            訳に迷った → <strong>「全般的な」</strong>（ある事柄の全体に及ぶさま）に落ち着いた。
+            <span class="jp-ref">まだ少し引っかかりがある。改訂の余地あり。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">insensitivity to legitimacy</div>
+          <div class="word-desc">
+            「正当性への鈍感さ」。他者の人格・存在の正当性を感じ取れない状態。
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="entry-body">
-      <div class="section">
-        <div class="section-label">原文 · Texto Original</div>
-        <p class="en">"Solipsistic delusions are frequently merely the initial manifestation of a general insensitivity to legitimacy."</p>
-        <p style="margin-top:0.5rem; font-size:0.75rem; color:#666; font-family:'Space Mono',monospace;">— ムラサキキリンのチャーリーは様子が変 / David D. Levine</p>
-      </div>
-      <div class="section">
-        <div class="section-label">翻訳 v1</div>
-        <p>独我論的妄想は、しばしば単に正当性への全般的な鈍感さの初期症状とみなされています。</p>
-        <span class="arrow">↓ 修正 · Revisión</span>
-        <p>独我論的妄想は、しばしば他者の人格の正当性やときにはその存在への全般的鈍感さの単なる初期症状とみなされています。</p>
-      </div>
-      <div class="section memo">
-        <div class="section-label">📝 判断メモ · Notas de decisión</div>
-        <p>
-          「solipsistic」は「唯我的」よりも <strong>「独我的」</strong> が正確。<br>
-          自我とその所産だけが実在するという立場 → "唯我的" では単に自己中心的な態度になってしまう。<br><br>
-          「initial manifestation」＝ <strong>初期症状</strong>。<br><br>
-          「general」の訳に迷い → <strong>「全般的な」</strong>（ある事柄の全体に及ぶさま）に落ち着いたが、まだ少し引っかかりがある。
-        </p>
-      </div>
-    </div>
-  </div>
 
-  <!-- Entry 4 -->
-  <div class="entry-card" data-tag="trans">
-    <div class="entry-header">
-      <h2>「このセリフどう訳す問題」— 対比構造</h2>
-      <span class="entry-tag tag-trans">Traducción</span>
+    <!-- NOTE 2: 対比構造 -->
+    <div class="note-card" data-cat="novel">
+      <div class="note-header">
+        <div class="note-num num-green">2</div>
+        <div class="note-jp">
+          "The protagonist kept drawing, even when no one believed in her story."
+          <small>翻訳練習 / 対比構造</small>
+        </div>
+      </div>
+      <div class="note-trans trans-gr" data-flag="🇯🇵">
+        誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span class="t-icon">🔍</span><span>Ver análisis de palabras</span><span class="arrow">▼</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Análisis de palabras</div>
+        <div class="word-row">
+          <div class="word-term wt-green">believed in</div>
+          <div class="word-desc">
+            受け身ぽく<strong>「信じてもらえない」</strong>にしてニュアンスを出す。
+            <span class="jp-ref">"believe in" = 可能性や価値を信じる（単なる事実としての believe より深い）</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-green">even when ⭐</div>
+          <div class="word-desc">
+            <strong>「〜のに、それでも」</strong>がこの文の軸。対比の核心。
+            <span class="jp-ref">「even when」＝逆接の強調。英語より日本語の方が対比が明確になる。</span>
+            <span class="grammar-tag gt-green">対比構造</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-green">kept drawing</div>
+          <div class="word-desc">
+            「描き続けた」。<em>keep + -ing</em> = 継続を強調。
+            <span class="jp-ref">「描いた」より「描き続けた」の方が粘り強さのニュアンスが出る。</span>
+            <span class="grammar-tag gt-green">継続相</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-warn">翻訳のポイント ⭐</div>
+          <div class="word-desc">
+            「〜のに、彼女は〜した」という<strong>対比構造</strong>を日本語でも活かすのがポイント。
+            <span class="jp-ref">La estructura de contraste 〜のに…それでも es clave para mantener la tensión dramática.</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="entry-body">
-      <div class="section">
-        <div class="section-label">原文 · Texto Original</div>
-        <p class="en">"The protagonist kept drawing, even when no one believed in her story."</p>
-      </div>
-      <div class="section">
-        <div class="section-label">翻訳</div>
-        <p>誰も主人公のストーリーを信じていなかったのに、それでも彼女は描き続けた。</p>
-      </div>
-      <div class="section memo">
-        <div class="section-label">📝 判断メモ · Notas de decisión</div>
-        <p>
-          「believed in」→ 受け身ぽく「信じてもらえない」にしてニュアンスを出す。<br><br>
-          <strong>「even when」＝「それでも」</strong> がこの文の軸。<br><br>
-          「〜のに、彼女は〜した」という対比構造を日本語でも活かすのがポイント。<br>
-          La estructura de contraste <em>"〜のに…それでも"</em> es clave para mantener la tensión dramática.
-        </p>
-      </div>
-    </div>
-  </div>
 
+    <!-- NOTE 3: あんたなんか人間じゃない -->
+    <div class="note-card" data-cat="manga">
+      <div class="note-header">
+        <div class="note-num num-purple">3</div>
+        <div class="note-jp">
+          「あんたなんか人間じゃない」
+          <small>漫画翻訳 / Diálogo manga</small>
+        </div>
+      </div>
+      <div class="note-trans trans-ye" data-flag="🇬🇧">
+        "You are a monster." — 感情的な重みを保ちつつ、直訳を避けた訳。
+      </div>
+      <button class="toggle-btn open" onclick="toggleNote(this)">
+        <span class="t-icon">🔍</span><span>Ver análisis de palabras</span><span class="arrow">▼</span>
+      </button>
+      <div class="note-body open">
+        <div class="breakdown-title">Análisis de palabras</div>
+        <div class="word-row">
+          <div class="word-term">あんた</div>
+          <div class="word-desc">
+            「你」に相当する口語的・やや攻撃的な2人称。<em>you</em> より強い。
+            <span class="jp-ref">英語では "you" だが、語気の強さは文脈と声調で補う。</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">なんか</div>
+          <div class="word-desc">
+            軽蔑・否定の強調。「〜なんか」＝「〜なんてものは」。
+            <span class="jp-ref">"even" や "at all" に相当する否定強調。</span>
+            <span class="grammar-tag">否定強調</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term">人間じゃない</div>
+          <div class="word-desc">
+            直訳：「人間ではない」。<br>
+            直訳の <em>"You are not human"</em> より <strong>"You are a monster."</strong> の方が感情的重みが同等。
+            <span class="jp-ref">意訳だが、マンガの文脈では感情のパンチが重要。</span>
+            <span class="grammar-tag">意訳</span>
+          </div>
+        </div>
+        <div class="word-row">
+          <div class="word-term wt-warn">訳の判断 ⭐</div>
+          <div class="word-desc">
+            <strong>"You are a monster."</strong> を選んだ理由：同じ感情的重みを持ち、英語として自然。
+            <span class="jp-ref">Personalmente creo que esta versión captura mejor el peso emocional sin ser demasiado literal.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-col -->
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar-col">
+    <div class="sidebar-block">
+      <h3>📂 セクション</h3>
+      <a class="sidebar-link" href="#">漫画翻訳</a>
+      <a class="sidebar-link" href="#">小説翻訳</a>
+      <a class="sidebar-link" href="#">文法ノート</a>
+      <a class="sidebar-link" href="blog.html">日記ブログ</a>
+    </div>
+
+    <div class="sidebar-block">
+      <h3>📊 Stats</h3>
+      <div style="display:flex;flex-direction:column;gap:.3rem;">
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;padding:.4rem 0;border-bottom:1px dashed rgba(255,107,0,.2)"><span style="color:#888">Total notas</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--or1)">5</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;padding:.4rem 0;border-bottom:1px dashed rgba(255,107,0,.2)"><span style="color:#888">Manga</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--blue)">1</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;padding:.4rem 0;border-bottom:1px dashed rgba(255,107,0,.2)"><span style="color:#888">Novela</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--green)">2</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;font-weight:700;padding:.4rem 0"><span style="color:#888">Mini 知識</span><span style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--yellow)">2</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <h3>🎨 Shapes!</h3>
+      <div class="side-decos">
+        <div class="sd sd-circle" style="background:var(--blue);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+        <div class="sd sd-star" style="background:var(--yellow);filter:drop-shadow(2px 2px 0 var(--black));animation:float2 2.8s ease-in-out infinite;"></div>
+        <div class="sd sd-circle" style="background:var(--green);box-shadow:3px 3px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+        <div class="sd sd-star4" style="background:var(--or1);filter:drop-shadow(2px 2px 0 var(--black));animation:float1 4s ease-in-out infinite;"></div>
+        <div class="sd sd-circle" style="background:var(--blue2);box-shadow:3px 3px 0 var(--black);animation:float2 2.5s ease-in-out infinite;"></div>
+        <div class="sd sd-star" style="background:var(--green2);filter:drop-shadow(2px 2px 0 var(--black));animation:float3 3.2s ease-in-out infinite;"></div>
+      </div>
+    </div>
+  </aside>
 </div>
 
 <footer>
+  <div class="deco" style="width:40px;height:40px;background:var(--blue);opacity:.18;top:20%;right:10%;position:absolute;border-radius:50%;"></div>
+  <div class="star-s" style="width:30px;height:30px;background:var(--yellow);opacity:.2;bottom:15%;left:45%;position:absolute;"></div>
   <a href="index.html" class="footer-logo">MangaEs</a>
   <div class="footer-links">
     <a href="gallery.html">Galería</a>
@@ -327,19 +444,19 @@
 </footer>
 
 <script>
-  function filterCards(tag, btn) {
-    if (btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    document.querySelectorAll('.entry-card').forEach(card => {
-      if (tag === 'all' || card.dataset.tag === tag) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  }
+function toggleNote(btn) {
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('.arrow').textContent = body.classList.contains('open') ? '▼' : '▶';
+}
+function filterCards(cat, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.note-card').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+  });
+}
 </script>
 </body>
 </html>
