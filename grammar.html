@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文法ノート — MangaEs</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,700;0,900;1,900&family=Libre+Baskerville:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--or1:#FF6B00;--or2:#FF8C00;--or3:#FFB347;--or4:#FFD580;--orpale:#FFF3E0;--blue:#2979FF;--blue2:#82B1FF;--green:#00C853;--green2:#69F0AE;--yellow:#FFD600;--black:#1A0A00;--white:#FFFEF9;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--white);color:var(--black);font-family:'Nunito',sans-serif;overflow-x:hidden;}
+
+  .checker{height:20px;background:repeating-linear-gradient(90deg,var(--or1) 0,var(--or1) 20px,var(--or3) 20px,var(--or3) 40px);}
+
+  nav{background:var(--black);display:flex;justify-content:space-between;align-items:center;padding:0 2.5rem;height:60px;position:sticky;top:0;z-index:100;}
+  .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--or1);text-decoration:none;}
+  .nav-links{display:flex;gap:.25rem;list-style:none;}
+  .nav-links a{color:var(--white);text-decoration:none;font-size:.82rem;font-weight:900;text-transform:uppercase;padding:.5rem 1rem;border-radius:30px;transition:background .15s,color .15s;}
+  .nav-links a:hover,.nav-links a.active{background:var(--or1);color:var(--black);}
+
+  /* PAGE HEADER */
+  .page-header{background:var(--or1);padding:3.5rem 4rem 3rem;position:relative;overflow:hidden;border-bottom:5px solid var(--black);}
+  .page-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,0.1) 2px,transparent 2px);background-size:28px 28px;pointer-events:none;}
+  .ph-inner{position:relative;z-index:1;}
+  .ph-badge{display:inline-block;background:var(--black);color:var(--or3);font-size:.7rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .9rem;border-radius:30px;margin-bottom:1rem;}
+  .ph-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);color:var(--black);line-height:.9;text-shadow:4px 4px 0 rgba(0,0,0,0.12);}
+  .ph-title em{color:var(--white);font-style:normal;}
+  .ph-desc{font-size:.9rem;font-weight:700;color:rgba(0,0,0,0.65);max-width:520px;line-height:1.6;margin-top:.8rem;}
+
+  /* floating shapes */
+  .deco{position:absolute;pointer-events:none;border-radius:50%;}
+  .star-s{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+  .star4{position:absolute;pointer-events:none;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);}
+  @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+  @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes float3{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+  /* LAYOUT */
+  .layout{max-width:1100px;margin:3rem auto 5rem;padding:0 2rem;display:flex;gap:2.5rem;align-items:flex-start;}
+  .main-col{flex:3;min-width:0;}
+  .toc-col{flex:1;min-width:200px;position:sticky;top:80px;}
+
+  /* BACK LINK */
+  .back-link{display:inline-flex;align-items:center;gap:.4rem;color:var(--or1);text-decoration:none;font-weight:900;font-size:.85rem;margin-bottom:2rem;padding:.4rem 1rem;border:2.5px solid var(--or1);border-radius:30px;transition:all .15s;text-transform:uppercase;}
+  .back-link:hover{background:var(--or1);color:var(--black);}
+
+  /* TOC */
+  .toc-block{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);padding:1.4rem;margin-bottom:1.2rem;}
+  .toc-block h3{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--black);border-bottom:3px solid var(--or1);padding-bottom:.4rem;margin-bottom:.8rem;}
+  .toc-link{display:flex;align-items:center;gap:.5rem;color:var(--black);text-decoration:none;font-size:.85rem;font-weight:700;padding:.5rem .5rem;border-radius:8px;border-bottom:1px dashed rgba(255,107,0,.2);transition:background .15s,padding-left .15s,color .15s;}
+  .toc-link:last-child{border-bottom:none;}
+  .toc-link::before{content:'▶';font-size:.6rem;color:var(--or1);flex-shrink:0;}
+  .toc-link:hover{background:var(--orpale);padding-left:.9rem;color:var(--or1);}
+  .toc-num{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--or1);min-width:18px;}
+
+  /* toc deco shapes */
+  .toc-decos{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:1rem;}
+  .td-s{width:30px;height:30px;border:2.5px solid var(--black);}
+  .td-circle{border-radius:50%;}
+  .td-star{clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);border:none;filter:drop-shadow(2px 2px 0 var(--black));}
+  .td-star4{clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);border:none;filter:drop-shadow(2px 2px 0 var(--black));}
+
+  /* GRAMMAR SECTION */
+  .grammar-section{margin-bottom:2.5rem;}
+
+  .section-heading{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;padding-bottom:.7rem;border-bottom:4px solid var(--black);}
+  .section-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;flex-shrink:0;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);}
+  .sn-or{background:var(--or1);color:var(--black);}
+  .sn-bl{background:var(--blue);color:var(--white);}
+  .sn-gr{background:var(--green);color:var(--black);}
+  .sn-ye{background:var(--yellow);color:var(--black);}
+  .sn-pu{background:#9C27B0;color:var(--white);}
+  .sn-pk{background:#E91E63;color:var(--white);}
+  .sn-tl{background:#00BCD4;color:var(--black);}
+  .sn-re{background:#F44336;color:var(--white);}
+
+  .section-heading h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--black);line-height:1;}
+  .section-heading h2 em{display:block;font-family:'Nunito',sans-serif;font-size:.8rem;font-style:italic;color:var(--or1);font-weight:900;letter-spacing:.05em;margin-top:2px;}
+
+  /* RULE CARD */
+  .rule-card{background:var(--white);border:3px solid var(--black);border-radius:12px;box-shadow:5px 5px 0 var(--black);margin-bottom:1.2rem;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+  .rule-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--black);}
+
+  .rule-title{padding:.7rem 1.3rem;display:flex;align-items:center;gap:.7rem;border-bottom:3px solid var(--black);font-weight:900;font-size:.9rem;}
+  .rt-or{background:var(--orpale);}
+  .rt-bl{background:#E3F2FD;}
+  .rt-gr{background:#E8F5E9;}
+  .rt-ye{background:#FFFDE7;}
+  .rt-pu{background:#F3E5F5;}
+  .rt-pk{background:#FCE4EC;}
+  .rt-tl{background:#E0F7FA;}
+  .rt-re{background:#FFEBEE;}
+  .rule-tag{margin-left:auto;font-size:.62rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .7rem;border-radius:30px;border:2px solid var(--black);white-space:nowrap;}
+  .tag-or{background:var(--or1);color:var(--black);}
+  .tag-bl{background:var(--blue);color:var(--white);}
+  .tag-gr{background:var(--green);color:var(--black);}
+  .tag-ye{background:var(--yellow);color:var(--black);}
+  .tag-pu{background:#9C27B0;color:var(--white);}
+  .tag-pk{background:#E91E63;color:var(--white);}
+  .tag-tl{background:#00BCD4;color:var(--black);}
+  .tag-re{background:#F44336;color:var(--white);}
+
+  .rule-body{padding:1.1rem 1.3rem;font-size:.88rem;line-height:1.8;}
+  .rule-body p{margin-bottom:.6rem;}
+  .rule-body p:last-child{margin-bottom:0;}
+  .rule-body strong{color:var(--or1);}
+
+  /* CONJUGATION TABLE */
+  .conj-table{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.84rem;border:2px solid var(--black);border-radius:8px;overflow:hidden;}
+  .conj-table th{background:var(--black);color:var(--or3);padding:7px 12px;text-align:left;font-weight:900;font-size:.78rem;letter-spacing:.05em;}
+  .conj-table td{padding:7px 12px;border-bottom:1px solid rgba(255,107,0,.15);vertical-align:top;}
+  .conj-table tr:last-child td{border-bottom:none;}
+  .conj-table tr:nth-child(even) td{background:var(--orpale);}
+  .conj-table .it{font-style:italic;color:var(--or1);font-weight:900;}
+  .conj-table .jp{color:#5a3820;font-size:.82rem;}
+
+  /* EXAMPLE BLOCK */
+  .example{background:var(--orpale);border-left:5px solid var(--or1);border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.6rem 0;font-size:.88rem;}
+  .ex-it{font-style:italic;color:var(--black);font-weight:900;font-family:'Libre Baskerville',serif;}
+  .ex-jp{color:#7a4a00;font-size:.82rem;margin-top:3px;font-weight:700;}
+
+  /* EXAMPLE blue variant */
+  .example.ex-bl{background:#E3F2FD;border-left-color:var(--blue);}
+  .example.ex-gr{background:#E8F5E9;border-left-color:var(--green);}
+
+  /* POINT BOX */
+  .point{background:var(--yellow);border:2.5px solid var(--black);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0;font-size:.85rem;line-height:1.7;font-weight:700;box-shadow:3px 3px 0 var(--black);}
+  .point::before{content:'💡 ';}
+
+  footer{background:var(--black);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:4px solid var(--or1);position:relative;overflow:hidden;}
+  .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--or1);text-decoration:none;}
+  .footer-links{display:flex;gap:1.5rem;}
+  .footer-links a{font-size:.78rem;color:#666;text-decoration:none;font-weight:900;text-transform:uppercase;letter-spacing:.05em;transition:color .15s;}
+  .footer-links a:hover{color:var(--or1);}
+
+  @media(max-width:900px){
+    .layout{flex-direction:column;}
+    .toc-col{position:static;width:100%;}
+    .page-header{padding:3rem 1.5rem 2rem;}
+    footer{padding:2rem 1.5rem;flex-direction:column;gap:1rem;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="checker"></div>
+<nav>
+  <a href="index.html" class="nav-logo">MangaEs</a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Galería</a></li>
+    <li><a href="traslation.html" class="active">Traducciones</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div class="deco" style="width:55px;height:55px;background:var(--blue);top:15%;right:20%;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+  <div class="star-s" style="width:40px;height:40px;background:var(--yellow);top:8%;right:12%;animation:float2 2.8s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:28px;height:28px;background:var(--green);bottom:18%;right:25%;border:3px solid var(--black);box-shadow:2px 2px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+  <div class="star4" style="width:32px;height:32px;background:var(--blue2);top:55%;right:10%;animation:float1 4s ease-in-out infinite;filter:drop-shadow(2px 2px 0 var(--black));"></div>
+  <div class="deco" style="width:18px;height:18px;background:var(--yellow);bottom:20%;right:40%;border:2px solid var(--black);animation:float2 2.4s ease-in-out infinite;"></div>
+  <div class="ph-inner">
+    <span class="ph-badge">📚 文法リファレンス</span>
+    <h1 class="ph-title">文法<em>ノート</em></h1>
+    <p class="ph-desc">Grammatica Italiana — イタリア語文法リファレンス。活用表・例文・ポイント付き。</p>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- MAIN -->
+  <div class="main-col">
+    <a href="traslation.html" class="back-link">← 翻訳ログに戻る</a>
+
+    <!-- § 1 現在形 -->
+    <section class="grammar-section" id="presente">
+      <div class="section-heading">
+        <div class="section-num sn-or">1</div>
+        <h2>現在形<em>Presente Indicativo</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-or">基本の作り方 <span class="rule-tag tag-or">-are / -ere / -ire</span></div>
+        <div class="rule-body">
+          <p>イタリア語の動詞は語尾によって3種類に分類される。語幹に以下の語尾をつける。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th>-are（parlare）</th><th>-ere（scrivere）</th><th>-ire（dormire）</th></tr>
+            <tr><td>io</td><td class="it">parlo</td><td class="it">scrivo</td><td class="it">dormo</td></tr>
+            <tr><td>tu</td><td class="it">parli</td><td class="it">scrivi</td><td class="it">dormi</td></tr>
+            <tr><td>lui/lei</td><td class="it">parla</td><td class="it">scrive</td><td class="it">dorme</td></tr>
+            <tr><td>noi</td><td class="it">parliamo</td><td class="it">scriviamo</td><td class="it">dormiamo</td></tr>
+            <tr><td>voi</td><td class="it">parlate</td><td class="it">scrivete</td><td class="it">dormite</td></tr>
+            <tr><td>loro</td><td class="it">parlano</td><td class="it">scrivono</td><td class="it">dormono</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Io parlo italiano.</div>
+            <div class="ex-jp">私はイタリア語を話す。</div>
+          </div>
+          <div class="point">イタリア語は主語を省略するのが自然（pro-drop言語）。文脈で明らかな場合は <em>io</em> を言わなくてよい。</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-bl">不規則動詞（重要） <span class="rule-tag tag-bl">irregolari</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>人称</th><th>essere（〜である）</th><th>avere（持つ）</th><th>fare（する）</th><th>andare（行く）</th></tr>
+            <tr><td>io</td><td class="it">sono</td><td class="it">ho</td><td class="it">faccio</td><td class="it">vado</td></tr>
+            <tr><td>tu</td><td class="it">sei</td><td class="it">hai</td><td class="it">fai</td><td class="it">vai</td></tr>
+            <tr><td>lui/lei</td><td class="it">è</td><td class="it">ha</td><td class="it">fa</td><td class="it">va</td></tr>
+            <tr><td>noi</td><td class="it">siamo</td><td class="it">abbiamo</td><td class="it">facciamo</td><td class="it">andiamo</td></tr>
+            <tr><td>voi</td><td class="it">siete</td><td class="it">avete</td><td class="it">fate</td><td class="it">andate</td></tr>
+            <tr><td>loro</td><td class="it">sono</td><td class="it">hanno</td><td class="it">fanno</td><td class="it">vanno</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 2 近過去 -->
+    <section class="grammar-section" id="passato-prossimo">
+      <div class="section-heading">
+        <div class="section-num sn-bl">2</div>
+        <h2>近過去<em>Passato Prossimo</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-bl">作り方：avere / essere ＋ 過去分詞 <span class="rule-tag tag-bl">passato prossimo</span></div>
+        <div class="rule-body">
+          <p>完了した過去の出来事を表す。英語の現在完了・過去形に相当。</p>
+          <p><strong>avere + 過去分詞</strong>（他動詞の多く）</p>
+          <div class="example ex-bl">
+            <div class="ex-it">Ho mangiato la pizza.</div>
+            <div class="ex-jp">私はピザを食べた。</div>
+          </div>
+          <p><strong>essere + 過去分詞</strong>（移動・状態変化の動詞）</p>
+          <div class="example ex-bl">
+            <div class="ex-it">Sono andato a Roma.</div>
+            <div class="ex-jp">私はローマへ行った。</div>
+          </div>
+          <div class="point"><em>essere</em> を使う場合、過去分詞は主語の性・数に合わせて変化する。<br>例：Maria è <em>andata</em>（女性）／ Loro sono <em>andati</em>（複数）</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-bl">過去分詞の作り方 <span class="rule-tag tag-bl">participio passato</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>語尾</th><th>過去分詞の語尾</th><th>例</th></tr>
+            <tr><td>-are</td><td class="it">-ato</td><td><span class="it">parlare → parlato</span>（話した）</td></tr>
+            <tr><td>-ere</td><td class="it">-uto</td><td><span class="it">avere → avuto</span>（持った）</td></tr>
+            <tr><td>-ire</td><td class="it">-ito</td><td><span class="it">dormire → dormito</span>（眠った）</td></tr>
+          </table>
+          <div class="point">不規則な過去分詞も多い。<em>fare → fatto</em>、<em>scrivere → scritto</em>、<em>vedere → visto</em> など。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 3 半過去 -->
+    <section class="grammar-section" id="imperfetto">
+      <div class="section-heading">
+        <div class="section-num sn-gr">3</div>
+        <h2>半過去<em>Imperfetto</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-gr">使い方と作り方 <span class="rule-tag tag-gr">azione continuata</span></div>
+        <div class="rule-body">
+          <p>過去の習慣・継続的な状態・背景描写に使う。英語の "used to" や "was doing" に近い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th>parlare</th><th>scrivere</th><th>dormire</th></tr>
+            <tr><td>io</td><td class="it">parlavo</td><td class="it">scrivevo</td><td class="it">dormivo</td></tr>
+            <tr><td>tu</td><td class="it">parlavi</td><td class="it">scrivevi</td><td class="it">dormivi</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlava</td><td class="it">scriveva</td><td class="it">dormiva</td></tr>
+            <tr><td>noi</td><td class="it">parlavamo</td><td class="it">scrivevamo</td><td class="it">dormivamo</td></tr>
+            <tr><td>voi</td><td class="it">parlavate</td><td class="it">scrivevate</td><td class="it">dormivate</td></tr>
+            <tr><td>loro</td><td class="it">parlavano</td><td class="it">scrivevano</td><td class="it">dormivano</td></tr>
+          </table>
+          <div class="example ex-gr">
+            <div class="ex-it">Da bambino mangiavo sempre la pasta.</div>
+            <div class="ex-jp">子どものころ、いつもパスタを食べていた。</div>
+          </div>
+          <div class="point">近過去との違い：近過去 → 完了した一度の出来事 ／ 半過去 → 継続・習慣・状態</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 4 未来形 -->
+    <section class="grammar-section" id="futuro">
+      <div class="section-heading">
+        <div class="section-num sn-ye">4</div>
+        <h2>未来形<em>Futuro Semplice</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-ye">作り方と用法 <span class="rule-tag tag-ye">futuro semplice</span></div>
+        <div class="rule-body">
+          <p>未来の出来事・推量・婉曲表現に使う。不定詞の語尾を変化させる。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th>parlare</th><th>scrivere</th><th>dormire</th></tr>
+            <tr><td>io</td><td class="it">parlerò</td><td class="it">scriverò</td><td class="it">dormirò</td></tr>
+            <tr><td>tu</td><td class="it">parlerai</td><td class="it">scriverai</td><td class="it">dormirai</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlerà</td><td class="it">scriverà</td><td class="it">dormirà</td></tr>
+            <tr><td>noi</td><td class="it">parleremo</td><td class="it">scriveremo</td><td class="it">dormiremo</td></tr>
+            <tr><td>voi</td><td class="it">parlerete</td><td class="it">scriverete</td><td class="it">dormirete</td></tr>
+            <tr><td>loro</td><td class="it">parleranno</td><td class="it">scriveranno</td><td class="it">dormiranno</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Catturerò un kappa e diventerò ricco!</div>
+            <div class="ex-jp">河童を捕まえて金持ちになるぞ！</div>
+          </div>
+          <div class="point">日常会話では未来形より現在形で未来を表すことが多い。<br>例：<em>Domani vado a Roma.</em>（明日ローマに行く）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 5 条件法 -->
+    <section class="grammar-section" id="condizionale">
+      <div class="section-heading">
+        <div class="section-num sn-pu">5</div>
+        <h2>条件法<em>Condizionale Presente</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-pu">使い方：〜したい／〜だろう <span class="rule-tag tag-pu">desiderio · ipotesi</span></div>
+        <div class="rule-body">
+          <p>丁寧な依頼・願望・仮定の結果を表す。英語の "would" に近い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th>parlare</th><th>avere</th><th>essere</th></tr>
+            <tr><td>io</td><td class="it">parlerei</td><td class="it">avrei</td><td class="it">sarei</td></tr>
+            <tr><td>tu</td><td class="it">parleresti</td><td class="it">avresti</td><td class="it">saresti</td></tr>
+            <tr><td>lui/lei</td><td class="it">parlerebbe</td><td class="it">avrebbe</td><td class="it">sarebbe</td></tr>
+            <tr><td>noi</td><td class="it">parleremmo</td><td class="it">avremmo</td><td class="it">saremmo</td></tr>
+            <tr><td>voi</td><td class="it">parlereste</td><td class="it">avreste</td><td class="it">sareste</td></tr>
+            <tr><td>loro</td><td class="it">parlerebbero</td><td class="it">avrebbero</td><td class="it">sarebbero</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Vorrei un caffè, per favore.</div>
+            <div class="ex-jp">コーヒーをいただけますか。</div>
+          </div>
+          <div class="point"><em>volere</em>（欲しい）の条件法 <em>vorrei</em> は特によく使う丁寧表現。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 6 接続法 -->
+    <section class="grammar-section" id="congiuntivo">
+      <div class="section-heading">
+        <div class="section-num sn-pk">6</div>
+        <h2>接続法<em>Congiuntivo</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-pk">接続法現在 <span class="rule-tag tag-pk">congiuntivo presente</span></div>
+        <div class="rule-body">
+          <p>感情・意見・疑い・望みを表す動詞の後ろで使う。<em>che</em>（〜ということ）の後ろに来ることが多い。</p>
+          <table class="conj-table">
+            <tr><th>人称</th><th>parlare</th><th>scrivere</th><th>essere</th></tr>
+            <tr><td>io</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>tu</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>lui/lei</td><td class="it">parli</td><td class="it">scriva</td><td class="it">sia</td></tr>
+            <tr><td>noi</td><td class="it">parliamo</td><td class="it">scriviamo</td><td class="it">siamo</td></tr>
+            <tr><td>voi</td><td class="it">parliate</td><td class="it">scriviate</td><td class="it">siate</td></tr>
+            <tr><td>loro</td><td class="it">parlino</td><td class="it">scrivano</td><td class="it">siano</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Penso che lui sia stanco.</div>
+            <div class="ex-jp">彼は疲れていると思う。</div>
+          </div>
+          <div class="point">接続法を使う主な動詞：<em>pensare, credere, sperare, volere, temere, pare</em> など。</div>
+        </div>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-pk">接続法過去 <span class="rule-tag tag-pk">congiuntivo passato</span></div>
+        <div class="rule-body">
+          <p><em>essere / avere</em> の接続法現在 ＋ 過去分詞。主節より前の出来事を表す。</p>
+          <div class="example">
+            <div class="ex-it">A me pare che la mia esistenza sia incominciata in quel momento.</div>
+            <div class="ex-jp">私の人生は、その瞬間から始まったような気がする。</div>
+          </div>
+          <div class="point"><em>pare che</em> の後ろなので <em>è incominciata</em>（直説法）ではなく <em>sia incominciata</em>（接続法）になる。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 7 命令形 -->
+    <section class="grammar-section" id="imperativo">
+      <div class="section-heading">
+        <div class="section-num sn-tl">7</div>
+        <h2>命令形<em>Imperativo</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-tl">tu / voi / noi への命令 <span class="rule-tag tag-tl">imperativo</span></div>
+        <div class="rule-body">
+          <table class="conj-table">
+            <tr><th>人称</th><th>parlare</th><th>scrivere</th><th>dormire</th></tr>
+            <tr><td>tu</td><td class="it">parla!</td><td class="it">scrivi!</td><td class="it">dormi!</td></tr>
+            <tr><td>voi</td><td class="it">parlate!</td><td class="it">scrivete!</td><td class="it">dormite!</td></tr>
+            <tr><td>noi</td><td class="it">parliamo!</td><td class="it">scriviamo!</td><td class="it">dormiamo!</td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Aspetta! — Andiamo!</div>
+            <div class="ex-jp">待って！ ― 行こう！</div>
+          </div>
+          <div class="point">否定命令（tu）は <em>non + 不定詞</em>。例：<em>Non parlare!</em>（話すな！）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- § 8 ジェルンディオ -->
+    <section class="grammar-section" id="gerundio">
+      <div class="section-heading">
+        <div class="section-num sn-re">8</div>
+        <h2>ジェルンディオ<em>Gerundio</em></h2>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-title rt-re">作り方と stare + gerundio <span class="rule-tag tag-re">azione in corso</span></div>
+        <div class="rule-body">
+          <p>英語の "-ing" に相当。<em>stare + gerundio</em> で「〜しているところ」を表す。</p>
+          <table class="conj-table">
+            <tr><th>語尾</th><th>ジェルンディオ</th><th>例</th></tr>
+            <tr><td>-are</td><td class="it">-ando</td><td><span class="it">parlare → parlando</span></td></tr>
+            <tr><td>-ere</td><td class="it">-endo</td><td><span class="it">scrivere → scrivendo</span></td></tr>
+            <tr><td>-ire</td><td class="it">-endo</td><td><span class="it">dormire → dormendo</span></td></tr>
+          </table>
+          <div class="example">
+            <div class="ex-it">Che stai facendo?</div>
+            <div class="ex-jp">何をしているの？</div>
+          </div>
+          <div class="point"><em>stare + gerundio</em> は英語の "be + -ing" とほぼ同じ構造。<em>stai</em> = stare の tu 形。</div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /main-col -->
+
+  <!-- TOC -->
+  <aside class="toc-col">
+    <div class="toc-block">
+      <h3>📂 目次</h3>
+      <a href="#presente" class="toc-link"><span class="toc-num">1</span>現在形</a>
+      <a href="#passato-prossimo" class="toc-link"><span class="toc-num">2</span>近過去</a>
+      <a href="#imperfetto" class="toc-link"><span class="toc-num">3</span>半過去</a>
+      <a href="#futuro" class="toc-link"><span class="toc-num">4</span>未来形</a>
+      <a href="#condizionale" class="toc-link"><span class="toc-num">5</span>条件法</a>
+      <a href="#congiuntivo" class="toc-link"><span class="toc-num">6</span>接続法</a>
+      <a href="#imperativo" class="toc-link"><span class="toc-num">7</span>命令形</a>
+      <a href="#gerundio" class="toc-link"><span class="toc-num">8</span>ジェルンディオ</a>
+    </div>
+
+    <div class="toc-block">
+      <h3>🔗 関連ページ</h3>
+      <a href="traslation.html" class="toc-link">翻訳ログ</a>
+      <a href="blog.html" class="toc-link">日記ブログ</a>
+    </div>
+
+    <div class="toc-block">
+      <h3>🎨 Shapes!</h3>
+      <div class="toc-decos">
+        <div class="td-s td-circle" style="background:var(--blue);box-shadow:3px 3px 0 var(--black);animation:float1 3s ease-in-out infinite;"></div>
+        <div class="td-s td-star" style="background:var(--yellow);animation:float2 2.8s ease-in-out infinite;"></div>
+        <div class="td-s td-circle" style="background:var(--green);box-shadow:3px 3px 0 var(--black);animation:float3 3.5s ease-in-out infinite;"></div>
+        <div class="td-s td-star4" style="background:var(--or1);animation:float1 4s ease-in-out infinite;"></div>
+        <div class="td-s td-circle" style="background:#9C27B0;box-shadow:3px 3px 0 var(--black);animation:float2 2.5s ease-in-out infinite;"></div>
+        <div class="td-s td-star" style="background:#E91E63;animation:float3 3.2s ease-in-out infinite;"></div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <div class="deco" style="width:40px;height:40px;background:var(--blue);opacity:.18;top:20%;right:10%;position:absolute;border-radius:50%;"></div>
+  <div class="star-s" style="width:30px;height:30px;background:var(--yellow);opacity:.2;bottom:15%;left:45%;position:absolute;"></div>
+  <a href="index.html" class="footer-logo">MangaEs</a>
+  <div class="footer-links">
+    <a href="gallery.html">Galería</a>
+    <a href="traslation.html">Traducciones</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contacto</a>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.toc-link[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>
