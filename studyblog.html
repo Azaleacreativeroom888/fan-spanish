@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勉強のひとことブログ – Fetta di Manga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Satisfy&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosso:    #C0392B;
+      --rosso-dk: #922B21;
+      --terracotta: #D4693A;
+      --oro:      #E8B84B;
+      --crema:    #FAF3E0;
+      --crema-dk: #F0E6C8;
+      --marrone:  #5C3317;
+      --verde:    #2E7D32;
+      --testo:    #2C1810;
+      --ombra:    rgba(44,24,16,.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', serif;
+      background-color: var(--crema);
+      background-image:
+        repeating-linear-gradient(45deg, rgba(216,167,80,.07) 0, rgba(216,167,80,.07) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-45deg, rgba(216,167,80,.07) 0, rgba(216,167,80,.07) 1px, transparent 0, transparent 50%);
+      background-size: 28px 28px;
+      color: var(--testo);
+      overflow-x: hidden;
+    }
+
+    .tile-bar {
+      height: 14px;
+      background: repeating-linear-gradient(90deg,
+        var(--rosso) 0,  var(--rosso) 18px,
+        var(--oro)   18px, var(--oro)  36px,
+        var(--verde) 36px, var(--verde) 54px,
+        var(--crema) 54px, var(--crema) 72px);
+    }
+
+    nav {
+      background: var(--rosso);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 64px;
+      box-shadow: 0 4px 16px var(--ombra);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 4px solid var(--oro);
+    }
+    .nav-logo { font-family: 'Satisfy', cursive; color: var(--crema); font-size: 1.7rem; letter-spacing: 1px; text-decoration: none; }
+    .nav-links { display: flex; gap: 1.6rem; }
+    .nav-links a {
+      color: var(--crema); text-decoration: none; font-family: 'Lora', serif;
+      font-size: .95rem; font-weight: 600; letter-spacing: .5px; padding: 4px 0;
+      border-bottom: 2px solid transparent; transition: border-color .25s, color .25s;
+    }
+    .nav-links a:hover, .nav-links a.active { border-color: var(--oro); color: var(--oro); }
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 26px; height: 3px; background: var(--crema); border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none; position: fixed; top: 64px; left: 0; right: 0;
+        background: var(--rosso); flex-direction: column; gap: 0;
+        border-bottom: 4px solid var(--oro); box-shadow: 0 8px 24px var(--ombra); z-index: 150;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.15); font-size: 1rem; }
+      .nav-links a:last-child { border-bottom: none; }
+    }
+
+    .page-header {
+      background: var(--marrone); color: var(--crema);
+      text-align: center; padding: 3rem 2rem 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️ ✍️';
+      position: absolute; bottom: -6px; left: 0; right: 0;
+      font-size: 3.5rem; opacity: .06; white-space: nowrap; overflow: hidden;
+      letter-spacing: 14px; line-height: 1.6;
+    }
+    .page-header h1 { font-family: 'Satisfy', cursive; font-size: 2.8rem; color: var(--oro); position: relative; }
+    .page-header p { font-style: italic; opacity: .8; margin-top: .5rem; position: relative; font-size: 1rem; }
+
+    .container {
+      max-width: 760px;
+      margin: 3rem auto 5rem;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .entry-card {
+      background: #fff;
+      border: 2px solid var(--marrone);
+      border-radius: 4px;
+      box-shadow: 5px 5px 0 var(--crema-dk);
+      overflow: hidden;
+      transition: transform .18s, box-shadow .18s;
+      animation: fadeUp .4s ease both;
+    }
+    .entry-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--terracotta);
+    }
+    .entry-card:nth-child(1) { animation-delay: .05s; }
+    .entry-card:nth-child(2) { animation-delay: .10s; }
+    .entry-card:nth-child(3) { animation-delay: .15s; }
+    .entry-card:nth-child(4) { animation-delay: .20s; }
+    .entry-card:nth-child(5) { animation-delay: .25s; }
+    .entry-card:nth-child(6) { animation-delay: .30s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .entry-header {
+      background: var(--oro);
+      border-bottom: 2px solid var(--marrone);
+      padding: 9px 18px;
+      display: flex;
+      align-items: center;
+    }
+    .entry-date {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--marrone);
+    }
+
+    .entry-body { padding: 1.1rem 1.2rem 1.3rem; }
+    .entry-body p {
+      font-size: .97rem;
+      line-height: 1.8;
+      color: #3a1e0a;
+    }
+    .entry-body strong { color: var(--rosso); font-weight: 700; }
+
+    .section-divider {
+      display: flex; align-items: center; gap: 12px; margin: 4px 0;
+    }
+    .section-divider span {
+      font-family: 'Satisfy', cursive; font-size: 1rem;
+      color: var(--marrone); opacity: .4; white-space: nowrap;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: ''; flex: 1; height: 2px;
+      background: repeating-linear-gradient(90deg,
+        var(--marrone) 0, var(--marrone) 6px,
+        transparent 6px, transparent 12px);
+      opacity: .18;
+    }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--rosso); text-decoration: none; font-weight: 700;
+      font-size: .9rem; padding: 8px 0;
+      border-bottom: 2px solid transparent; transition: border-color .2s;
+    }
+    .back-link:hover { border-color: var(--rosso); }
+
+    footer {
+      background: var(--marrone); color: var(--crema);
+      text-align: center; padding: 2.5rem 1rem; font-size: .88rem;
+      border-top: 4px solid var(--oro);
+    }
+    .footer-logo { font-family: 'Satisfy', cursive; font-size: 1.5rem; color: var(--oro); margin-bottom: .5rem; }
+    .footer-links { display: flex; gap: 1.2rem; justify-content: center; margin: .8rem 0; flex-wrap: wrap; }
+    .footer-links a { color: var(--oro); text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">🍕 Fetta di Manga</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="translation.html" class="active">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+</nav>
+
+<div class="tile-bar"></div>
+<div class="page-header">
+  <h1>✍️ 勉強のひとことブログ</h1>
+  <p>Appunti quotidiani di studio — 日々の勉強メモ</p>
+</div>
+<div class="tile-bar"></div>
+
+<div class="container">
+
+  <a class="back-link" href="translation.html">← Traduzioni に戻る</a>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 09 · 20</span>
+    </div>
+    <div class="entry-body">
+      <p>ニューエクスプレスは第８課までなんとなく分かるようになったけど、それ以上が難しい。ちょっと長くなると途端に分からなくなる。</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 22</span>
+    </div>
+    <div class="entry-body">
+      <p>Turns out if you translate a gag with too much energy, it gets rejected. So what's the "safe zone" for comedy? I'm not sure there is one — but I want to slowly get better at landing the joke without losing the punch.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 21</span>
+    </div>
+    <div class="entry-body">
+      <p>Personally, I feel like <strong>「あんたなんか人間じゃない」</strong> is best captured as <strong>"You are a monster."</strong> — it carries the same emotional weight without being too literal.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"><span>•</span></div>
+
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · 04 · 20</span>
+    </div>
+    <div class="entry-body">
+      <p>Still wrestling with how to translate <strong>"indeed"</strong> and <strong>"How iconic"</strong> naturally. For now, the plan is to just do a lot of practice translations and focus on speed without dropping quality — improvement comes with reps.</p>
+    </div>
+  </div>
+
+  <!-- 追加エントリーはここにコピペで増やす -->
+  <!--
+  <div class="section-divider"><span>•</span></div>
+  <div class="entry-card">
+    <div class="entry-header">
+      <span class="entry-date">2026 · MM · DD</span>
+    </div>
+    <div class="entry-body">
+      <p>日記の内容をここに書く。</p>
+    </div>
+  </div>
+  -->
+
+</div>
+
+<footer>
+  <div class="footer-logo">🍕 Fetta di Manga</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="translation.html">Traduzioni</a>
+    <a href="blog.html">Blog</a>
+    <a href="gallery.html">Galleria</a>
+    <a href="contact.html">Contatto</a>
+  </div>
+  <p style="opacity:.6; font-size:.82rem;">© 2024 Fetta di Manga · Fatto con ❤️ e molto peperoncino</p>
+</footer>
+
+<script>
+  const btn   = document.getElementById('navHamburger');
+  const links = document.getElementById('navLinks');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
